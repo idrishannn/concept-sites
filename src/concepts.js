@@ -11,7 +11,7 @@ export const concepts = [
     brand: "Tessaly Dental Studio",
     sector: "Dental clinic",
     summary: "Calm, trustworthy clinic site with services, team, pricing clarity and online booking CTA.",
-    status: "draft",
+    status: "ready",
     date: "2026-11-25",
   },
   {
