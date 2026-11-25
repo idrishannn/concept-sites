@@ -335,38 +335,6 @@
     transform: translateY(-14px) rotate(2deg);
   }
 }
-.c-dental .hero-card {
-  position: absolute;
-  left: -2.5rem;
-  bottom: 2.5rem;
-  display: flex;
-  gap: 0.85rem;
-  align-items: center;
-  padding: 1rem 1.25rem;
-  border-radius: var(--radius);
-  background: var(--surface);
-  box-shadow: 0 18px 40px -18px rgb(18 48 47 / 0.35);
-  max-width: 17rem;
-}
-.c-dental .hero-card .dot {
-  flex: none;
-  width: 2.75rem;
-  height: 2.75rem;
-  border-radius: 999px;
-  display: grid;
-  place-items: center;
-  background: var(--accent-soft);
-  color: var(--accent);
-}
-.c-dental .hero-card strong {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 1.05rem;
-}
-.c-dental .hero-card span {
-  font-size: 0.875rem;
-  color: var(--ink-soft);
-}
 
 /* needs */
 .c-dental .needs {
@@ -1052,10 +1020,6 @@
     max-width: 22rem;
     aspect-ratio: 1 / 1;
   }
-  .c-dental .hero-card {
-    left: 0.5rem;
-    bottom: 1rem;
-  }
   .c-dental .calm-list {
     grid-template-columns: 1fr;
   }
@@ -1090,10 +1054,6 @@
   }
   .c-dental .price-list {
     padding-inline: 1.25rem;
-  }
-  .c-dental .hero-card {
-    max-width: 16.5rem;
-    padding: 0.85rem 1rem;
   }
 }
 

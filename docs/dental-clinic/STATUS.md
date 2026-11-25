@@ -4,6 +4,7 @@ slug: dental-clinic
 - [x] 1 Research  (2026-11-25 22:35) – brief written; brand renamed from "Brightwell" (already used by a Framer template)
 - [x] 2 Build     (2026-11-25 22:45) – single page, 11 sections, booking widget (demo only), tokens in styles.css
 - [x] 3 QA        (2026-11-25 22:50) – `npm run qa` clean at 320/375/768/1440; fixed 5 contrast issues (added --accent-ink) and 2 label mismatches; OG image generated
+- Revision (2026-11-25 22:55): removed the "Next free slot: today" hero card at Idrishan's request
 
 ## Notes for Idrishan
 - Manual test run of the whole pipeline, done in the chat session.
