@@ -1,0 +1,1107 @@
+/* Tessaly Dental Studio: design tokens + styles, all scoped to .c-dental */
+
+.c-dental {
+  /* color tokens */
+  --sand-50: #fbf7f1;
+  --sand-100: #f4ece1;
+  --sand-200: #e9dccb;
+  --spruce-900: #12302f;
+  --spruce-700: #1f4a48;
+  --spruce-500: #3d6e6a;
+  --sage-100: #e3ebe3;
+  --sage-200: #cddccf;
+  --peach-500: #e8875f;
+  --peach-600: #c9643d;
+  --peach-100: #fbe4d8;
+  --white: #ffffff;
+
+  --bg: var(--sand-50);
+  --surface: var(--white);
+  --surface-alt: var(--sand-100);
+  --ink: var(--spruce-900);
+  --ink-soft: #44605e;
+  --line: var(--sand-200);
+  --accent: var(--peach-600);
+  --accent-soft: var(--peach-100);
+  --accent-ink: #a34a26; /* accent for small text, AA on white and peach-100 */
+  --cta-bg: var(--spruce-900);
+  --cta-ink: var(--sand-50);
+
+  /* shape + type tokens */
+  --radius-sm: 0.75rem;
+  --radius: 1.25rem;
+  --radius-lg: 2rem;
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --wrap: min(72rem, 100% - 2.5rem);
+
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+.c-dental * {
+  box-sizing: border-box;
+}
+.c-dental a {
+  color: inherit;
+}
+.c-dental h1,
+.c-dental h2,
+.c-dental h3 {
+  font-family: var(--font-display);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin: 0;
+  font-weight: 650;
+}
+.c-dental p {
+  margin: 0;
+}
+.c-dental .wrap {
+  width: var(--wrap);
+  margin-inline: auto;
+}
+.c-dental section {
+  padding-block: clamp(4rem, 9vw, 7.5rem);
+  scroll-margin-top: 5rem;
+}
+.c-dental .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--spruce-500);
+  margin-bottom: 1rem;
+}
+.c-dental .eyebrow::before {
+  content: "";
+  width: 1.5rem;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+.c-dental .h2 {
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  max-width: 18ch;
+}
+.c-dental .lead {
+  font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
+  color: var(--ink-soft);
+  max-width: 38rem;
+  margin-top: 1rem;
+}
+
+/* buttons */
+.c-dental .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  transition:
+    transform 0.3s var(--ease),
+    background 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+}
+.c-dental .btn svg {
+  transition: transform 0.3s var(--ease);
+}
+.c-dental .btn:hover svg {
+  transform: translateX(3px);
+}
+.c-dental .btn-primary {
+  background: var(--cta-bg);
+  color: var(--cta-ink);
+}
+.c-dental .btn-primary:hover {
+  background: var(--spruce-700);
+  transform: translateY(-2px);
+}
+.c-dental .btn-ghost {
+  border-color: var(--ink);
+  color: var(--ink);
+  background: transparent;
+}
+.c-dental .btn-ghost:hover {
+  background: var(--ink);
+  color: var(--cta-ink);
+}
+
+/* header */
+.c-dental .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--bg) 86%, transparent);
+  backdrop-filter: saturate(140%) blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s;
+}
+.c-dental .site-header.scrolled {
+  border-bottom-color: var(--line);
+}
+.c-dental .header-inner {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  height: 4.5rem;
+}
+.c-dental .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.375rem;
+  letter-spacing: -0.03em;
+}
+.c-dental .logo small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--spruce-500);
+  margin-top: 0.1rem;
+}
+.c-dental .main-nav {
+  margin-left: auto;
+}
+.c-dental .main-nav ul {
+  display: flex;
+  gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.c-dental .main-nav a {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  position: relative;
+}
+.c-dental .main-nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -4px;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s var(--ease);
+}
+.c-dental .main-nav a:hover::after {
+  transform: scaleX(1);
+}
+.c-dental .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.c-dental .header-phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+.c-dental .menu-toggle {
+  display: none;
+  margin-left: auto;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.c-dental .mobile-menu {
+  display: none;
+}
+
+/* hero */
+.c-dental .hero {
+  padding-block: clamp(2.5rem, 7vw, 6rem) clamp(4rem, 9vw, 7rem);
+  overflow: clip;
+}
+.c-dental .hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: clamp(2rem, 5vw, 5rem);
+}
+.c-dental .hero h1 {
+  font-size: clamp(2.75rem, 7vw, 5.5rem);
+  margin-bottom: 1.75rem;
+  letter-spacing: -0.04em;
+  line-height: 0.98;
+}
+.c-dental .hero h1 em {
+  font-style: normal;
+  color: var(--accent);
+  position: relative;
+  white-space: nowrap;
+}
+.c-dental .hero h1 em svg {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.12em;
+  width: 100%;
+  height: 0.3em;
+  color: var(--peach-500);
+}
+.c-dental .hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+.c-dental .reassure {
+  list-style: none;
+  padding: 0;
+  margin: 2.25rem 0 0;
+  display: grid;
+  gap: 0.6rem;
+}
+.c-dental .reassure li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.c-dental .reassure .tick {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 999px;
+  background: var(--sage-100);
+  color: var(--spruce-700);
+}
+.c-dental .hero-art {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  width: 100%;
+  max-width: 30rem;
+  justify-self: end;
+}
+.c-dental .hero-art .arch {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px 999px var(--radius-lg) var(--radius-lg);
+  background: var(--sage-200);
+  overflow: hidden;
+}
+.c-dental .hero-art .arch svg {
+  width: 100%;
+  height: 100%;
+}
+.c-dental .float {
+  animation: float 9s ease-in-out infinite;
+}
+.c-dental .float.slow {
+  animation-duration: 13s;
+  animation-delay: -4s;
+}
+@keyframes float {
+  50% {
+    transform: translateY(-14px) rotate(2deg);
+  }
+}
+.c-dental .hero-card {
+  position: absolute;
+  left: -2.5rem;
+  bottom: 2.5rem;
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 18px 40px -18px rgb(18 48 47 / 0.35);
+  max-width: 17rem;
+}
+.c-dental .hero-card .dot {
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.c-dental .hero-card strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+.c-dental .hero-card span {
+  font-size: 0.875rem;
+  color: var(--ink-soft);
+}
+
+/* needs */
+.c-dental .needs {
+  background: var(--surface);
+}
+.c-dental .section-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1.5rem;
+  margin-bottom: clamp(2rem, 4vw, 3.5rem);
+}
+.c-dental .needs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.c-dental .need {
+  container-type: inline-size;
+}
+.c-dental .need a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  height: 100%;
+  padding: 1.75rem;
+  border-radius: var(--radius);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  text-decoration: none;
+  transition:
+    transform 0.35s var(--ease),
+    background 0.35s,
+    border-color 0.35s;
+}
+.c-dental .need a:hover {
+  transform: translateY(-4px);
+  background: var(--sage-100);
+  border-color: var(--sage-200);
+}
+.c-dental .need .icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  color: var(--accent);
+}
+.c-dental .need h3 {
+  font-size: 1.375rem;
+}
+.c-dental .need p {
+  color: var(--ink-soft);
+  flex: 1;
+}
+.c-dental .need .from {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--sand-200);
+  font-weight: 600;
+}
+.c-dental .need .from span {
+  color: var(--ink-soft);
+  font-weight: 500;
+  font-size: 0.9375rem;
+}
+
+/* calm */
+.c-dental .calm {
+  background: var(--spruce-900);
+  color: var(--sand-50);
+  border-radius: var(--radius-lg);
+  width: min(78rem, 100% - 1.5rem);
+  margin-inline: auto;
+}
+.c-dental .calm .eyebrow {
+  color: var(--sage-200);
+}
+.c-dental .calm .lead {
+  color: #c4d3cf;
+}
+.c-dental .calm-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  align-items: start;
+}
+.c-dental .calm-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.c-dental .calm-list li {
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  background: rgb(255 255 255 / 0.06);
+  border: 1px solid rgb(255 255 255 / 0.1);
+}
+.c-dental .calm-list h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--peach-100);
+}
+.c-dental .calm-list p {
+  color: #c4d3cf;
+  font-size: 1rem;
+}
+
+/* prices */
+.c-dental .prices-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 0.7fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+.c-dental .price-list {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 1.75rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+}
+.c-dental .price-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: 1rem;
+  border-bottom: 1px solid var(--line);
+}
+.c-dental .price-list li:last-child {
+  border-bottom: 0;
+}
+.c-dental .price-list strong {
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+.c-dental .price-note {
+  margin-top: 1rem;
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+}
+.c-dental .membership {
+  padding: 2rem;
+  border-radius: var(--radius);
+  background: var(--accent-soft);
+  position: sticky;
+  top: 6rem;
+}
+.c-dental .membership .badge {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent-ink);
+  margin-bottom: 1rem;
+}
+.c-dental .membership h3 {
+  font-size: 1.75rem;
+}
+.c-dental .membership .amount {
+  margin: 1rem 0 1.25rem;
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.c-dental .membership .amount span {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--ink-soft);
+}
+.c-dental .membership ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  display: grid;
+  gap: 0.5rem;
+}
+.c-dental .membership li {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.c-dental .membership li svg {
+  color: var(--peach-600);
+  flex: none;
+}
+
+/* steps */
+.c-dental .first-visit {
+  background: var(--surface-alt);
+}
+.c-dental .steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  counter-reset: step;
+}
+.c-dental .steps li {
+  padding: 1.75rem;
+  border-radius: var(--radius);
+  background: var(--bg);
+  position: relative;
+}
+.c-dental .steps .n {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.04em;
+  display: block;
+  margin-bottom: 1.25rem;
+}
+.c-dental .steps h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.c-dental .steps p {
+  color: var(--ink-soft);
+  font-size: 1rem;
+}
+
+/* team */
+.c-dental .team-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+.c-dental .person {
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+.c-dental .avatar {
+  width: 5.5rem;
+  height: 6.25rem;
+  border-radius: 999px 999px var(--radius-sm) var(--radius-sm);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  margin-bottom: 1.25rem;
+  color: var(--spruce-900);
+}
+.c-dental .person:nth-child(4n + 1) .avatar {
+  background: var(--sage-200);
+}
+.c-dental .person:nth-child(4n + 2) .avatar {
+  background: var(--peach-100);
+}
+.c-dental .person:nth-child(4n + 3) .avatar {
+  background: var(--sand-200);
+}
+.c-dental .person:nth-child(4n + 4) .avatar {
+  background: var(--sage-100);
+}
+.c-dental .person h3 {
+  font-size: 1.2rem;
+}
+.c-dental .person .role {
+  color: var(--accent-ink);
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin: 0.25rem 0 0.75rem;
+}
+.c-dental .person p:last-child {
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+}
+
+/* stories */
+.c-dental .stories {
+  background: var(--surface);
+}
+.c-dental .story-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+.c-dental .story {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 2rem;
+  border-radius: var(--radius);
+  background: var(--bg);
+}
+.c-dental .story blockquote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+.c-dental .story footer {
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+}
+.c-dental .story footer strong {
+  color: var(--ink);
+}
+
+/* booking */
+.c-dental .booking-wrap {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+.c-dental .booking {
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 60px -40px rgb(18 48 47 / 0.4);
+}
+.c-dental .booking fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1.75rem;
+}
+.c-dental .booking legend {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 0.85rem;
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+}
+.c-dental .booking legend span {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent-ink);
+  font-size: 0.875rem;
+}
+.c-dental .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.c-dental .chip {
+  position: relative;
+}
+.c-dental .chip input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+.c-dental .chip label {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  min-height: 2.75rem;
+  justify-content: center;
+  border-radius: 0.9rem;
+  border: 1.5px solid var(--line);
+  background: var(--bg);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  cursor: pointer;
+  transition:
+    border-color 0.2s,
+    background 0.2s,
+    color 0.2s;
+}
+.c-dental .chip label small {
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+.c-dental .chip input:hover + label {
+  border-color: var(--spruce-500);
+}
+.c-dental .chip input:checked + label {
+  background: var(--spruce-900);
+  border-color: var(--spruce-900);
+  color: var(--sand-50);
+}
+.c-dental .chip input:checked + label small {
+  color: var(--sage-200);
+}
+.c-dental .chip input:focus-visible + label {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.c-dental .booking-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+}
+.c-dental .booking-summary p {
+  color: var(--ink-soft);
+}
+.c-dental .booking-summary p strong {
+  color: var(--ink);
+}
+.c-dental .booking-error {
+  color: #a53a1c;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  margin-top: 0.75rem;
+  min-height: 1.5rem;
+}
+.c-dental .booking-done {
+  text-align: center;
+  padding: 2.5rem 1rem;
+}
+.c-dental .booking-done .ok {
+  width: 4rem;
+  height: 4rem;
+  margin: 0 auto 1.25rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: var(--sage-100);
+  color: var(--spruce-700);
+}
+.c-dental .booking-done h3 {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+.c-dental .booking-done p {
+  color: var(--ink-soft);
+}
+
+/* visit */
+.c-dental .visit {
+  background: var(--surface-alt);
+}
+.c-dental .visit-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: stretch;
+}
+.c-dental .visit-info {
+  display: grid;
+  gap: 1.5rem;
+  align-content: start;
+}
+.c-dental .info-block {
+  display: flex;
+  gap: 1rem;
+}
+.c-dental .info-block .ic {
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 1rem;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+  color: var(--accent);
+}
+.c-dental .info-block h3 {
+  font-size: 1.125rem;
+  margin-bottom: 0.25rem;
+}
+.c-dental .hours {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 0.25rem 2rem;
+  margin: 0;
+}
+.c-dental .hours dt {
+  color: var(--ink-soft);
+}
+.c-dental .hours dd {
+  margin: 0;
+  font-weight: 600;
+}
+.c-dental .map {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--sage-100);
+  min-height: 22rem;
+  position: relative;
+}
+.c-dental .map svg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+}
+
+/* faq */
+.c-dental .faq-grid {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: clamp(2rem, 5vw, 4rem);
+}
+.c-dental details {
+  border-bottom: 1px solid var(--line);
+}
+.c-dental summary {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding-block: 1.35rem;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.1875rem;
+}
+.c-dental summary::-webkit-details-marker {
+  display: none;
+}
+.c-dental summary .pm {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  transition: transform 0.3s var(--ease), background 0.3s;
+}
+.c-dental details[open] summary .pm {
+  transform: rotate(45deg);
+  background: var(--accent-soft);
+}
+.c-dental details p {
+  padding-bottom: 1.35rem;
+  color: var(--ink-soft);
+  max-width: 40rem;
+}
+
+/* footer */
+.c-dental .site-footer {
+  padding-block: 3.5rem 6rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.9375rem;
+  color: var(--ink-soft);
+}
+.c-dental .footer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2rem;
+}
+.c-dental .footer-grid ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+.c-dental .footer-grid a {
+  text-decoration: none;
+}
+.c-dental .footer-grid a:hover {
+  text-decoration: underline;
+}
+.c-dental .fictional {
+  margin-top: 2rem;
+  font-size: 0.8125rem;
+}
+
+/* mobile action bar */
+.c-dental .action-bar {
+  display: none;
+}
+
+/* scroll-driven reveal (progressive enhancement) */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .c-dental .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 40%;
+    }
+  }
+}
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+/* responsive */
+@media (max-width: 1024px) {
+  .c-dental .main-nav,
+  .c-dental .header-actions {
+    display: none;
+  }
+  .c-dental .menu-toggle {
+    display: inline-flex;
+  }
+  .c-dental .mobile-menu[data-open="true"] {
+    display: block;
+    position: fixed;
+    inset: 4.5rem 0 0;
+    background: var(--bg);
+    padding: 1.5rem 1.25rem;
+    z-index: 49;
+    overflow-y: auto;
+  }
+  .c-dental .mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+  }
+  .c-dental .mobile-menu li a {
+    display: block;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .c-dental .steps,
+  .c-dental .team-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .c-dental .story-grid {
+    grid-template-columns: 1fr;
+  }
+  .c-dental .calm-grid,
+  .c-dental .prices-grid,
+  .c-dental .booking-wrap,
+  .c-dental .visit-grid,
+  .c-dental .faq-grid {
+    grid-template-columns: 1fr;
+  }
+  .c-dental .membership {
+    position: static;
+  }
+}
+
+@media (max-width: 760px) {
+  .c-dental .hero-grid {
+    grid-template-columns: 1fr;
+  }
+  .c-dental .hero-art {
+    justify-self: center;
+    max-width: 22rem;
+    aspect-ratio: 1 / 1;
+  }
+  .c-dental .hero-card {
+    left: 0.5rem;
+    bottom: 1rem;
+  }
+  .c-dental .calm-list {
+    grid-template-columns: 1fr;
+  }
+  .c-dental .action-bar {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 0.5rem;
+    position: fixed;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    z-index: 60;
+    padding: 0.5rem;
+    border-radius: 999px;
+    background: var(--surface);
+    box-shadow: 0 12px 30px -10px rgb(18 48 47 / 0.35);
+  }
+  .c-dental .action-bar .btn {
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+  }
+  .c-dental ~ .concept-badge,
+  body:has(.c-dental) .concept-badge {
+    bottom: 5.25rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .c-dental .steps,
+  .c-dental .team-grid {
+    grid-template-columns: 1fr;
+  }
+  .c-dental .price-list {
+    padding-inline: 1.25rem;
+  }
+  .c-dental .hero-card {
+    max-width: 16.5rem;
+    padding: 0.85rem 1rem;
+  }
+}
+
+/* section heads: title left, lead right on wide screens */
+.c-dental .section-head > div {
+  flex: 1 1 26rem;
+}
+.c-dental .section-head > .lead {
+  flex: 0 1 24rem;
+  margin-top: 0;
+}

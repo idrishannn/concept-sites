@@ -95,7 +95,11 @@ try {
 
       const axe = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"]).analyze();
       for (const v of axe.violations) {
-        const entry = `${v.impact}: ${v.id} (${v.nodes.length}) ${v.help}`;
+        const where = v.nodes
+          .slice(0, 6)
+          .map((n) => n.target.join(" ") + (n.any[0]?.data?.contrastRatio ? ` [${n.any[0].data.contrastRatio}:1]` : ""))
+          .join("; ");
+        const entry = `${v.impact}: ${v.id} (${v.nodes.length}) ${v.help} → ${where}`;
         report.axe.push(entry);
         if (v.impact === "serious" || v.impact === "critical") report.problems.push(`axe ${entry}`);
         else report.warnings.push(`axe ${entry}`);

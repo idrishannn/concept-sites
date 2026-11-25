@@ -8,7 +8,7 @@
 export const concepts = [
   {
     slug: "dental-clinic",
-    brand: "Brightwell Dental",
+    brand: "Tessaly Dental Studio",
     sector: "Dental clinic",
     summary: "Calm, trustworthy clinic site with services, team, pricing clarity and online booking CTA.",
     status: "draft",
