@@ -4,14 +4,14 @@ This repo produces **one concept website per day** for Idrishan Demirdag's freel
 Each concept is a fictional small business or startup, built to show potential clients
 (mostly Upwork) what a modern, professional site in their sector looks like.
 
-Three scheduled agents run each day (Europe/Istanbul time). Each one starts with no memory:
+Three scheduled agents run each day (Europe/Istanbul time), following `docs/agents/*.md`. Each one starts with no memory:
 **everything it needs is in this file, `SECTORS.md`, `src/concepts.js` and `docs/<slug>/`.**
 
 | Time  | Step | Agent's job |
 |-------|------|-------------|
-| 10:00 | 1. Research | Pick the next sector, research it, write `docs/<slug>/brief.md` |
-| 15:00 | 2. Build | Build the site from the brief, push it |
-| 20:00 | 3. QA | Check, fix, generate OG image, write portfolio text, push |
+| ~09:45 | 1. Research | Pick the next sector, research it, write `docs/<slug>/brief.md` |
+| ~14:45 | 2. Build | Build the site from the brief, push it |
+| ~19:45 | 3. QA | Check, fix, generate OG image, write portfolio text, push |
 | 22:00 | Human | Idrishan reviews the page and decides whether to approve it |
 
 Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly review instead.
