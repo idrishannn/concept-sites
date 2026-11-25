@@ -12,7 +12,7 @@ slug: dental-clinic
 
 ## Portfolio text (Upwork, max 600 characters)
 Concept site for Tessaly Dental Studio, a fictional dental practice, designed around what patients look for: trust, clear prices and easy booking. Treatments are organized by patient needs ("I have tooth pain"), with a transparent price list, a section for nervous patients, a first-visit timeline and a 3-step booking widget. Fully responsive with a sticky mobile Call/Book bar, accessible (WCAG AA) and fast. Built with Astro and Tailwind CSS.
-Live demo: https://concept-sites.vercel.app/dental-clinic/
+Live demo: https://concept-sites-drab.vercel.app/dental-clinic/
 
 ## Issues / follow-ups
-- Production URL in `src/site.js` assumed to be https://concept-sites.vercel.app. Confirm and update if Vercel assigned a different domain.
+- None.
