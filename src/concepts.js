@@ -1,0 +1,39 @@
+// Registry of every concept site.
+// - Add one entry per concept when its build starts.
+// - status "draft": page is live at its URL but NOT listed on the gallery homepage.
+// - status "ready": approved by Idrishan, listed on the gallery homepage.
+// - Only Idrishan approves; agents never set status to "ready" on their own.
+// - external: true for concepts hosted elsewhere (url instead of slug).
+
+export const concepts = [
+  {
+    slug: "dental-clinic",
+    brand: "Brightwell Dental",
+    sector: "Dental clinic",
+    summary: "Calm, trustworthy clinic site with services, team, pricing clarity and online booking CTA.",
+    status: "draft",
+    date: "2026-11-25",
+  },
+  {
+    external: true,
+    url: "https://lumora-bio.vercel.app",
+    brand: "Lumora Bio",
+    sector: "Biotech startup",
+    summary: "Minimal, light landing page for a science company: mission, pipeline, team and contact.",
+    status: "ready",
+    date: "2026-11-21",
+  },
+  {
+    external: true,
+    url: "https://mara-lind.vercel.app",
+    brand: "Mara Lind",
+    sector: "Video editor portfolio",
+    summary: "Dark portfolio with an instant autoplay showreel, filterable work grid and video lightbox.",
+    status: "ready",
+    date: "2026-11-20",
+  },
+];
+
+export const listed = concepts
+  .filter((c) => c.status === "ready")
+  .sort((a, b) => (a.date < b.date ? 1 : -1));

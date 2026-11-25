@@ -1,0 +1,158 @@
+---
+import "@fontsource-variable/geist";
+import "@fontsource-variable/fraunces";
+import Base from "../layouts/Base.astro";
+import { listed } from "../concepts.js";
+import { OWNER } from "../site.js";
+
+const title = `Concept websites · ${OWNER.name}`;
+const description =
+  "A growing collection of concept websites for small businesses and startups. Every brand here is fictional; the craft is real.";
+---
+
+<Base {title} {description} themeColor="#f6f4ef" showConceptBadge={false}>
+  <div class="gallery">
+    <header class="g-header">
+      <p class="g-eyebrow">{OWNER.name} · {OWNER.role}</p>
+      <h1 class="g-title">Concept websites<span aria-hidden="true">.</span></h1>
+      <p class="g-lede">
+        Sites I design and build to explore how different businesses should look and work online. Every brand
+        here is fictional; the structure, code and care are what I bring to real clients.
+      </p>
+    </header>
+
+    <main id="main">
+      <ul class="g-grid" role="list">
+        {
+          listed.map((c, i) => {
+            const href = c.external ? c.url : `/${c.slug}/`;
+            return (
+              <li class="g-card" style={`--i:${i}`}>
+                <a href={href} class="g-link">
+                  <span class="g-sector">{c.sector}</span>
+                  <span class="g-brand">{c.brand}</span>
+                  <span class="g-summary">{c.summary}</span>
+                  <span class="g-cta">
+                    View concept <span aria-hidden="true">→</span>
+                  </span>
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </main>
+
+    <footer class="g-footer">
+      <p>All brands are fictional and created for demonstration. © 2026 {OWNER.name}.</p>
+    </footer>
+  </div>
+</Base>
+
+<style>
+  .gallery {
+    --bg: #f6f4ef;
+    --ink: #17150f;
+    --muted: #5d5a52;
+    --line: #dcd7cb;
+    --card: #fffdf8;
+    --accent: #2f5d50;
+    min-height: 100dvh;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Geist Variable", system-ui, sans-serif;
+    padding: clamp(1.5rem, 4vw, 4rem);
+  }
+  .g-header {
+    max-width: 52rem;
+    margin-bottom: clamp(2.5rem, 6vw, 5rem);
+  }
+  .g-eyebrow {
+    font-size: 0.875rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    margin: 0 0 1rem;
+  }
+  .g-title {
+    font-family: "Fraunces Variable", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(2.75rem, 8vw, 6rem);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin: 0 0 1.5rem;
+  }
+  .g-title span {
+    color: var(--accent);
+  }
+  .g-lede {
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--muted);
+    max-width: 40rem;
+    margin: 0;
+  }
+  .g-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  }
+  .g-card {
+    animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(var(--i) * 80ms);
+  }
+  .g-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    height: 100%;
+    padding: 1.75rem;
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+    background: var(--card);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1),
+      border-color 0.35s;
+  }
+  .g-link:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+  }
+  .g-sector {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+  .g-brand {
+    font-family: "Fraunces Variable", Georgia, serif;
+    font-size: 1.75rem;
+    line-height: 1.1;
+  }
+  .g-summary {
+    color: var(--muted);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .g-cta {
+    font-weight: 500;
+    margin-top: 0.5rem;
+  }
+  .g-footer {
+    margin-top: 4rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+</style>

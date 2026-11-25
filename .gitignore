@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.astro/
+qa-output/
+.env
+.env.*
+.DS_Store

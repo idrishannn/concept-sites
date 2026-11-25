@@ -1,0 +1,33 @@
+{
+  "name": "concept-sites",
+  "version": "1.0.0",
+  "description": "Concept websites by Idrishan Demirdag. All brands are fictional.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "qa": "node scripts/qa.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idrishannn/concept-sites.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/idrishannn/concept-sites/issues"
+  },
+  "homepage": "https://github.com/idrishannn/concept-sites#readme",
+  "dependencies": {
+    "@fontsource-variable/fraunces": "^5.3.0",
+    "@fontsource-variable/geist": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.5",
+    "astro": "^7.4.13",
+    "tailwindcss": "^4.3.5"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.1",
+    "@playwright/test": "^1.65.1"
+  },
+  "private": true,
+  "type": "module"
+}
