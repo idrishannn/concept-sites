@@ -10,3 +10,6 @@ Key reminders:
 - `npm run build` must pass before every push to `main`.
 - Use `npm run qa -- <slug>` to check a concept; screenshots land in `qa-output/` (gitignored).
 - When blocked, write it in `docs/<slug>/STATUS.md` and stop. Don't loop.
+- Step instructions: `docs/agents/research.md`, `build.md`, `qa.md`.
+- Report progress with `npm run status -- <agent> <state> <slug> "message"` (PLAYBOOK §6).
+- Licenses first: record every external asset in `docs/<slug>/ASSETS.md`.

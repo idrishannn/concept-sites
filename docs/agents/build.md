@@ -1,15 +1,22 @@
 # Step 2 · Build (runs ~14:45 Istanbul, Mon–Sat)
 
-1. Read `PLAYBOOK.md`, `src/concepts.js`, and every `docs/*/STATUS.md`.
-2. Find the concept whose step 1 is checked and step 2 is not. If step 1 is missing for today,
+1. Read `PLAYBOOK.md` fully, then `src/concepts.js` and every `docs/*/STATUS.md`.
+2. Find the concept whose step 1 is checked and step 2 is not. If no brief exists for today,
    do step 1 first (`docs/agents/research.md`). If nothing needs building, stop.
-3. Read its `docs/<slug>/brief.md`. Look at `src/pages/dental-clinic/` and
-   `src/concepts/dental-clinic/` as the reference for structure (content.js + Icon + styles.css with
-   tokens on a wrapper class + page), but give this concept its own visual identity.
-4. Install the fonts it needs from `@fontsource-variable/*` (check `npm view` first).
-5. Build `src/pages/<slug>/index.astro` and `src/concepts/<slug>/` following the brief and the
-   design standard in the playbook. All copy realistic and specific, no placeholders.
-6. Run `npm run qa -- <slug>`. Look at the screenshots in `qa-output/<slug>/` (open the PNGs)
-   and fix anything that looks broken or unpolished. Repeat until the report has no problems.
-7. Update `STATUS.md`: check step 2 with a one-line summary.
-8. `npm run build`, commit `concept(<slug>): build`, push to `main`.
+3. `npm run status -- build working <slug> "Building <brand>"`, commit `agent(build): start <slug>`, push.
+4. Read `docs/<slug>/brief.md` (and `PHOTOS.md` if present). Use `src/pages/dental-clinic/` and
+   `src/concepts/dental-clinic/` as the reference for *structure* (content.js + icons +
+   styles.css with tokens on a wrapper class + page). Give this concept its own visual identity.
+5. If the brief names an open-source template, check its license, then use it as a starting
+   structure and change the design substantially. Record it in `docs/<slug>/ASSETS.md`.
+6. Install the fonts and libraries it needs from npm (check `npm view <pkg> version` and the
+   license first). Record any non-trivial library, illustration set or animation in `ASSETS.md`.
+7. Build `src/pages/<slug>/index.astro` and `src/concepts/<slug>/` following the brief and the
+   design standard. Realistic, specific copy; no placeholders. For planned stock photos, follow
+   PLAYBOOK §2 (render the `<img>` only if the file exists; otherwise a polished placeholder).
+   Credit external assets in the footer next to the fictional-brand note.
+8. Run `npm run qa -- <slug>`. Open the screenshots in `qa-output/<slug>/` and fix anything that
+   looks broken or unpolished. Repeat until the report has no problems.
+9. Update `STATUS.md`: check step 2 with a one-line summary.
+10. `npm run status -- build done <slug> "<one-line summary>"`.
+11. `npm run build`, commit `concept(<slug>): build`, push to `main`.

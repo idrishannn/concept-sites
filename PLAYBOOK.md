@@ -26,9 +26,11 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
 2. **Fictional brands only.** Invent the business name and make sure it is not an obviously real
    company in that sector (search the name first). No real logos, no real addresses, no real
    phone numbers (use clearly fake ones like `+1 (555) 010-0142`), no real people's names as staff.
-3. **No photos of people.** Team members get initials avatars, abstract shapes or illustrations.
-   No stock photos presented as staff, no AI faces, no testimonials attributed to real people.
-   Testimonials must be clearly fictional first-name + initial (e.g. "Sarah K.").
+3. **People in photos: atmosphere yes, identities no.** Free stock photos may show people as
+   atmosphere (diners in a restaurant, a client at a gym). A real person's photo must never be
+   presented as a named team member, a founder, or the author of a testimonial. Team members get
+   initials avatars, illustrations or abstract shapes. No AI-generated faces. Testimonials use
+   clearly fictional first-name + initial (e.g. "Sarah K.") with no photo.
 4. **No fake claims that look real.** No fake awards, certifications, regulatory approvals,
    ratings from real platforms (no "4.9 on Google"), no real insurance/partner logos.
 5. **Mark it as a concept.** Every concept page uses `Base.astro`, which shows the
@@ -42,6 +44,12 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
    Agents add new concepts as `"draft"`.
 9. **Never break the main branch.** Run `npm run build` before every push. If the build fails,
    fix it or revert your change; never push a broken build.
+10. **Licenses first.** Only use templates, code, images, videos, illustrations, fonts and
+    animations whose license allows free use in a public site: MIT, Apache-2.0, BSD, ISC, CC0,
+    OFL (fonts), or the Unsplash / Pexels / Pixabay licenses. If the license is unclear, don't use it.
+    Record every external asset in `docs/<slug>/ASSETS.md` (what, source URL, license) and credit
+    them in the concept's footer ("Photos: Unsplash / Pexels", "Template base: …").
+11. **Report your status.** Every step calls `npm run status -- …` at start and finish (see §6).
 
 ---
 
@@ -56,10 +64,31 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
 - **JavaScript:** as little as possible. Astro components first. A small script or an island is
   fine for menus, sliders, booking widgets, filters. Optional libraries if they clearly add value:
   `motion` (animation). Check bundle size impact.
-- **Images:** the build environment usually can't download from stock sites. Prefer SVG
-  illustrations, CSS shapes/gradients, icon sets from npm (e.g. `lucide-static`, `@phosphor-icons/core`),
-  and strong typography. If a concept truly needs a photo, leave a tasteful SVG/gradient
-  placeholder and write in `STATUS.md` which free photo Idrishan should add.
+- **What the build environment can and can't reach (tested 2026-11-25):**
+  - ✅ npm registry and GitHub (including raw.githubusercontent.com)
+  - ❌ Unsplash, Pexels, Pixabay image/video CDNs (downloads fail)
+  - Web search and page reading work for research, but some sites (e.g. Reddit) may refuse.
+- **Templates:** open-source templates are welcome as a *starting structure* (e.g. official Astro
+  themes or MIT/CC0 templates on GitHub). Change the design substantially so the result has its
+  own identity, and record the template and its license in `ASSETS.md`.
+- **Illustrations & icons (usable directly):** CC0/MIT sets from npm or GitHub, e.g.
+  `lucide-static`, `@phosphor-icons/core`, open illustration sets with CC0 licenses, SVG patterns.
+  Custom SVG made for the concept is always fine.
+- **Photos & video (stock):** when a concept clearly benefits from photography, choose specific
+  free photos/videos on Unsplash or Pexels during research (use web search to find the pages).
+  Since they can't be downloaded here:
+  1. Build the layout with a tasteful placeholder: a gradient or SVG in the photo's colors, with
+     the final path wired in (e.g. `/photos/<slug>/hero.jpg`). In the Astro frontmatter, render the
+     `<img>` only if the file exists (`existsSync("public/photos/<slug>/hero.jpg")`), otherwise
+     render the placeholder. This avoids 404s and the page looks finished either way.
+  2. List each photo in `docs/<slug>/PHOTOS.md`: target file path, source page URL, photographer,
+     license, why it was chosen. Idrishan downloads them into `public/photos/<slug>/` later.
+  3. The page must look complete and polished *without* the photos, too.
+- **Motion:** use where it helps the story, never everywhere. Options, in order of preference:
+  CSS (transitions, keyframes, scroll-driven animations, View Transitions) → `motion` (npm) →
+  GSAP (check its current license on npm before using) → Lottie (only animations with a clear free
+  license; record in ASSETS.md) → Three.js for a small 3D accent only if it's light and adds real value.
+  Always respect `prefers-reduced-motion` and keep the performance budget.
 - Deployment: Vercel builds every push to `main` automatically. Nothing to configure.
 
 ---
@@ -73,8 +102,9 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
   location, reservations. The brief defines this; the build follows it.
 - **One clear primary action** per page (Book, Call, Get a quote, Reserve…), visible above the fold
   and repeated at natural points.
-- **Distinct visual identity per concept.** Don't reuse the previous concept's palette, fonts or
-  layout. Each one should look like a different studio could have made it.
+- **Distinct visual identity per concept.** Before designing, read the briefs of the last three
+  concepts and look at their styles. Don't reuse their palette, font pairing, hero layout or
+  signature shapes. Each one should look like a different studio could have made it.
 - **Design tokens.** Define every color, radius and font for a concept as CSS custom properties on
   the concept's wrapper class (e.g. `.c-dental { --brand: …; }`). No hardcoded hex values in markup.
 - **Modern but tasteful techniques** (use where they help, not all at once):
@@ -87,6 +117,22 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
 - **Copy:** realistic, specific and short. No lorem ipsum. Write like a good copywriter for that
   sector. Use the sector's real vocabulary.
 - **Mobile first.** Must look intentional at 320, 375, 768 and 1440px.
+
+### How to research design (inspiration, never copying)
+Look for what professionals and real customers say, not only for pretty screenshots:
+- **Sector needs:** guides and articles about websites for that sector (what converts, what
+  customers look for, common mistakes).
+- **Practitioner advice:** discussions where designers and developers advise each other, e.g.
+  Reddit r/web_design and r/webdev, Designer News, Hacker News, Indie Hackers, Webflow/Framer
+  community forums. Some may refuse automated reading; use what's reachable.
+- **Craft and current standards:** web.dev, MDN, Smashing Magazine, CSS-Tricks, Codrops,
+  Josh W. Comeau, Awwwards/Godly/SiteInspire articles, Astro and Tailwind docs and blogs:
+  what's current in 2026 for typography, layout, motion, performance and accessibility.
+- **Example sites in the sector:** look at structure, section order, calls to action and content.
+  Never reproduce a specific site's layout, copy, illustrations or color scheme.
+
+Write an **inspiration log** in the brief: for each source, the idea taken and how we changed or
+combined it. This is the written proof that we learn, never copy.
 
 ### Quality bar (checked by `npm run qa -- <slug>`)
 - No horizontal overflow, no console errors, no failed requests
@@ -103,6 +149,8 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
 ```
 docs/<slug>/brief.md      ← written by step 1 (research)
 docs/<slug>/STATUS.md     ← updated by every step; the handoff log
+docs/<slug>/ASSETS.md     ← every external template/asset with source + license (if any)
+docs/<slug>/PHOTOS.md     ← stock photos for Idrishan to download (if any)
 src/pages/<slug>/         ← the site (step 2)
 src/concepts/<slug>/      ← components and tokens (step 2)
 public/og/<slug>.png      ← generated by `npm run qa` (step 3)
@@ -137,3 +185,24 @@ slug: <slug>
    `STATUS.md` under "Issues / follow-ups", push, and stop.
 
 Commit messages: `concept(<slug>): research brief`, `concept(<slug>): build`, `concept(<slug>): qa fixes`.
+
+---
+
+## 6. Live status (for the future agent office)
+
+`public/office/status.json` is the shared "who is doing what" board. It's served at
+`<SITE_URL>/office/status.json`, so a dashboard (e.g. the planned 3D office) can read it live.
+
+Every step reports with the helper script (never edit the JSON by hand):
+
+```bash
+npm run status -- <agent> working <slug> "short description of what you're doing"
+# … do the work …
+npm run status -- <agent> done <slug> "one-line result"
+# or, if blocked:
+npm run status -- <agent> blocked <slug> "what blocked you"
+```
+
+`<agent>` is `research`, `build` or `qa`. After the "working" update, commit and push right away
+(`agent(<agent>): start <slug>`), so the board shows the agent at work. The "done"/"blocked"
+update goes into the step's final commit.

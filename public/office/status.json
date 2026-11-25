@@ -1,0 +1,50 @@
+{
+  "updatedAt": "2026-11-25T20:06:36.580Z",
+  "current": "dental-clinic",
+  "agents": {
+    "research": {
+      "state": "done",
+      "concept": "dental-clinic",
+      "message": "Brief for Tessaly Dental Studio (manual test run)",
+      "startedAt": null,
+      "finishedAt": "2026-11-25T20:06:36.307Z"
+    },
+    "build": {
+      "state": "done",
+      "concept": "dental-clinic",
+      "message": "Single-page site with booking widget",
+      "startedAt": null,
+      "finishedAt": "2026-11-25T20:06:36.444Z"
+    },
+    "qa": {
+      "state": "done",
+      "concept": "dental-clinic",
+      "message": "QA clean, approved by Idrishan",
+      "startedAt": null,
+      "finishedAt": "2026-11-25T20:06:36.580Z"
+    }
+  },
+  "log": [
+    {
+      "at": "2026-11-25T20:06:36.580Z",
+      "agent": "qa",
+      "state": "done",
+      "concept": "dental-clinic",
+      "message": "QA clean, approved by Idrishan"
+    },
+    {
+      "at": "2026-11-25T20:06:36.444Z",
+      "agent": "build",
+      "state": "done",
+      "concept": "dental-clinic",
+      "message": "Single-page site with booking widget"
+    },
+    {
+      "at": "2026-11-25T20:06:36.307Z",
+      "agent": "research",
+      "state": "done",
+      "concept": "dental-clinic",
+      "message": "Brief for Tessaly Dental Studio (manual test run)"
+    }
+  ]
+}
