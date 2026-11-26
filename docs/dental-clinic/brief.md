@@ -51,3 +51,13 @@ Sources skimmed: dental website guides and "best dental websites 2026" roundups
 
 ## Primary action
 **Book a visit** (secondary: call).
+
+## Layout fingerprint
+- hero: split, big headline left + arched SVG illustration right
+- nav: sticky translucent bar, phone + pill CTA
+- sections: small-caps eyebrow, big heading left, lead paragraph right
+- grid: 12-col centered wrap; 3- and 4-card rows
+- background: warm cream/sand
+- signature: problem-first treatment tiles with "from" prices; 3-step booking chips
+- palette: sand, spruce green-blue, peach
+- type: Bricolage Grotesque + Figtree

@@ -43,7 +43,8 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
 8. **Never approve.** Only Idrishan sets a concept's status to `"ready"` in `src/concepts.js`.
    Agents add new concepts as `"draft"`.
 9. **Never break the main branch.** Run `npm run build` before every push. If the build fails,
-   fix it or revert your change; never push a broken build.
+   fix it or revert your change; never push a broken build. Exception: a commit that only
+   changes `public/office/status.json` (the "start" status update) doesn't need a build.
 10. **Licenses first.** Only use templates, code, images, videos, illustrations, fonts and
     animations whose license allows free use in a public site: MIT, Apache-2.0, BSD, ISC, CC0,
     OFL (fonts), or the Unsplash / Pexels / Pixabay licenses. If the license is unclear, don't use it.
@@ -102,9 +103,19 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
   location, reservations. The brief defines this; the build follows it.
 - **One clear primary action** per page (Book, Call, Get a quote, Reserve…), visible above the fold
   and repeated at natural points.
-- **Distinct visual identity per concept.** Before designing, read the briefs of the last three
-  concepts and look at their styles. Don't reuse their palette, font pairing, hero layout or
-  signature shapes. Each one should look like a different studio could have made it.
+- **Free design, no repeated skeletons.** There is no house template. The research decides the
+  layout that fits the sector best: editorial magazine, split screen, bento grid, immersive
+  full-bleed storytelling, asymmetric/broken grid, type-led minimal, card-less long scroll,
+  multi-page… or anything else the research suggests. The existing concepts are NOT a visual
+  reference; reuse only their code organisation (content file, tokens on a wrapper class).
+- **Layout fingerprint.** Every brief includes a short fingerprint so sameness is easy to spot:
+  `hero` (type of hero), `nav` (header style), `sections` (section-heading pattern), `grid`
+  (main layout system), `background` (page canvas), `signature` (the one memorable component),
+  `palette`, `type`. Compare it with the fingerprints of the last three concepts: at most two of
+  the eight items may be similar, and `hero`, `sections` and `grid` must all differ.
+  Common patterns to avoid repeating by default: small-caps eyebrow + big heading left + lead
+  paragraph right; cream page background; three-card rows everywhere; dark "feature" band;
+  illustrated map + FAQ + sticky mobile action bar as the closing sequence.
 - **Design tokens.** Define every color, radius and font for a concept as CSS custom properties on
   the concept's wrapper class (e.g. `.c-dental { --brand: …; }`). No hardcoded hex values in markup.
 - **Modern but tasteful techniques** (use where they help, not all at once):

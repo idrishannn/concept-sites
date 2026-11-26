@@ -65,6 +65,18 @@ try {
     if (!res || res.status() >= 400) report.problems.push(`${width}px: page returned ${res?.status()}`);
     await page.waitForTimeout(800);
 
+    // Scroll through the page so lazy-loaded images and scroll animations run, then back to top.
+    await page.evaluate(async () => {
+      const step = Math.round(window.innerHeight * 0.8);
+      for (let y = 0; y < document.documentElement.scrollHeight; y += step) {
+        window.scrollTo(0, y);
+        await new Promise((r) => setTimeout(r, 120));
+      }
+      window.scrollTo(0, 0);
+    });
+    await page.waitForLoadState("networkidle");
+    await page.waitForTimeout(500);
+
     const overflow = await page.evaluate(
       () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
     );

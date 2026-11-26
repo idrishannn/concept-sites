@@ -4,9 +4,10 @@
 2. Find the concept whose step 1 is checked and step 2 is not. If no brief exists for today,
    do step 1 first (`docs/agents/research.md`). If nothing needs building, stop.
 3. `npm run status -- build working <slug> "Building <brand>"`, commit `agent(build): start <slug>`, push.
-4. Read `docs/<slug>/brief.md` (and `PHOTOS.md` if present). Use `src/pages/dental-clinic/` and
-   `src/concepts/dental-clinic/` as the reference for *structure* (content.js + icons +
-   styles.css with tokens on a wrapper class + page). Give this concept its own visual identity.
+4. Read `docs/<slug>/brief.md` (and `PHOTOS.md` if present). The brief's design direction and
+   layout fingerprint decide the visual layout. Other concepts are NOT a visual reference: only
+   reuse their *code organisation* (content file + icons + styles with tokens on a wrapper class).
+   Do not copy their section-heading pattern, card grids, closing sequence or page background.
 5. If the brief names an open-source template, check its license, then use it as a starting
    structure and change the design substantially. Record it in `docs/<slug>/ASSETS.md`.
 6. Install the fonts and libraries it needs from npm (check `npm view <pkg> version` and the

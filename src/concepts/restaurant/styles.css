@@ -1055,6 +1055,9 @@
   height: 100%;
   object-fit: cover;
 }
+.c-sumakara .flames img {
+  object-position: 50% 72%; /* keep the fire, not the brick wall, in frame */
+}
 .c-sumakara .flame {
   opacity: 0.9;
   transform-origin: 50% 100%;

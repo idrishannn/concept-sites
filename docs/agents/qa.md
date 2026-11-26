@@ -8,7 +8,10 @@
 4. Run `npm run qa -- <slug>` and open every screenshot (320, 375, 768, 1440). Review like a
    demanding client and a picky designer:
    - Does it look like a real, premium site for this sector? Is the primary action obvious?
-   - Is it clearly different from the previous concepts (palette, fonts, hero, shapes)?
+   - Is it clearly different from the previous concepts? Compare its screenshots with theirs
+     (`npm run qa -- <other-slug>`) and its fingerprint with theirs. If the *skeleton* feels the
+     same (same heading pattern, same grids, same closing sequence), restructure the sections,
+     not just the colors.
    - Spacing, alignment, line lengths, orphaned words in headings, awkward wraps on mobile
    - Copy: specific, believable, no repetition, no typos
    - Hard rules: fictional brand note and badge present; no real brands/people/claims; people in

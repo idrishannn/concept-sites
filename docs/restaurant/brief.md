@@ -120,3 +120,13 @@ Fraunces + Geist).
 
 ## Photos
 Optional; the page must look complete with SVG/CSS placeholders. See `PHOTOS.md`.
+
+## Layout fingerprint (added after build, for comparison)
+- hero: full-width color block with giant wordmark, photo/illustration card right
+- nav: compact bar with live "open now" status + Reserve button
+- sections: small-caps eyebrow, big heading left, lead paragraph right (too close to dental-clinic)
+- grid: centered wrap; 3-card rows; tabbed text menu
+- background: cream with full-bleed red, blue and near-black bands
+- signature: "Tonight from the coals" specials board; receipt-style reservation summary
+- palette: pomegranate red, coal, saffron, Iznik blue
+- type: Anybody + Instrument Sans
