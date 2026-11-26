@@ -29,7 +29,8 @@ const description =
 
 // Stock photos are optional (see docs/restaurant/PHOTOS.md). Render them only once downloaded.
 const photo = (name: string) => (existsSync(`public/photos/restaurant/${name}.jpg`) ? `/photos/restaurant/${name}.jpg` : null);
-const photos = { hero: photo("hero"), coals: photo("coals"), fire: photo("fire"), kahvalti: photo("kahvalti") };
+const photoNames = ["hero", "coals", "fire", "kahvalti", "plate-adana", "plate-ezme", "plate-kunefe", "cat-meze", "cat-mangal", "cat-pide", "cat-sweets", "cat-drinks"];
+const photos: Record<string, string | null> = Object.fromEntries(photoNames.map((n) => [n, photo(n)]));
 const anyPhoto = Object.values(photos).some(Boolean);
 
 const tagLabel = Object.fromEntries(dietary.map((d) => [d.id, d.label]));
@@ -178,97 +179,112 @@ const embers = Array.from({ length: 16 }, (_, i) => ({
             ))
           }
         </ol>
+      </section>
 
-        <div class="rail-head">
-          <h3>New here? Start with these three.</h3>
-          <div class="rail-nav">
-            <button type="button" aria-label="Previous plate" data-rail-prev><Icon name="arrow" size={20} /></button>
-            <button type="button" aria-label="Next plate" data-rail-next><Icon name="arrow" size={20} /></button>
-          </div>
+      <!-- SIGNATURE: stacked photo panels -->
+      <section class="sig" aria-labelledby="sig-title">
+        <div class="pad sig-intro reveal">
+          <p class="chapter-mark">New here?</p>
+          <h2 class="chapter-title" id="sig-title">Start with these three.</h2>
         </div>
-        <ul class="rail" data-rail aria-label="Signature plates">
+        <ol class="sig-stack">
           {
-            [...signature, ...signature.slice(0, 0)].map((d) => (
-              <li class="plate">
-                <Plate id={d.id} />
-                <div class="plate-body">
-                  <h4>{d.name}</h4>
-                  <span class="price" aria-label={`${d.price} dollars`}>${d.price}</span>
-                  <p>{d.text}</p>
-                </div>
+            signature.map((d, i) => (
+              <li class="sig-panel" style={`--i:${i}`}>
+                <article class="sig-card" aria-labelledby={`sig-${d.id}`}>
+                  <div class="sig-media" aria-hidden="true">
+                    {photos[`plate-${d.id}`] ? (
+                      <img src={photos[`plate-${d.id}`]!} alt="" width="1600" height="1067" loading="lazy" />
+                    ) : (
+                      <div class={`sig-fallback fb-${d.id}`}>
+                        <Plate id={d.id} />
+                      </div>
+                    )}
+                  </div>
+                  <div class="sig-body">
+                    <span class="sig-num">{String(i + 1).padStart(2, "0")} / 03</span>
+                    <h3 id={`sig-${d.id}`}>{d.name}</h3>
+                    <p>{d.text}</p>
+                    <div class="sig-foot">
+                      <span class="sig-price" aria-label={`${d.price} dollars`}>${d.price}</span>
+                      <button type="button" class="add add-lg" data-add data-name={d.name} data-price={d.price} data-cat={d.id === "kunefe" ? "sweets" : d.id === "adana" ? "mangal" : "meze"} >
+                        <Icon name="plus" size={18} /> Add<span class="sr-only"> {d.name}</span> to your sofra
+                      </button>
+                    </div>
+                  </div>
+                </article>
               </li>
             ))
           }
-          <li class="plate" style="background:var(--pom);color:var(--ayran);display:grid;align-content:end;padding:1.75rem">
-            <p style="font:800 clamp(1.6rem,3vw,2.25rem)/1.05 var(--font-display)">The whole menu is one scroll away.</p>
-            <a class="btn btn-fire" href="#menu" style="justify-self:start;margin-top:1.25rem">Open the menu <Icon name="arrow" size={18} /></a>
-          </li>
-        </ul>
+        </ol>
       </section>
 
       <!-- 03 MENU -->
-      <section class="chapter menu-ch pad" id="menu" aria-labelledby="menu-title">
-        <div class="menu-intro reveal">
+      <section class="chapter menu-ch" id="menu" aria-labelledby="menu-title">
+        <div class="pad menu-intro reveal">
           <p class="chapter-mark"><b>03</b> The menu</p>
-          <h2 class="chapter-title" id="menu-title">Share everything. Start with meze.</h2>
-          <p class="body">Prices in dollars. <strong>Allergies?</strong> Tell us when you book. The kitchen can adapt most plates, and every dish is tagged below.</p>
+          <h2 class="chapter-title" id="menu-title">Share everything. Build your sofra.</h2>
+          <p class="body">Tap <span class="kbd" aria-hidden="true">+</span> to put dishes on your table, and we'll tell you how many people it feeds. Every dish is tagged; the kitchen adapts most plates for allergies.</p>
         </div>
 
-        <div class="menu-layout" data-menu>
-          <aside class="menu-index" aria-label="Menu sections and filters">
-            <ol>{menu.map((m) => <li><a href={`#cat-${m.id}`} data-cat-link={m.id}>{m.label}</a></li>)}</ol>
-            <div class="filters" role="group" aria-labelledby="filter-label">
-              <p id="filter-label">Show only</p>
+        <div class="menu-bar" data-menu-bar>
+          <div class="pad menu-bar-inner">
+            <nav class="cat-pills" aria-label="Menu sections">
+              {menu.map((m) => <a href={`#cat-${m.id}`} data-cat-link={m.id}>{m.label}</a>)}
+            </nav>
+            <div class="filters" role="group" aria-label="Show only dishes that are">
               {
                 dietary.map((d) => (
-                  <button type="button" class="filter" aria-pressed="false" data-filter={d.id}>
+                  <button type="button" class="filter" aria-pressed="false" data-filter={d.id} title={d.label}>
                     <Icon name={tagIcon[d.id]} size={16} />
-                    {d.label}
+                    <span>{d.label}</span>
                   </button>
                 ))
               }
             </div>
-            <p class="filter-status" aria-live="polite" data-filter-status></p>
-          </aside>
-
-          <div>
-            {
-              menu.map((m) => (
-                <section class="cat" id={`cat-${m.id}`} aria-labelledby={`h-${m.id}`} data-cat={m.id}>
-                  <div class="cat-head">
-                    <h3 id={`h-${m.id}`}>{m.label}</h3>
-                    <p>{m.intro}</p>
-                  </div>
-                  <ul class="dishes">
-                    {m.items.map((it, j) => (
-                      <li class="dish" data-tags={it.tags.join(" ")} style={`view-transition-name:dish-${m.id}-${j}`}>
-                        <div class="dish-top">
-                          <h4 lang="tr">{it.tr}</h4>
-                          <span class="dots" aria-hidden="true" />
-                          <span class="p" aria-label={`${it.price} dollars`}>{it.price}</span>
-                        </div>
-                        <p class="en">{it.en}</p>
-                        <p class="desc">{it.text}</p>
-                        {it.tags.length > 0 && (
-                          <ul class="tags" aria-label="Dietary">
-                            {it.tags.map((t) => (
-                              <li class={`tag tag-${t}`}>
-                                <Icon name={tagIcon[t]} size={13} />
-                                {tagLabel[t]}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                  <p class="no-match" hidden data-no-match>Nothing in this section matches your filters.</p>
-                </section>
-              ))
-            }
-            <p class="pickup"><Icon name="phone" size={18} />Pickup orders: call <a href={brand.phoneHref}>{brand.phone}</a> from 16:30. Ready in about 25 minutes.</p>
           </div>
         </div>
+        <p class="sr-only" aria-live="polite" data-filter-status></p>
+
+        <div class="pad menu-body" data-menu>
+          {
+            menu.map((m, ci) => (
+              <section class="cat" id={`cat-${m.id}`} aria-labelledby={`h-${m.id}`} data-cat={m.id}>
+                <header class="cat-head">
+                  <span class="cat-n" aria-hidden="true">{String(ci + 1).padStart(2, "0")}</span>
+                  <h3 id={`h-${m.id}`} class="cat-word">{m.label}</h3>
+                  <p>{m.intro}</p>
+                </header>
+                <ul class="dishes">
+                  {m.items.map((it, j) => (
+                    <li class="dish" data-tags={it.tags.join(" ")} data-preview={photos[`cat-${m.id}`] ?? ""} style={`view-transition-name:dish-${m.id}-${j}`}>
+                      <div class="dish-name">
+                        <h4 lang="tr">{it.tr}</h4>
+                        <span class="en">{it.en}</span>
+                      </div>
+                      <p class="desc">{it.text}</p>
+                      <ul class="diet" aria-label="Dietary">
+                        {it.tags.map((t) => (
+                          <li class={`diet-${t}`} title={tagLabel[t]}>
+                            <Icon name={tagIcon[t]} size={15} />
+                            <span class="sr-only">{tagLabel[t]}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <span class="dish-price" aria-label={`${it.price} dollars`}>{it.price}</span>
+                      <button type="button" class="add" data-add data-name={it.tr} data-price={it.price} data-cat={m.id} aria-label={`Add ${it.tr} to your sofra`}>
+                        <Icon name="plus" size={18} />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+                <p class="no-match" hidden data-no-match>Nothing in this section matches your filters.</p>
+              </section>
+            ))
+          }
+          <p class="pickup"><Icon name="phone" size={18} />Pickup orders: call <a href={brand.phoneHref}>{brand.phone}</a> from 16:30. Ready in about 25 minutes.</p>
+        </div>
+        <div class="preview" aria-hidden="true" data-preview-box><img alt="" data-preview-img /></div>
       </section>
 
       <Tile id="tile-k" tone="blue" height={28} />
@@ -443,6 +459,7 @@ const embers = Array.from({ length: 16 }, (_, i) => ({
               <dt>Day</dt><dd data-r-day>—</dd>
               <dt>Time</dt><dd data-r-time>—</dd>
               <dt>Name</dt><dd data-r-name>—</dd>
+              <dt>Sofra</dt><dd data-r-sofra>—</dd>
             </dl>
             <p class="r-total"><span>TOTAL</span><span>ONE GOOD EVENING</span></p>
             <p class="r-foot">Tea is on the house.</p>
@@ -518,6 +535,22 @@ const embers = Array.from({ length: 16 }, (_, i) => ({
       </div>
     </footer>
 
+    <aside class="dock" aria-label="Your sofra" data-dock hidden>
+      <div class="dock-inner">
+        <button type="button" class="dock-toggle" aria-expanded="false" aria-controls="dock-list" data-dock-toggle>
+          <span class="dock-count" data-dock-count>0</span>
+          <span class="dock-text"><strong>Your sofra</strong><span data-dock-hint>Add a few meze to start</span></span>
+        </button>
+        <span class="dock-total" data-dock-total>$0</span>
+        <button type="button" class="btn btn-fire dock-cta" data-dock-book>Book with this sofra</button>
+      </div>
+      <div class="dock-list" id="dock-list" hidden data-dock-list>
+        <ul data-dock-items></ul>
+        <button type="button" class="dock-clear" data-dock-clear>Clear the table</button>
+      </div>
+      <p class="sr-only" aria-live="polite" data-dock-live></p>
+    </aside>
+
     <a class="btn btn-pom float-cta" href="#reserve" data-float-cta>Reserve <Icon name="arrow" size={18} /></a>
   </div>
 </Base>
@@ -543,7 +576,8 @@ const embers = Array.from({ length: 16 }, (_, i) => ({
     header?.classList.toggle("solid", window.scrollY > window.innerHeight - 80);
     const rr = reserve?.getBoundingClientRect();
     const atReserve = rr ? rr.top < window.innerHeight && rr.bottom > 0 : false;
-    floatCta?.classList.toggle("show", past && !atReserve);
+    const dockOpen = !document.querySelector("[data-dock]")?.hasAttribute("hidden");
+    floatCta?.classList.toggle("show", past && !atReserve && !dockOpen);
   };
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
@@ -579,12 +613,6 @@ const embers = Array.from({ length: 16 }, (_, i) => ({
   const todayHours = $("[data-today-hours]");
   if (todayHours && today) todayHours.textContent = today.services.length ? today.services.map(([a, b]) => `${a}–${b}`).join(" · ") : "Closed today";
   $(`[data-hours] li[data-day="${now.getDay()}"]`)?.classList.add("is-today");
-
-  // Plate rail arrows
-  const rail = $("[data-rail]");
-  const step = () => (rail?.querySelector("li")?.getBoundingClientRect().width ?? 300) + 20;
-  $("[data-rail-next]")?.addEventListener("click", () => rail?.scrollBy({ left: step(), behavior: "smooth" }));
-  $("[data-rail-prev]")?.addEventListener("click", () => rail?.scrollBy({ left: -step(), behavior: "smooth" }));
 
   // Menu: highlight the category in view
   const catLinks = $$<HTMLAnchorElement>("[data-cat-link]");
@@ -720,6 +748,128 @@ const embers = Array.from({ length: 16 }, (_, i) => ({
       done.hidden = false;
       done.focus();
     }
+  });
+
+  // Menu: photo preview that follows the cursor (desktop, category photos only)
+  const box = $("[data-preview-box]");
+  const pimg = $<HTMLImageElement>("[data-preview-img]");
+  const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (fine && box && pimg) {
+    let tx = 0, ty = 0, x = 0, y = 0, raf = 0;
+    const loop = () => {
+      x += (tx - x) * 0.18;
+      y += (ty - y) * 0.18;
+      box.style.transform = `translate(${x}px, ${y}px)`;
+      raf = requestAnimationFrame(loop);
+    };
+    $$<HTMLElement>(".dish").forEach((d) => {
+      d.addEventListener("mouseenter", () => {
+        const src = d.dataset.preview;
+        if (!src) return;
+        if (pimg.getAttribute("src") !== src) pimg.src = src;
+        box.classList.add("on");
+        if (!raf) raf = requestAnimationFrame(loop);
+      });
+      d.addEventListener("mouseleave", () => box.classList.remove("on"));
+      d.addEventListener("mousemove", (e) => {
+        tx = e.clientX + 24;
+        ty = e.clientY - 90;
+      });
+    });
+  }
+
+  // Sofra builder: add dishes, see how many people it feeds, book with it
+  type Line = { name: string; price: number; cat: string; qty: number };
+  const sofra = new Map<string, Line>();
+  const dock = $("[data-dock]");
+  const dockList = $("[data-dock-list]");
+  const dockToggle = $<HTMLButtonElement>("[data-dock-toggle]");
+  const live = $("[data-dock-live]");
+  const feeds = () => {
+    let meze = 0, mains = 0;
+    sofra.forEach((l) => {
+      if (l.cat === "meze" || l.cat === "pide") meze += l.qty;
+      if (l.cat === "mangal") mains += l.qty;
+    });
+    const people = Math.max(mains, Math.round(meze / 2));
+    if (!meze && !mains) return "Sweets and drinks only";
+    if (mains === 0) return `Meze for about ${Math.max(1, people)} · add a skewer`;
+    if (meze < mains) return `Feeds ${people} · add a meze or two`;
+    return `Feeds about ${people} ${people === 1 ? "person" : "people"}`;
+  };
+  const renderSofra = () => {
+    let count = 0, total = 0;
+    sofra.forEach((l) => {
+      count += l.qty;
+      total += l.qty * l.price;
+    });
+    if (dock) dock.hidden = count === 0;
+    const set = (sel: string, v: string) => {
+      const el = $(sel);
+      if (el) el.textContent = v;
+    };
+    set("[data-dock-count]", String(count));
+    set("[data-dock-total]", `$${total}`);
+    set("[data-dock-hint]", count ? feeds() : "Add a few meze to start");
+    const items = $("[data-dock-items]");
+    if (items) {
+      items.innerHTML = "";
+      sofra.forEach((l, key) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span>${l.qty} × ${l.name}</span><span>$${l.qty * l.price}</span>`;
+        const rm = document.createElement("button");
+        rm.type = "button";
+        rm.textContent = "−";
+        rm.setAttribute("aria-label", `Remove one ${l.name}`);
+        rm.addEventListener("click", () => {
+          l.qty -= 1;
+          if (l.qty <= 0) sofra.delete(key);
+          renderSofra();
+        });
+        li.appendChild(rm);
+        items.appendChild(li);
+      });
+    }
+    $$<HTMLButtonElement>("[data-add]").forEach((b) => {
+      const q = sofra.get(b.dataset.name!)?.qty ?? 0;
+      b.classList.toggle("added", q > 0);
+      b.dataset.qty = q ? String(q) : "";
+    });
+    const rs = $("[data-r-sofra]");
+    if (rs) rs.textContent = count ? `${count} dishes · $${total}` : "—";
+    if (!count && dockList) {
+      dockList.hidden = true;
+      dockToggle?.setAttribute("aria-expanded", "false");
+    }
+    onScroll();
+  };
+  $$<HTMLButtonElement>("[data-add]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const name = b.dataset.name!;
+      const line = sofra.get(name) ?? { name, price: Number(b.dataset.price), cat: b.dataset.cat ?? "", qty: 0 };
+      line.qty += 1;
+      sofra.set(name, line);
+      renderSofra();
+      if (live) live.textContent = `${name} added. ${feeds()}.`;
+      b.animate?.([{ transform: "scale(1)" }, { transform: "scale(1.18)" }, { transform: "scale(1)" }], { duration: 320 });
+    }),
+  );
+  dockToggle?.addEventListener("click", () => {
+    const open = dockToggle.getAttribute("aria-expanded") !== "true";
+    dockToggle.setAttribute("aria-expanded", String(open));
+    if (dockList) dockList.hidden = !open;
+  });
+  $("[data-dock-clear]")?.addEventListener("click", () => {
+    sofra.clear();
+    renderSofra();
+  });
+  $("[data-dock-book]")?.addEventListener("click", () => {
+    const note = $<HTMLInputElement>("#bk-note");
+    if (note) {
+      const list = [...sofra.values()].map((l) => `${l.qty}× ${l.name}`).join(", ");
+      note.value = `Sofra: ${list}`;
+    }
+    $("#reserve")?.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   });
 
   // Mangal nights inquiry (demo, nothing sent)

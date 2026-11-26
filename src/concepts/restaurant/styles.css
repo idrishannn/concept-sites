@@ -648,280 +648,365 @@
   font: 800 clamp(1.4rem, 2.4vw, 2rem) / 1 var(--font-display);
 }
 
-.c-sumakara .rail-head {
+/* ---------- signature: stacked sticky photo panels ---------- */
+.c-sumakara .sig {
+  padding-bottom: clamp(3rem, 8vw, 6rem);
+}
+.c-sumakara .sig-intro {
   display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 1rem;
-  margin: clamp(4rem, 8vw, 6rem) 0 1.5rem;
-}
-.c-sumakara .rail-head h3 {
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
-}
-.c-sumakara .rail-nav {
-  display: flex;
-  gap: 0.5rem;
-}
-.c-sumakara .rail-nav button {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 99px;
-  border: 1.5px solid var(--ink);
-  background: transparent;
-  color: var(--ink);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-}
-.c-sumakara .rail-nav button:hover {
-  background: var(--ink);
-  color: var(--ayran);
-}
-.c-sumakara .rail-nav button:first-child svg {
-  transform: rotate(180deg);
-}
-.c-sumakara .rail {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: min(78vw, 30rem);
-  gap: 1.25rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--gutter);
-  padding: 0 var(--gutter) 1.5rem;
-  margin-inline: calc(var(--gutter) * -1);
-  scrollbar-width: thin;
-  scrollbar-color: var(--pom) transparent;
-}
-.c-sumakara .plate {
-  scroll-snap-align: start;
-  position: relative;
-  border-radius: var(--radius);
-  background: var(--cream);
-  overflow: hidden;
-  container-type: inline-size;
-}
-.c-sumakara .plate-svg {
-  width: 100%;
-  aspect-ratio: 200 / 140;
-  display: block;
-  transition: transform 0.8s var(--ease-out);
-}
-.c-sumakara .plate:hover .plate-svg {
-  transform: scale(1.05) rotate(-2deg);
-}
-.c-sumakara .plate-body {
-  padding: 1.25rem 1.5rem 1.6rem;
-  background: var(--ayran);
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 0.35rem 1rem;
+  flex-wrap: wrap;
   align-items: baseline;
+  gap: 0.5rem 1.5rem;
+  margin: clamp(3rem, 8vw, 6rem) 0 2rem;
 }
-.c-sumakara .plate-body h4 {
-  margin: 0;
-  font: 800 clamp(1.3rem, 6cqi, 1.8rem) / 1.05 var(--font-display);
-}
-.c-sumakara .plate-body .price {
-  font: 800 1.3rem/1 var(--font-display);
+.c-sumakara .sig-intro .chapter-mark {
   color: var(--pom);
 }
-.c-sumakara .plate-body p {
-  grid-column: 1 / -1;
-  color: var(--ink-soft);
+.c-sumakara .sig-intro .chapter-title {
+  font-size: clamp(2.2rem, 5vw, 4.5rem);
+}
+.c-sumakara .sig-stack {
+  display: grid;
+  gap: 32svh;
+  padding-inline: var(--gutter);
+}
+.c-sumakara .sig-panel {
+  position: sticky;
+  top: calc(5.25rem + var(--i) * 1.25rem);
+  height: min(78svh, 46rem);
+}
+.c-sumakara .sig-card {
+  position: relative;
+  height: 100%;
+  border-radius: 24px;
+  overflow: hidden;
+  color: var(--ayran);
+  background: var(--coal);
+  isolation: isolate;
+  box-shadow: 0 -20px 60px -30px rgb(23 10 11 / 0.55);
+  transform-origin: 50% 0;
+}
+.c-sumakara .sig-media,
+.c-sumakara .sig-media img,
+.c-sumakara .sig-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.c-sumakara .sig-media {
+  z-index: -2;
+}
+.c-sumakara .sig-media img {
+  object-fit: cover;
+  transition: transform 1.2s var(--ease-out);
+}
+.c-sumakara .sig-card:hover .sig-media img {
+  transform: scale(1.05);
+}
+.c-sumakara .sig-fallback {
+  display: grid;
+  place-items: center end;
+  padding-right: 6%;
+}
+.c-sumakara .sig-fallback .plate-svg {
+  width: min(62%, 44rem);
+  filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.35));
+}
+.c-sumakara .fb-adana {
+  background: radial-gradient(circle at 70% 45%, #c2462b, var(--pom-deep) 45%, var(--coal) 85%);
+}
+.c-sumakara .fb-ezme {
+  background: radial-gradient(circle at 70% 45%, #2a5fa5, var(--iznik) 45%, #0d2346 85%);
+}
+.c-sumakara .fb-kunefe {
+  background: radial-gradient(circle at 70% 45%, #f4b94a, #c27716 45%, #3a1f0a 88%);
+}
+.c-sumakara .sig-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgb(23 10 11 / 0.82) 0%, rgb(23 10 11 / 0.45) 45%, transparent 75%),
+    linear-gradient(0deg, rgb(23 10 11 / 0.6), transparent 45%);
+}
+.c-sumakara .sig-body {
+  position: absolute;
+  left: clamp(1.5rem, 5vw, 4rem);
+  right: clamp(1.5rem, 5vw, 4rem);
+  bottom: clamp(1.5rem, 5vw, 3.5rem);
+  max-width: 36rem;
+}
+.c-sumakara .sig-num {
+  font: 600 0.8rem/1 var(--font-body);
+  letter-spacing: 0.2em;
+  color: var(--saffron);
+}
+.c-sumakara .sig-body h3 {
+  margin: 0.75rem 0 0.75rem;
+  font: 900 clamp(2.8rem, 8vw, 7rem) / 0.85 var(--font-display);
+  font-variation-settings: "wdth" 115;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.c-sumakara .sig-body p {
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+  color: #f1e3d8;
+  max-width: 30ch;
+}
+.c-sumakara .sig-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 1.5rem;
+}
+.c-sumakara .sig-price {
+  font: 900 clamp(2rem, 4vw, 3rem) / 1 var(--font-display);
+  color: var(--saffron);
 }
 
-/* ---------- 03 · menu (sticky index + filters) ---------- */
+/* ---------- 03 · menu (dark, typographic, sofra builder) ---------- */
 .c-sumakara .menu-ch {
-  background: var(--cream);
-  padding-block: clamp(5rem, 10vw, 8rem);
+  background: var(--coal);
+  color: var(--on-dark);
+  padding-block: clamp(5rem, 10vw, 8rem) clamp(4rem, 8vw, 6rem);
 }
 .c-sumakara .menu-intro {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
   gap: 1.5rem 3rem;
   align-items: end;
-  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  margin-bottom: clamp(2rem, 4vw, 3rem);
 }
 .c-sumakara .menu-intro .chapter-mark {
   grid-column: 1 / -1;
-  color: var(--pom);
+  color: var(--saffron);
 }
-.c-sumakara .menu-intro .body strong {
-  color: var(--ink);
+.c-sumakara .menu-intro .body {
+  color: var(--on-dark-soft);
 }
-.c-sumakara .menu-layout {
-  display: grid;
-  grid-template-columns: 15rem minmax(0, 1fr);
-  gap: clamp(2rem, 5vw, 5rem);
-  align-items: start;
+.c-sumakara .kbd {
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 99px;
+  background: var(--saffron);
+  color: var(--coal);
+  font-weight: 800;
+  line-height: 1;
 }
-.c-sumakara .menu-index {
+.c-sumakara .menu-bar {
   position: sticky;
-  top: 6rem;
-  display: grid;
-  gap: 1.75rem;
+  top: 4.5rem;
+  z-index: 20;
+  background: color-mix(in srgb, var(--coal) 88%, transparent);
+  backdrop-filter: blur(14px);
+  border-block: 1px solid rgb(246 236 228 / 0.12);
 }
-.c-sumakara .menu-index ol {
-  display: grid;
-  gap: 0.25rem;
-  counter-reset: cat;
-}
-.c-sumakara .menu-index a {
+.c-sumakara .menu-bar-inner {
   display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
-  padding: 0.45rem 0;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem 2rem;
+  padding-block: 0.75rem;
+}
+.c-sumakara .cat-pills {
+  display: flex;
+  gap: 0.35rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.c-sumakara .cat-pills a {
+  flex: none;
+  padding: 0.55rem 1rem;
+  border-radius: 99px;
   text-decoration: none;
-  font: 700 1.15rem/1.2 var(--font-display);
-  color: var(--ink-soft);
-  transition: color 0.3s, transform 0.4s var(--ease-out);
+  font: 700 0.95rem/1 var(--font-display);
+  color: var(--on-dark-soft);
+  transition: background 0.3s, color 0.3s;
 }
-.c-sumakara .menu-index a::before {
-  counter-increment: cat;
-  content: counter(cat, decimal-leading-zero);
-  font: 600 0.75rem/1 var(--font-body);
-  letter-spacing: 0.1em;
+.c-sumakara .cat-pills a:hover {
+  color: var(--on-dark);
 }
-.c-sumakara .menu-index a[aria-current="true"] {
-  color: var(--pom);
-  transform: translateX(6px);
+.c-sumakara .cat-pills a[aria-current="true"] {
+  background: var(--ayran);
+  color: var(--coal);
 }
 .c-sumakara .filters {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-}
-.c-sumakara .filters p {
-  width: 100%;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  margin-bottom: 0.25rem;
+  gap: 0.35rem;
+  flex: none;
 }
 .c-sumakara .filter {
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  min-height: 2.4rem;
+  gap: 0.4rem;
+  min-height: 2.5rem;
   padding: 0.4rem 0.8rem;
   border-radius: 99px;
-  border: 1.5px solid var(--line);
-  background: var(--ayran);
-  color: var(--ink);
-  font: 600 0.875rem/1 var(--font-body);
+  border: 1px solid rgb(246 236 228 / 0.25);
+  background: transparent;
+  color: var(--on-dark);
+  font: 600 0.85rem/1 var(--font-body);
   cursor: pointer;
   transition: background 0.25s, border-color 0.25s, color 0.25s;
 }
 .c-sumakara .filter[aria-pressed="true"] {
-  background: var(--sumac);
-  border-color: var(--sumac);
-  color: var(--ayran);
+  background: var(--saffron);
+  border-color: var(--saffron);
+  color: var(--coal);
 }
-.c-sumakara .filter-status {
-  font-size: 0.85rem;
-  color: var(--ink-soft);
-  min-height: 1.3em;
+.c-sumakara .menu-body {
+  padding-top: clamp(2rem, 4vw, 3rem);
 }
 .c-sumakara .cat {
-  scroll-margin-top: 6rem;
-  padding-bottom: 3rem;
-}
-.c-sumakara .cat + .cat {
-  border-top: 2px solid var(--ink);
-  padding-top: 2.25rem;
+  scroll-margin-top: 9rem;
+  padding-block: clamp(2rem, 4vw, 3rem);
 }
 .c-sumakara .cat-head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 0.5rem 2rem;
-  margin-bottom: 1.25rem;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: end;
+  gap: 0.25rem 1.25rem;
+  margin-bottom: 1.5rem;
 }
-.c-sumakara .cat-head h3 {
-  font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+.c-sumakara .cat-n {
+  font: 600 0.85rem/1 var(--font-body);
+  letter-spacing: 0.15em;
+  color: var(--saffron);
+  padding-bottom: 0.9em;
+}
+.c-sumakara .cat-word {
+  font: 900 clamp(3rem, 10vw, 8.5rem) / 0.85 var(--font-display);
+  font-variation-settings: "wdth" 125;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  color: var(--ayran);
 }
 .c-sumakara .cat-head p {
-  color: var(--ink-soft);
-  max-width: 36ch;
+  grid-column: 2;
+  color: var(--on-dark-soft);
+  max-width: 48ch;
 }
 .c-sumakara .dishes {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr));
-  gap: 0 2.5rem;
+  border-top: 1px solid rgb(246 236 228 / 0.16);
 }
 .c-sumakara .dish {
-  padding: 1.1rem 0;
-  border-bottom: 1px solid #ddd0c1;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) auto auto auto;
+  align-items: center;
+  gap: 0.5rem 1.5rem;
+  padding: 1.15rem 0.75rem;
+  border-bottom: 1px solid rgb(246 236 228 / 0.16);
+  transition: background 0.35s;
   view-transition-class: dish;
 }
-.c-sumakara .dish-top {
-  display: flex;
-  align-items: baseline;
-  gap: 0.75rem;
+.c-sumakara .dish:hover {
+  background: rgb(246 236 228 / 0.05);
 }
-.c-sumakara .dish-top h4 {
+.c-sumakara .dish-name h4 {
   margin: 0;
-  font: 750 1.2rem/1.2 var(--font-display);
+  font: 800 clamp(1.3rem, 2vw, 1.65rem) / 1.1 var(--font-display);
+  letter-spacing: -0.01em;
 }
-.c-sumakara .dish-top .dots {
-  flex: 1;
-  border-bottom: 2px dotted #c9b8a6;
-  transform: translateY(-4px);
-}
-.c-sumakara .dish-top .p {
-  font: 800 1.15rem/1 var(--font-display);
-  color: var(--pom);
-}
-.c-sumakara .dish .en {
-  color: var(--ink-soft);
-  font-size: 0.95rem;
+.c-sumakara .dish-name .en {
+  display: block;
+  margin-top: 0.15rem;
+  font-size: 0.9rem;
+  color: var(--on-dark-soft);
 }
 .c-sumakara .dish .desc {
-  font-size: 0.95rem;
-  margin-top: 0.2rem;
+  color: #dccbbf;
+  font-size: 0.98rem;
 }
-.c-sumakara .tags {
+.c-sumakara .diet {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin-top: 0.6rem;
+  gap: 0.3rem;
+  min-width: 4.5rem;
+  justify-content: flex-end;
 }
-.c-sumakara .tag {
+.c-sumakara .diet li {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 99px;
+  border: 1px solid rgb(246 236 228 / 0.22);
+  color: var(--on-dark);
+}
+.c-sumakara .diet .diet-veg,
+.c-sumakara .diet .diet-vegan {
+  color: #a7d38c;
+}
+.c-sumakara .diet .diet-gf {
+  color: #a9c6ee;
+}
+.c-sumakara .diet .diet-spicy {
+  color: #ff9a76;
+}
+.c-sumakara .dish-price {
+  font: 800 1.4rem/1 var(--font-display);
+  color: var(--saffron);
+  min-width: 2.5rem;
+  text-align: right;
+}
+.c-sumakara .add {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 99px;
+  border: 1.5px solid rgb(246 236 228 / 0.35);
+  background: transparent;
+  color: var(--on-dark);
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.3s var(--ease-out);
+}
+.c-sumakara .add:hover {
+  border-color: var(--saffron);
+  color: var(--saffron);
+}
+.c-sumakara .add.added {
+  background: var(--saffron);
+  border-color: var(--saffron);
+  color: var(--coal);
+}
+.c-sumakara .add[data-qty]:not([data-qty=""])::after {
+  content: attr(data-qty);
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  min-width: 1.2rem;
+  height: 1.2rem;
+  padding: 0 0.25rem;
+  border-radius: 99px;
+  background: var(--pom);
+  color: #fff;
+  font: 700 0.7rem/1.2rem var(--font-body);
+}
+.c-sumakara .add-lg {
+  width: auto;
+  height: auto;
+  min-height: 3rem;
+  padding: 0.7rem 1.25rem;
+  gap: 0.5rem;
   display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.78rem;
-  font-weight: 600;
-}
-.c-sumakara .tag-veg,
-.c-sumakara .tag-vegan {
-  background: var(--leaf-soft);
-  color: var(--leaf-ink);
-}
-.c-sumakara .tag-gf {
-  background: var(--iznik-soft);
-  color: var(--iznik);
-}
-.c-sumakara .tag-spicy {
-  background: var(--spicy-soft);
-  color: var(--pom-deep);
+  font: 600 1rem/1 var(--font-body);
+  border-color: rgb(251 248 243 / 0.6);
 }
 .c-sumakara .no-match {
-  color: var(--ink-soft);
+  color: var(--on-dark-soft);
   font-style: italic;
-  padding: 1rem 0;
+  padding: 1rem 0.75rem;
 }
 .c-sumakara .pickup {
   display: block;
-  margin-top: 1rem;
-  font-weight: 500;
+  margin-top: 2rem;
+  color: var(--on-dark-soft);
 }
 .c-sumakara .pickup svg {
   display: inline-block;
@@ -929,9 +1014,152 @@
   margin-right: 0.4rem;
 }
 .c-sumakara .pickup a {
-  color: var(--pom);
+  color: var(--saffron);
   font-weight: 700;
 }
+.c-sumakara .preview {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 30;
+  width: 15rem;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  scale: 0.85;
+  transition:
+    opacity 0.3s,
+    scale 0.4s var(--ease-out);
+  box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.7);
+}
+.c-sumakara .preview.on {
+  opacity: 1;
+  scale: 1;
+}
+.c-sumakara .preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- sofra dock ---------- */
+.c-sumakara .dock {
+  position: fixed;
+  left: 50%;
+  bottom: 1rem;
+  z-index: 58;
+  width: min(44rem, calc(100% - 1.5rem));
+  translate: -50% 0;
+  border-radius: 20px;
+  background: var(--sumac);
+  color: var(--on-dark);
+  box-shadow: 0 24px 60px -20px rgb(0 0 0 / 0.65);
+  border: 1px solid rgb(246 236 228 / 0.14);
+  animation: dock-in 0.5s var(--ease-out);
+}
+@keyframes dock-in {
+  from {
+    translate: -50% 120%;
+  }
+}
+.c-sumakara .dock-inner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.6rem 0.6rem 0.6rem 0.8rem;
+}
+.c-sumakara .dock-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  padding: 0.25rem;
+  border-radius: 12px;
+}
+.c-sumakara .dock-count {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 99px;
+  background: var(--saffron);
+  color: var(--coal);
+  font: 800 1rem/1 var(--font-display);
+}
+.c-sumakara .dock-text {
+  display: grid;
+  min-width: 0;
+  font-size: 0.85rem;
+  color: var(--on-dark-soft);
+}
+.c-sumakara .dock-text strong {
+  color: var(--on-dark);
+  font: 700 1rem/1.2 var(--font-display);
+}
+.c-sumakara .dock-text span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.c-sumakara .dock-total {
+  font: 800 1.3rem/1 var(--font-display);
+  color: var(--saffron);
+}
+.c-sumakara .dock-cta {
+  min-height: 2.75rem;
+  padding: 0.6rem 1.1rem;
+  white-space: nowrap;
+}
+.c-sumakara .dock-list {
+  padding: 0 1.1rem 1rem;
+  border-top: 1px solid rgb(246 236 228 / 0.12);
+}
+.c-sumakara .dock-list ul {
+  display: grid;
+  gap: 0.2rem;
+  padding-top: 0.75rem;
+  max-height: 40vh;
+  overflow-y: auto;
+}
+.c-sumakara .dock-list li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+}
+.c-sumakara .dock-list li button {
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 99px;
+  border: 1px solid rgb(246 236 228 / 0.3);
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.c-sumakara .dock-clear {
+  margin-top: 0.75rem;
+  background: none;
+  border: 0;
+  color: var(--on-dark-soft);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+}
+
 
 /* ---------- 04 · kahvaltı (photo arch + parallax) ---------- */
 .c-sumakara .kahvalti {
@@ -1717,48 +1945,35 @@
     background: var(--coal);
     color: var(--on-dark);
   }
-  .c-sumakara .menu-layout {
-    grid-template-columns: 1fr;
-  }
-  .c-sumakara .menu-index {
-    position: sticky;
-    top: 4.5rem;
-    z-index: 5;
-    margin-inline: calc(var(--gutter) * -1);
-    padding: 0.75rem var(--gutter);
-    background: color-mix(in srgb, var(--cream) 94%, transparent);
-    backdrop-filter: blur(10px);
-    gap: 0.6rem;
-  }
-  .c-sumakara .menu-index ol {
-    display: flex;
-    gap: 1.25rem;
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .c-sumakara .menu-index a {
-    white-space: nowrap;
-    font-size: 1rem;
-    padding: 0.25rem 0;
-  }
-  .c-sumakara .menu-index a[aria-current="true"] {
-    transform: none;
+  .c-sumakara .menu-bar-inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
   }
   .c-sumakara .filters {
-    flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
-  }
-  .c-sumakara .filters p,
-  .c-sumakara .filter-status {
-    display: none;
   }
   .c-sumakara .filter {
     flex: none;
   }
   .c-sumakara .cat {
-    scroll-margin-top: 10rem;
+    scroll-margin-top: 12rem;
   }
+  .c-sumakara .dish {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "name price add"
+      "desc desc desc"
+      "diet diet diet";
+    gap: 0.35rem 1rem;
+    padding-inline: 0;
+  }
+  .c-sumakara .dish-name { grid-area: name; }
+  .c-sumakara .dish .desc { grid-area: desc; }
+  .c-sumakara .diet { grid-area: diet; justify-content: flex-start; }
+  .c-sumakara .dish-price { grid-area: price; }
+  .c-sumakara .dish .add { grid-area: add; }
   .c-sumakara .nights-grid,
   .c-sumakara .faq {
     grid-template-columns: 1fr;
@@ -1807,6 +2022,21 @@
   .c-sumakara .kahvalti-grid {
     grid-template-columns: 1fr;
   }
+  .c-sumakara .cat-head {
+    grid-template-columns: 1fr;
+  }
+  .c-sumakara .cat-head p {
+    grid-column: 1;
+  }
+  .c-sumakara .cat-n {
+    padding-bottom: 0;
+  }
+  .c-sumakara .sig-panel {
+    height: min(72svh, 40rem);
+  }
+  .c-sumakara .sig-card::after {
+    background: linear-gradient(0deg, rgb(23 10 11 / 0.92) 0%, rgb(23 10 11 / 0.55) 45%, transparent 75%);
+  }
   .c-sumakara .arch {
     max-width: 24rem;
     width: 100%;
@@ -1833,7 +2063,26 @@
   .c-sumakara .hero-actions .btn {
     flex: 1 1 auto;
   }
-  .c-sumakara .rail-nav {
+  .c-sumakara .filter span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+  .c-sumakara .sig-fallback {
+    place-items: start center;
+    padding: 12% 0 0;
+  }
+  .c-sumakara .sig-fallback .plate-svg {
+    width: 88%;
+  }
+  .c-sumakara .dock-cta {
+    padding-inline: 0.9rem;
+    font-size: 0.9rem;
+  }
+  .c-sumakara .dock-total {
     display: none;
   }
 }
@@ -1848,4 +2097,9 @@
 /* phone numbers never break across lines */
 .c-sumakara a[href^="tel:"] {
   white-space: nowrap;
+}
+
+/* the sofra dock takes the bottom of the screen; the concept note stays in the footer */
+body:has(.c-sumakara .dock:not([hidden])) .concept-badge {
+  display: none;
 }

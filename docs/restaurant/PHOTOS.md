@@ -14,3 +14,20 @@ Credit in footer: "Photos: Unsplash".
 
 Rejected: https://unsplash.com/photos/a-table-topped-with-plates-and-bowls-of-food-AoIKdkhMxkY (Unsplash+, paid license).
 No people in these photos, so no identity concerns.
+
+## Round 2 (2026-11-26): signature panels + menu previews
+
+The page shows a designed fallback until these exist. Save as JPEG (the page looks for `.jpg`)
+in `public/photos/restaurant/`. Landscape works best for panels (~1600×1067), portrait or square
+for menu previews (~800×1000). Avoid Unsplash+ photos (marked "Plus"; paid license).
+
+| Target file | What to look for | Search |
+|---|---|---|
+| `plate-adana.jpg` | Adana kebab on a plate or skewer, dark/moody background | unsplash.com/s/photos/adana-kebab · pexels.com/search/adana%20kebab |
+| `plate-ezme.jpg` | Meze table or ezme with flatbread | unsplash.com/s/photos/meze · pexels.com/search/meze |
+| `plate-kunefe.jpg` | Künefe (kunafa) close-up | unsplash.com/s/photos/kunafa · pexels.com/search/kunefe |
+| `cat-meze.jpg` | Small meze plates, top-down | unsplash.com/s/photos/meze |
+| `cat-mangal.jpg` | Skewers on a charcoal grill | unsplash.com/s/photos/shish-kebab |
+| `cat-pide.jpg` | Lahmacun or pide (candidate: unsplash.com/photos/CAmLnpQXcIY, Markus Winkler, Unsplash License) | unsplash.com/s/photos/lahmacun |
+| `cat-sweets.jpg` | Turkish dessert: künefe, baklava or sütlaç | unsplash.com/s/photos/baklava |
+| `cat-drinks.jpg` | Turkish tea in a tulip glass, or ayran | unsplash.com/s/photos/turkish-tea |
