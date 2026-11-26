@@ -1,0 +1,984 @@
+---
+import "@fontsource-variable/anybody/wdth.css";
+import "@fontsource-variable/instrument-sans/wdth.css";
+import { existsSync } from "node:fs";
+import Base from "../../layouts/Base.astro";
+import Icon from "../../concepts/restaurant/Icon.astro";
+import Tile from "../../concepts/restaurant/Tile.astro";
+import "../../concepts/restaurant/styles.css";
+import {
+  brand,
+  nav,
+  hours,
+  specials,
+  dietary,
+  signature,
+  menu,
+  kahvalti,
+  facts,
+  team,
+  setMenus,
+  quotes,
+  faq,
+} from "../../concepts/restaurant/content.js";
+
+const title = "Sumakara · Anatolian charcoal grill & meze in Halvern Square (concept)";
+const description =
+  "Concept website for a fictional Anatolian grill and meze house: an HTML menu with dietary filters, weekend kahvaltı, private mangal nights and table reservations.";
+
+// Stock photos are optional (see docs/restaurant/PHOTOS.md). Render them only once downloaded.
+const photo = (name: string) => (existsSync(`public/photos/restaurant/${name}.jpg`) ? `/photos/restaurant/${name}.jpg` : null);
+const photos = { hero: photo("hero"), coals: photo("coals"), fire: photo("fire"), kahvalti: photo("kahvalti") };
+const anyPhoto = Object.values(photos).some(Boolean);
+
+const tagOf = Object.fromEntries(dietary.map((d) => [d.id, d]));
+const tagIcon: Record<string, string> = { veg: "leaf", vegan: "sprout", gf: "wheat", spicy: "flame" };
+const fmtHours = (s: string[][]) => s.map(([a, b, label]) => `${a}–${b}${label ? ` (${label})` : ""}`).join(" · ");
+---
+
+<Base {title} {description} ogImage="/og/restaurant.png" themeColor="#B4232A">
+  <div class="c-sumakara">
+    <header class="site-header" data-header>
+      <div class="wrap header-inner">
+        <a href="#top" class="logo" aria-label="Sumakara, back to top">
+          <svg class="logo-mark" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+            <rect class="f-pom" x="5" y="5" width="20" height="20" rx="2"></rect>
+            <rect class="f-pom" x="5" y="5" width="20" height="20" rx="2" transform="rotate(45 15 15)"></rect>
+            <circle class="f-saffron" cx="15" cy="15" r="4.2"></circle>
+          </svg>
+          <span>Sumakara</span>
+        </a>
+        <nav class="main-nav" aria-label="Main">
+          <ul>{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+        </nav>
+        <p class="open-pill" data-open-pill><span class="dot" aria-hidden="true"></span><span data-open-text>Tue–Sun · see hours</span></p>
+        <a class="btn btn-pom header-cta" href="#reserve">Reserve</a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+          <span class="sr-only">Menu</span>
+          <span data-icon-open><Icon name="menu" size={22} /></span>
+          <span data-icon-close hidden><Icon name="close" size={22} /></span>
+        </button>
+      </div>
+      <div class="mobile-menu" id="mobile-menu" data-open="false">
+        <ul>{nav.map((n) => <li><a href={n.href} data-menu-link>{n.label}</a></li>)}</ul>
+        <a class="btn btn-pom" href="#reserve" data-menu-link>Reserve a table</a>
+      </div>
+    </header>
+
+    <main id="main">
+      <span id="top"></span>
+
+      <!-- Hero -->
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="embers" aria-hidden="true">{Array.from({ length: 8 }, (_, i) => <span style={`--i:${i}`}></span>)}</div>
+        <div class="wrap">
+          <p class="hero-kicker">Meze · Mangal · Kahvaltı<span class="kicker-place"> <span aria-hidden="true">—</span> Halvern Square</span></p>
+          <h1 id="hero-title" class="wordmark">
+            <span class="wordmark-text"><span>Suma</span><span>kara</span></span><span class="sr-only">: Anatolian charcoal grill and meze</span>
+          </h1>
+          <div class="hero-row">
+            <div class="hero-copy">
+              <p class="hero-line">Anatolian charcoal grill &amp; meze. <strong>Everything touches the fire.</strong></p>
+              <p class="hero-sub">Small plates to share, skewers off a two-meter oak-charcoal mangal, and a weekend breakfast table that takes all morning.</p>
+              <div class="hero-ctas">
+                <a class="btn btn-saffron" href="#reserve">Reserve a table <Icon name="arrow" size={18} /></a>
+                <a class="btn btn-line" href="#menu">See the menu</a>
+              </div>
+              <p class="hero-today"><Icon name="clock" size={18} /><span data-today-line>Tue–Fri from 17:00 · Sat & Sun kahvaltı from 10:00</span></p>
+              <p class="hero-today"><Icon name="table" size={18} />Walk-ins welcome at the bar</p>
+            </div>
+            <figure class="hero-art">
+              {
+                photos.hero ? (
+                  <img src={photos.hero} alt="Skewers of meat grilling over glowing charcoal" width="800" height="1000" loading="eager" />
+                ) : (
+                  <svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="h-sky" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0" style="stop-color:var(--char)"></stop>
+                        <stop offset="1" style="stop-color:var(--coal)"></stop>
+                      </linearGradient>
+                      <radialGradient id="h-glow" cx="50%" cy="100%" r="75%">
+                        <stop offset="0" style="stop-color:var(--saffron)"></stop>
+                        <stop offset=".35" style="stop-color:var(--ember)"></stop>
+                        <stop offset="1" style="stop-color:var(--ember);stop-opacity:0"></stop>
+                      </radialGradient>
+                    </defs>
+                    <rect width="400" height="480" fill="url(#h-sky)"></rect>
+                    <ellipse class="glow" cx="200" cy="470" rx="320" ry="230" fill="url(#h-glow)"></ellipse>
+                    <g class="smoke">
+                      <path d="M120 230c-20-40 30-60 10-100s20-60 0-100"></path>
+                      <path d="M250 220c-20-40 30-60 10-100s20-60 0-100"></path>
+                      <path d="M320 240c-14-30 20-44 6-74"></path>
+                    </g>
+                    {
+                      [
+                        { y: 268, kind: "lamb" },
+                        { y: 318, kind: "veg" },
+                        { y: 368, kind: "adana" },
+                      ].map((s, k) => (
+                        <g class="skewer" style={`--k:${k}`}>
+                          <line x1="20" y1={s.y} x2="390" y2={s.y - 12} class="s-steel"></line>
+                          <circle cx="388" cy={s.y - 12} r="6" class="f-saffron"></circle>
+                          {s.kind === "adana" ? (
+                            <rect x="70" y={s.y - 18} width="260" height="26" rx="13" class="f-pom-deep" transform={`rotate(-1.9 200 ${s.y})`}></rect>
+                          ) : (
+                            Array.from({ length: 7 }, (_, j) => (
+                              <rect
+                                x={62 + j * 40}
+                                y={s.y - 18 - j * 1.3}
+                                width="30"
+                                height="30"
+                                rx="7"
+                                class={s.kind === "veg" ? ["f-saffron", "f-pom", "f-leaf"][j % 3] : j % 2 ? "f-pom-deep" : "f-char-meat"}
+                              ></rect>
+                            ))
+                          )}
+                        </g>
+                      ))
+                    }
+                    <g class="grate">{Array.from({ length: 13 }, (_, i) => <line x1={i * 32 + 8} y1="400" x2={i * 32 + 8} y2="480"></line>)}</g>
+                    <g class="coals">
+                      {Array.from({ length: 16 }, (_, i) => (
+                        <ellipse cx={(i * 53) % 400} cy={440 + ((i * 17) % 36)} rx={20 + ((i * 7) % 12)} ry="12" class={i % 3 ? "f-coal" : "f-ember"}></ellipse>
+                      ))}
+                    </g>
+                  </svg>
+                )
+              }
+              <figcaption><span>Fire lit</span> 16:00 daily</figcaption>
+            </figure>
+          </div>
+        </div>
+        <div class="skewer-rule" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+      </section>
+
+      <!-- Specials -->
+      <section class="specials" aria-labelledby="specials-title">
+        <div class="wrap">
+          <div class="specials-head">
+            <h2 class="h2" id="specials-title">Tonight from the coals</h2>
+            <p data-board-date>Written on the board at 16:00</p>
+          </div>
+          <ul class="specials-list" role="list">
+            {
+              specials.map((s) => (
+                <li class="special reveal">
+                  <h3>{s.name}</h3>
+                  <p>{s.text}</p>
+                  <p class="special-foot">
+                    <span>{s.note}</span>
+                    <span class="coin" aria-label={`${s.price} dollars`}>{s.price}</span>
+                  </p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      <!-- Menu -->
+      <section class="menu" id="menu" aria-labelledby="menu-title">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <div>
+              <p class="eyebrow">The menu</p>
+              <h2 class="h2" id="menu-title">Share everything. Start with meze.</h2>
+            </div>
+            <p class="lead">Prices in dollars. <strong>Allergies?</strong> Tell us when you book. The kitchen can adapt most plates, and every dish is tagged below.</p>
+          </div>
+
+          <div class="start-here reveal">
+            <p class="start-label">New here? Start with these three</p>
+            <ul role="list">
+              {
+                signature.map((d) => (
+                  <li class="sig">
+                    <div class="sig-art" aria-hidden="true">
+                      <svg viewBox="0 0 200 140">
+                        <rect width="200" height="140" class="f-cream"></rect>
+                        {d.id === "adana" && (
+                          <g>
+                            <ellipse cx="100" cy="74" rx="86" ry="46" class="f-ayran s-line"></ellipse>
+                            <line x1="18" y1="80" x2="186" y2="60" class="s-steel thick"></line>
+                            <rect x="34" y="58" width="128" height="22" rx="11" class="f-pom-deep" transform="rotate(-6.8 100 70)"></rect>
+                            {[0, 1, 2, 3, 4, 5].map((i) => <line x1={46 + i * 20} y1={70 - i * 2.4} x2={52 + i * 20} y2={60 - i * 2.4} class="s-char"></line>)}
+                            <g class="f-pom">{[0, 1, 2, 3, 4].map((i) => <circle cx={52 + i * 22} cy={104 - (i % 2) * 4} r="5"></circle>)}</g>
+                            <path d="M150 92c10-4 20 2 24 10" class="s-leaf"></path>
+                            <path d="M40 98c8-6 18-4 22 2" class="s-leaf"></path>
+                          </g>
+                        )}
+                        {d.id === "ezme" && (
+                          <g>
+                            <ellipse cx="128" cy="78" rx="62" ry="46" class="f-saffron-soft"></ellipse>
+                            <path d="M84 52c20-16 70-16 88 4 10 30-4 50-44 52-38 0-52-22-44-56z" class="f-ayran s-line"></path>
+                            <ellipse cx="78" cy="78" rx="48" ry="40" class="f-iznik"></ellipse>
+                            <ellipse cx="78" cy="76" rx="38" ry="31" class="f-pom"></ellipse>
+                            <g class="f-ember">{[0, 1, 2, 3, 4, 5, 6].map((i) => <circle cx={60 + ((i * 13) % 38)} cy={64 + ((i * 11) % 26)} r="4"></circle>)}</g>
+                            <g class="f-leaf">{[0, 1, 2].map((i) => <ellipse cx={70 + i * 12} cy={70 + (i % 2) * 10} rx="4" ry="2"></ellipse>)}</g>
+                          </g>
+                        )}
+                        {d.id === "kunefe" && (
+                          <g>
+                            <circle cx="100" cy="70" r="56" class="f-char"></circle>
+                            <circle cx="100" cy="70" r="46" class="f-saffron"></circle>
+                            <g class="s-ember">{[0, 1, 2, 3, 4, 5, 6, 7].map((i) => <path d={`M${66 + i * 9} 42c6 10-6 18 0 28s-6 18 0 28`}></path>)}</g>
+                            <g class="f-leaf">{[0, 1, 2, 3, 4, 5].map((i) => <circle cx={86 + ((i * 9) % 30)} cy={58 + ((i * 7) % 24)} r="3"></circle>)}</g>
+                          </g>
+                        )}
+                      </svg>
+                    </div>
+                    <div class="sig-body">
+                      <h3>{d.name}</h3>
+                      <p>{d.text}</p>
+                    </div>
+                    <span class="coin" aria-label={`${d.price} dollars`}>{d.price}</span>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+
+          <div class="menu-ui" data-menu>
+            <div class="menu-controls">
+              <div class="tabs" role="tablist" aria-label="Menu sections" data-tabs>
+                {
+                  menu.map((m, i) => (
+                    <button type="button" role="tab" id={`tab-${m.id}`} aria-controls={`panel-${m.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} data-tab={m.id}>
+                      {m.label}
+                    </button>
+                  ))
+                }
+              </div>
+              <div class="filters" role="group" aria-label="Show only dishes that are">
+                {
+                  dietary.map((d) => (
+                    <button type="button" class="filter" aria-pressed="false" data-filter={d.id}>
+                      <Icon name={tagIcon[d.id]} size={16} />
+                      {d.label}
+                    </button>
+                  ))
+                }
+              </div>
+            </div>
+            <p class="sr-only" aria-live="polite" data-menu-status></p>
+
+            {
+              menu.map((m, i) => (
+                <div class="panel" role="tabpanel" id={`panel-${m.id}`} aria-labelledby={`tab-${m.id}`} data-panel={m.id} tabindex="0">
+                  <h3 class="panel-title">{m.label}</h3>
+                  <p class="panel-intro">{m.intro}</p>
+                  <ul class="dishes" role="list">
+                    {m.items.map((it, j) => (
+                      <li class="dish" data-tags={it.tags.join(" ")} style={`view-transition-name: d-${m.id}-${j}`}>
+                        <div class="dish-top">
+                          <h4>
+                            <span lang="tr">{it.tr}</span>
+                            <small>{it.en}</small>
+                          </h4>
+                          <span class="leader" aria-hidden="true"></span>
+                          <span class="price"><span class="sr-only">Price: </span>{it.price}</span>
+                        </div>
+                        <p>{it.text}</p>
+                        {it.tags.length > 0 && (
+                          <ul class="tags" role="list" aria-label="Dietary">
+                            {it.tags.map((t) => (
+                              <li class={`tag tag-${t}`}>
+                                <Icon name={tagIcon[t]} size={14} />
+                                {tagOf[t].label}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                  <p class="empty" hidden data-empty>
+                    Nothing in {m.label.toLowerCase()} matches all of those right now. Ask us: the kitchen can often adapt a dish.
+                  </p>
+                </div>
+              ))
+            }
+            <p class="menu-foot"><Icon name="phone" size={18} /><span>Pickup orders: call <a href={brand.phoneHref}>{brand.phone}</a> from 16:30. Ready in about 25 minutes.</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Kahvaltı -->
+      <section class="kahvalti" id="kahvalti" aria-labelledby="kahvalti-title">
+        <Tile id="tile-k" tone="blue" height={28} />
+        <div class="wrap kahvalti-grid">
+          <div class="reveal">
+            <p class="eyebrow">Weekend kahvaltı · Sat & Sun 10:00–15:00</p>
+            <h2 class="h2" id="kahvalti-title">A breakfast that covers the whole table.</h2>
+            <p class="lead">The Turkish way to spend a slow morning: thirty small plates, eggs in the pan and tea until someone has to leave.</p>
+            <p class="kahvalti-price"><strong>${kahvalti.price}</strong> per person · for {kahvalti.min} to {kahvalti.max} guests · kids under 10 half price</p>
+            <ul class="spread" role="list">
+              {kahvalti.spread.map((s) => <li><Icon name="check" size={18} />{s}</li>)}
+            </ul>
+            <a class="btn btn-saffron" href="#reserve" data-preset="weekend">Book weekend kahvaltı <Icon name="arrow" size={18} /></a>
+          </div>
+          <figure class="kahvalti-art reveal">
+            {
+              photos.kahvalti ? (
+                <img src={photos.kahvalti} alt="A table covered with small plates of a Turkish breakfast spread" width="900" height="900" loading="lazy" />
+              ) : (
+                <svg viewBox="0 0 400 400" aria-hidden="true">
+                  <rect width="400" height="400" class="f-ayran"></rect>
+                  <g class="cloth">{Array.from({ length: 11 }, (_, i) => <line x1={i * 40} y1="0" x2={i * 40} y2="400"></line>)}{Array.from({ length: 11 }, (_, i) => <line x1="0" y1={i * 40} x2="400" y2={i * 40}></line>)}</g>
+                  {
+                    [
+                      { x: 92, y: 88, r: 50, fill: "f-cream", dots: "f-sumac", n: 9 },
+                      { x: 212, y: 70, r: 38, fill: "f-cream", dots: "f-leaf", n: 7 },
+                      { x: 318, y: 104, r: 48, fill: "f-ayran", dots: "f-pom", n: 6 },
+                      { x: 120, y: 214, r: 44, fill: "f-saffron-soft", dots: "f-saffron", n: 1 },
+                      { x: 250, y: 200, r: 64, fill: "f-char", dots: "f-saffron", n: 3 },
+                      { x: 92, y: 324, r: 42, fill: "f-cream", dots: "f-pom", n: 1 },
+                      { x: 214, y: 330, r: 40, fill: "f-ayran", dots: "f-ash", n: 0 },
+                      { x: 330, y: 300, r: 46, fill: "f-cream", dots: "f-pom-deep", n: 5 },
+                    ].map((p, k) => (
+                      <g>
+                        <circle cx={p.x} cy={p.y} r={p.r + 6} class="f-plate"></circle>
+                        <circle cx={p.x} cy={p.y} r={p.r} class={p.fill}></circle>
+                        {p.n === 1 ? (
+                          <circle cx={p.x} cy={p.y} r={p.r * 0.55} class={p.dots}></circle>
+                        ) : p.n === 3 ? (
+                          [0, 1, 2].map((i) => <circle cx={p.x - 20 + i * 20} cy={p.y + (i % 2 ? -10 : 10)} r="15" class="f-saffron"></circle>)
+                        ) : (
+                          Array.from({ length: p.n }, (_, i) => (
+                            <circle cx={p.x + Math.cos(i * 2.4 + k) * p.r * 0.5} cy={p.y + Math.sin(i * 2.4 + k) * p.r * 0.5} r="7" class={p.dots}></circle>
+                          ))
+                        )}
+                      </g>
+                    ))
+                  }
+                  <g class="tea">
+                    <path d="M176 262h22l-3 26h-16z" class="f-pom-deep"></path>
+                    <path d="M300 222h22l-3 26h-16z" class="f-pom-deep"></path>
+                    <ellipse cx="187" cy="291" rx="15" ry="4" class="f-plate"></ellipse>
+                    <ellipse cx="311" cy="251" rx="15" ry="4" class="f-plate"></ellipse>
+                  </g>
+                </svg>
+              )
+            }
+          </figure>
+        </div>
+      </section>
+
+      <!-- The fire -->
+      <section class="fire" id="fire" aria-labelledby="fire-title">
+        <div class="fire-glow" aria-hidden="true">
+          {photos.coals && <img src={photos.coals} alt="" width="1600" height="900" loading="lazy" />}
+        </div>
+        <div class="wrap">
+          <div class="fire-intro reveal">
+            <p class="eyebrow">The fire</p>
+            <h2 class="h2" id="fire-title">One grill, lit every afternoon, tended all night.</h2>
+            <p class="lead">
+              Sumakara is built around a mangal: a long open charcoal grill like the ones on every street corner in
+              southeastern Turkey. No gas, no shortcuts. Just oak coals, a cook who watches them, and food that tastes
+              of the fire.
+            </p>
+          </div>
+          <ul class="facts" role="list">
+            {facts.map((f) => <li class="reveal"><p class="fact-n">{f.n}</p><h3>{f.label}</h3><p>{f.text}</p></li>)}
+          </ul>
+          <ul class="team" role="list">
+            {
+              team.map((p) => (
+                <li class="person reveal">
+                  <span class="avatar" aria-hidden="true">{p.initials}</span>
+                  <div>
+                    <h3>{p.name}</h3>
+                    <p class="role">{p.role}</p>
+                    <p>{p.note}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      <!-- Mangal nights -->
+      <section class="mangal" id="mangal-nights" aria-labelledby="mangal-title">
+        <div class="wrap">
+          <div class="section-head reveal">
+            <div>
+              <p class="eyebrow">Mangal nights · private dining</p>
+              <h2 class="h2" id="mangal-title">The long table is yours, for 8 to 24.</h2>
+            </div>
+            <p class="lead">Birthdays, team dinners, the night before a wedding. One long table next to the grill, a set menu, and a host who looks after nothing but your group.</p>
+          </div>
+          <div class="mangal-grid">
+            <div class="mangal-menus">
+              <div class="flames reveal" aria-hidden="true">
+                {
+                  photos.fire ? (
+                    <img src={photos.fire} alt="" width="1200" height="800" loading="lazy" />
+                  ) : (
+                    <svg viewBox="0 0 600 220" preserveAspectRatio="xMidYMax slice">
+                      <rect width="600" height="220" class="f-coal"></rect>
+                      {Array.from({ length: 9 }, (_, i) => (
+                        <path
+                          class={`flame ${["f-ember", "f-saffron", "f-pom"][i % 3]}`}
+                          style={`--d:${i * 0.31}s`}
+                          d={`M${i * 70 - 10} 220c-10-50 30-70 20-130 40 30 60 70 50 130z`}
+                        ></path>
+                      ))}
+                      <g class="table-line"><rect x="40" y="186" width="520" height="10" rx="5"></rect></g>
+                    </svg>
+                  )
+                }
+              </div>
+              <ul class="sets" role="list">
+                {
+                  setMenus.map((s) => (
+                    <li class:list={["set reveal", { featured: s.featured }]}>
+                      {s.featured && <span class="set-flag">Most booked</span>}
+                      <h3>{s.name}</h3>
+                      <p class="set-price"><strong>${s.price}</strong> per guest</p>
+                      <p>{s.text}</p>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
+
+            <div class="card inquiry" data-inquiry>
+              <form data-inquiry-form novalidate>
+                <h3>Ask about a mangal night</h3>
+                <p class="form-note">We reply within one working day with a proposal and a deposit link.</p>
+                <div class="field">
+                  <label for="q-name">Your name</label>
+                  <input id="q-name" name="name" autocomplete="name" required />
+                </div>
+                <div class="field-row">
+                  <div class="field">
+                    <label for="q-guests">Guests (8–24)</label>
+                    <input id="q-guests" name="guests" type="number" inputmode="numeric" min="8" max="24" value="12" required />
+                  </div>
+                  <div class="field">
+                    <label for="q-date">Preferred date</label>
+                    <input id="q-date" name="date" type="date" required />
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="q-menu">Set menu</label>
+                  <select id="q-menu" name="menu">
+                    {setMenus.map((s) => <option value={s.name} selected={s.featured}>{s.name} · ${s.price} per guest</option>)}
+                    <option value="Not sure yet">Not sure yet, help me choose</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="q-phone">Phone</label>
+                  <input id="q-phone" name="phone" type="tel" autocomplete="tel" required />
+                </div>
+                <div class="field">
+                  <label for="q-msg">What's the occasion? <span class="opt">(optional)</span></label>
+                  <textarea id="q-msg" name="msg" rows="3"></textarea>
+                </div>
+                <p class="form-error" role="alert" data-inquiry-error></p>
+                <button class="btn btn-pom" type="submit">Send inquiry <Icon name="arrow" size={18} /></button>
+              </form>
+              <div class="done" data-inquiry-done hidden tabindex="-1">
+                <span class="done-mark"><Icon name="check" size={28} /></span>
+                <h3>Inquiry received</h3>
+                <p data-inquiry-done-text></p>
+                <p class="demo-note">This is a concept site, so nothing was actually sent.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quotes -->
+      <section class="quotes" aria-labelledby="quotes-title">
+        <div class="wrap">
+          <h2 class="h2" id="quotes-title">Guests say</h2>
+          <ul class="quote-list" role="list">
+            {
+              quotes.map((q) => (
+                <li class="reveal">
+                  <blockquote>“{q.quote}”</blockquote>
+                  <p class="who"><strong>{q.name}</strong> · {q.detail}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </section>
+
+      <!-- Reserve -->
+      <section class="reserve" id="reserve" aria-labelledby="reserve-title">
+        <div class="wrap reserve-grid">
+          <div class="reserve-intro reveal">
+            <p class="eyebrow">Reserve</p>
+            <h2 class="h2" id="reserve-title">Book a table in under a minute.</h2>
+            <p class="lead">Tables for 1 to 8. We hold your table for 15 minutes. Running late? Call <a href={brand.phoneHref}>{brand.phone}</a>.</p>
+            <p class="lead small">9 or more guests? <a href="#mangal-nights">Plan a mangal night</a> instead.</p>
+          </div>
+
+          <div class="reserve-box" data-reserve>
+            <form class="reserve-form" data-reserve-form novalidate>
+              <fieldset>
+                <legend>Guests</legend>
+                <div class="chips party">
+                  {
+                    [1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+                      <label class="chip">
+                        <input type="radio" name="party" value={n} checked={n === 2} />
+                        <span>{n}</span>
+                      </label>
+                    ))
+                  }
+                  <a class="chip chip-link" href="#mangal-nights">9+</a>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Day</legend>
+                <div class="chips days" data-days>
+                  <noscript><p>Online booking needs JavaScript. Please call us on {brand.phone}.</p></noscript>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Time</legend>
+                <div data-times><p class="hint">Pick a day to see free times.</p></div>
+              </fieldset>
+              <div class="field-row">
+                <div class="field">
+                  <label for="r-name">Name</label>
+                  <input id="r-name" name="name" autocomplete="name" required />
+                </div>
+                <div class="field">
+                  <label for="r-phone">Phone <span class="opt">(optional)</span></label>
+                  <input id="r-phone" name="phone" type="tel" autocomplete="tel" />
+                </div>
+              </div>
+              <div class="field">
+                <label for="r-note">Allergies or a special occasion? <span class="opt">(optional)</span></label>
+                <input id="r-note" name="note" />
+              </div>
+              <p class="form-error" role="alert" data-reserve-error></p>
+              <button class="btn btn-pom" type="submit">Confirm the table <Icon name="arrow" size={18} /></button>
+            </form>
+
+            <aside class="slip" aria-label="Your reservation">
+              <p class="slip-head"><span>Sumakara</span><span>Adisyon Nº 0187</span></p>
+              <dl data-slip>
+                <div><dt>Guests</dt><dd data-slip-party>2</dd></div>
+                <div><dt>Day</dt><dd data-slip-day>—</dd></div>
+                <div><dt>Time</dt><dd data-slip-time>—</dd></div>
+                <div><dt>Name</dt><dd data-slip-name>—</dd></div>
+              </dl>
+              <p class="slip-total"><span>Total</span><span>one good evening</span></p>
+              <p class="slip-foot">Tea is on the house.</p>
+              <div class="slip-done" data-reserve-done hidden tabindex="-1">
+                <p class="stamp">Booked</p>
+                <p data-reserve-done-text></p>
+                <p class="demo-note">This is a concept site, so no table was actually booked.</p>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- Visit -->
+      <section class="visit" id="visit" aria-labelledby="visit-title">
+        <div class="wrap visit-grid">
+          <div class="reveal">
+            <p class="eyebrow">Visit</p>
+            <h2 class="h2" id="visit-title">Follow the smell of charcoal.</h2>
+            <address class="addr">
+              <Icon name="pin" />
+              <span>{brand.address[0]}<br />{brand.address[1]}<br /><a href={brand.phoneHref}>{brand.phone}</a></span>
+            </address>
+            <table class="hours-table">
+              <caption class="sr-only">Opening hours</caption>
+              <tbody>
+                {
+                  hours.map((h) => (
+                    <tr data-day={h.day}>
+                      <th scope="row">{h.label}</th>
+                      <td>{h.services.length ? fmtHours(h.services) : h.note}</td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+            <p class="small-note">Kitchen closes 30 minutes before we do.</p>
+          </div>
+          <div class="visit-side">
+            <div class="map reveal" role="img" aria-label="Illustrated map: Sumakara on Coalyard Lane, two minutes from Halvern Square station and next to the Coalyard garage">
+              <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+                <rect width="600" height="420" class="f-cream"></rect>
+                <g class="blocks">
+                  <rect x="30" y="30" width="170" height="120" rx="6"></rect>
+                  <rect x="250" y="30" width="140" height="120" rx="6"></rect>
+                  <rect x="440" y="30" width="140" height="160" rx="6"></rect>
+                  <rect x="30" y="200" width="170" height="190" rx="6"></rect>
+                  <rect x="440" y="240" width="140" height="150" rx="6"></rect>
+                </g>
+                <rect x="250" y="200" width="140" height="190" rx="6" class="f-iznik-soft"></rect>
+                <g class="streets">
+                  <path d="M0 175h600"></path>
+                  <path d="M225 0v420"></path>
+                  <path d="M415 0v420"></path>
+                </g>
+                <path d="M0 175h600" class="tram"></path>
+                <circle cx="320" cy="175" r="11" class="f-iznik"></circle>
+                <text x="320" y="180" text-anchor="middle" class="map-t on-dark">M</text>
+                <text x="260" y="225" class="map-t">Halvern Square</text>
+                <rect x="458" y="258" width="34" height="34" rx="4" class="f-iznik"></rect>
+                <text x="475" y="281" text-anchor="middle" class="map-t on-dark">P</text>
+                <text x="458" y="312" class="map-t small">Coalyard garage</text>
+                <text x="422" y="160" class="map-t small" transform="rotate(-90 422 160)">Coalyard Lane</text>
+                <g class="pin-bob">
+                  <path d="M415 300c0-18 13-30 28-30s28 12 28 30c0 22-28 46-28 46s-28-24-28-46z" class="f-pom" transform="translate(-28 -10)"></path>
+                  <circle cx="415" cy="290" r="8" class="f-saffron"></circle>
+                </g>
+                <text x="452" y="372" class="map-t pin-label">SUMAKARA</text>
+              </svg>
+            </div>
+            <ul class="visit-facts" role="list">
+              <li><Icon name="train" /><span><strong>Metro</strong>Halvern Square, Line 2, 2 min walk</span></li>
+              <li><Icon name="car" /><span><strong>Parking</strong>Coalyard garage next door, first 2 hours free after 18:00</span></li>
+              <li><Icon name="access" /><span><strong>Access</strong>Step-free entrance and accessible restroom</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQ -->
+      <section class="faq" aria-labelledby="faq-title">
+        <div class="wrap faq-grid">
+          <div class="reveal">
+            <p class="eyebrow">Questions</p>
+            <h2 class="h2" id="faq-title">Before you come.</h2>
+            <p class="lead">Anything else? Call us between 14:00 and 23:00. Bora picks up.</p>
+          </div>
+          <div class="faq-list">
+            {
+              faq.map((f) => (
+                <details>
+                  <summary>
+                    {f.q}
+                    <span class="pm" aria-hidden="true"><Icon name="plus" size={18} /></span>
+                  </summary>
+                  <p>{f.a}</p>
+                </details>
+              ))
+            }
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <Tile id="tile-f" tone="dark" height={40} />
+      <div class="wrap">
+        <div class="footer-grid">
+          <div>
+            <p class="footer-mark">Sumakara</p>
+            <p>{brand.line}</p>
+          </div>
+          <div>
+            <h2 class="footer-h">Find us</h2>
+            <p>{brand.address.join(", ")}<br /><a href={brand.phoneHref}>{brand.phone}</a></p>
+          </div>
+          <div>
+            <h2 class="footer-h">Hours</h2>
+            <p>Tue–Thu 17:00–22:30<br />Fri 17:00–23:30<br />Sat 10:00–15:00 & 17:00–23:30<br />Sun 10:00–15:00 · Mon closed</p>
+          </div>
+          <div>
+            <h2 class="footer-h">Explore</h2>
+            <ul role="list">
+              {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+              <li><a href="#reserve">Reserve</a></li>
+            </ul>
+          </div>
+        </div>
+        <p class="fictional">
+          © 2026 Sumakara is a fictional restaurant created as a design concept. Names, people, dishes, prices, address
+          and phone number are invented. Fonts: Anybody and Instrument Sans (SIL Open Font License). Illustrations made for this concept.{anyPhoto && " Photos: Unsplash."}{" "}
+          <a href="/">More concepts</a>
+        </p>
+      </div>
+    </footer>
+
+    <nav class="action-bar" aria-label="Quick actions">
+      <a href={brand.phoneHref}><Icon name="phone" size={20} />Call</a>
+      <a class="primary" href="#reserve"><Icon name="table" size={20} />Reserve</a>
+      <a href="#visit"><Icon name="route" size={20} />Directions</a>
+    </nav>
+  </div>
+</Base>
+
+<script>
+  import { hours } from "../../concepts/restaurant/content.js";
+
+  const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s);
+  const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => [...r.querySelectorAll<T>(s)];
+  const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
+  const dayName = new Intl.DateTimeFormat("en-US", { weekday: "long" });
+
+  // Header shadow
+  const header = $("[data-header]");
+  const onScroll = () => header?.classList.toggle("scrolled", window.scrollY > 8);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  // Mobile menu
+  const toggle = $<HTMLButtonElement>("[data-menu-toggle]");
+  const mobile = $("#mobile-menu");
+  const setMenu = (open: boolean) => {
+    if (!toggle || !mobile) return;
+    toggle.setAttribute("aria-expanded", String(open));
+    mobile.dataset.open = String(open);
+    $("[data-icon-open]", toggle)?.toggleAttribute("hidden", open);
+    $("[data-icon-close]", toggle)?.toggleAttribute("hidden", !open);
+  };
+  toggle?.addEventListener("click", () => setMenu(toggle.getAttribute("aria-expanded") !== "true"));
+  $$("[data-menu-link]").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", (e) => e.key === "Escape" && setMenu(false));
+
+  // Open-now status + today's hours
+  const now = new Date();
+  const today = hours.find((h) => h.day === now.getDay())!;
+  const mins = now.getHours() * 60 + now.getMinutes();
+  const openService = today.services.find(([a, b]) => mins >= toMin(a) && mins < toMin(b));
+  const nextService = today.services.find(([a]) => mins < toMin(a));
+  const pill = $("[data-open-pill]");
+  const pillText = $("[data-open-text]");
+  if (pill && pillText) {
+    if (openService) {
+      const kitchen = toMin(openService[1]) - 30;
+      pill.dataset.state = "open";
+      pillText.textContent = `Open now · kitchen closes ${String(Math.floor(kitchen / 60)).padStart(2, "0")}:${String(kitchen % 60).padStart(2, "0")}`;
+    } else if (nextService) {
+      pill.dataset.state = "soon";
+      pillText.textContent = `Opens today at ${nextService[0]}`;
+    } else {
+      pill.dataset.state = "closed";
+      pillText.textContent = "Closed now · see hours";
+    }
+  }
+  const todayLine = $("[data-today-line]");
+  if (todayLine) {
+    todayLine.textContent = today.services.length
+      ? `Today: ${today.services.map(([a, b, l]) => `${a}–${b}${l ? ` ${l.toLowerCase()}` : ""}`).join(" & ")}`
+      : "Closed today, back tomorrow from 17:00";
+  }
+  $(`.hours-table tr[data-day="${now.getDay()}"]`)?.classList.add("is-today");
+  const board = $("[data-board-date]");
+  if (board) board.textContent = `${dayName.format(now)}'s board · written at 16:00`;
+
+  // Menu: tabs + dietary filters
+  const menuRoot = $("[data-menu]");
+  if (menuRoot) {
+    menuRoot.dataset.js = "true";
+    const tabs = $$<HTMLButtonElement>("[data-tab]", menuRoot);
+    const panels = $$("[data-panel]", menuRoot);
+    const filters = $$<HTMLButtonElement>("[data-filter]", menuRoot);
+    const status = $("[data-menu-status]", menuRoot);
+    let active = tabs[0]?.dataset.tab ?? "";
+
+    const withTransition = (fn: () => void) => {
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const d = document as Document & { startViewTransition?: (cb: () => void) => unknown };
+      if (d.startViewTransition && !reduce) d.startViewTransition(fn);
+      else fn();
+    };
+
+    const render = () => {
+      const want = filters.filter((f) => f.getAttribute("aria-pressed") === "true").map((f) => f.dataset.filter!);
+      panels.forEach((p) => {
+        p.hidden = p.dataset.panel !== active;
+        let shown = 0;
+        const dishes = $$("[data-tags]", p);
+        dishes.forEach((d) => {
+          const tags = d.dataset.tags!.split(" ");
+          if (tags.includes("vegan")) tags.push("veg");
+          const ok = want.every((w) => tags.includes(w));
+          d.hidden = !ok;
+          if (ok) shown++;
+        });
+        const empty = $("[data-empty]", p);
+        if (empty) empty.hidden = shown > 0;
+        if (p.dataset.panel === active && status) {
+          const label = tabs.find((t) => t.dataset.tab === active)?.textContent?.trim();
+          status.textContent = `${label}: showing ${shown} of ${dishes.length} dishes`;
+        }
+      });
+      tabs.forEach((t) => {
+        const on = t.dataset.tab === active;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+    };
+
+    tabs.forEach((t, i) => {
+      t.addEventListener("click", () => withTransition(() => { active = t.dataset.tab!; render(); }));
+      t.addEventListener("keydown", (e) => {
+        const dir = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!dir) return;
+        e.preventDefault();
+        const next = tabs[(i + dir + tabs.length) % tabs.length];
+        next.focus();
+        next.click();
+      });
+    });
+    filters.forEach((f) =>
+      f.addEventListener("click", () =>
+        withTransition(() => {
+          f.setAttribute("aria-pressed", String(f.getAttribute("aria-pressed") !== "true"));
+          render();
+        }),
+      ),
+    );
+    render();
+  }
+
+  // Reservation widget (demo: nothing is sent)
+  const form = $<HTMLFormElement>("[data-reserve-form]");
+  const daysBox = $("[data-days]");
+  const timesBox = $("[data-times]");
+  const fmtShort = new Intl.DateTimeFormat("en-US", { weekday: "short" });
+  const fmtDate = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
+  const slotsFor = (day: number) => {
+    const h = hours.find((x) => x.day === day)!;
+    return h.services.map(([a, b, label]) => {
+      const out: string[] = [];
+      for (let m = toMin(a); m <= toMin(b) - 90; m += 30) out.push(`${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`);
+      return { label: label ?? "Dinner", slots: out };
+    });
+  };
+  // deterministic "fully booked" slots so the widget feels real
+  const isFull = (dateKey: string, t: string) => [...(dateKey + t)].reduce((s, c) => s + c.charCodeAt(0), 0) % 7 === 0;
+
+  if (daysBox) {
+    for (let i = 0; i < 14; i++) {
+      const d = new Date(now);
+      d.setDate(now.getDate() + i);
+      const closed = d.getDay() === 1;
+      const id = `rd-${i}`;
+      const label = i === 0 ? "Today" : i === 1 ? "Tomorrow" : fmtShort.format(d);
+      const wrap = document.createElement("label");
+      wrap.className = "chip day";
+      wrap.innerHTML = `<input type="radio" name="day" id="${id}" value="${d.toISOString().slice(0, 10)}" data-dow="${d.getDay()}" data-label="${dayName.format(d)}, ${fmtDate.format(d)}" ${closed ? "disabled" : ""}><span>${label}<small>${closed ? "Closed" : fmtDate.format(d)}</small></span>`;
+      daysBox.appendChild(wrap);
+    }
+  }
+
+  const checked = (name: string) => form?.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`) ?? null;
+
+  const renderTimes = () => {
+    const day = checked("day");
+    if (!timesBox || !day) return;
+    const groups = slotsFor(Number(day.dataset.dow));
+    timesBox.innerHTML = groups
+      .map(
+        (g) =>
+          `<p class="slot-group">${g.label}</p><div class="chips">${g.slots
+            .map((t) => {
+              const full = isFull(day.value, t);
+              const id = `rt-${t.replace(":", "")}`;
+              return `<label class="chip time${full ? " full" : ""}"><input type="radio" name="time" id="${id}" value="${t}" ${full ? "disabled" : ""}><span>${t}${full ? "<small>Full</small>" : ""}</span></label>`;
+            })
+            .join("")}</div>`,
+      )
+      .join("");
+  };
+
+  const slip = {
+    party: $("[data-slip-party]"),
+    day: $("[data-slip-day]"),
+    time: $("[data-slip-time]"),
+    name: $("[data-slip-name]"),
+  };
+  const errorBox = $("[data-reserve-error]");
+  const updateSlip = () => {
+    const party = checked("party")?.value ?? "";
+    const day = checked("day");
+    const time = checked("time")?.value ?? "";
+    const name = form?.querySelector<HTMLInputElement>("#r-name")?.value.trim() ?? "";
+    if (slip.party) slip.party.textContent = party ? `${party} ${party === "1" ? "guest" : "guests"}` : "—";
+    if (slip.day) slip.day.textContent = day?.dataset.label ?? "—";
+    if (slip.time) slip.time.textContent = time || "—";
+    if (slip.name) slip.name.textContent = name || "—";
+    if (errorBox) errorBox.textContent = "";
+  };
+
+  form?.addEventListener("change", (e) => {
+    if ((e.target as HTMLInputElement).name === "day") renderTimes();
+    updateSlip();
+  });
+  form?.addEventListener("input", updateSlip);
+
+  // "Book weekend kahvaltı" preselects the next Saturday
+  $$("[data-preset='weekend']").forEach((a) =>
+    a.addEventListener("click", () => {
+      const sat = $$<HTMLInputElement>('input[name="day"]').find((i) => i.dataset.dow === "6");
+      if (sat) {
+        sat.checked = true;
+        renderTimes();
+        updateSlip();
+      }
+    }),
+  );
+
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const day = checked("day");
+    const time = checked("time")?.value;
+    const name = form.querySelector<HTMLInputElement>("#r-name")?.value.trim();
+    const missing = [!day && "a day", !time && "a time", !name && "your name"].filter(Boolean) as string[];
+    if (missing.length) {
+      if (errorBox) errorBox.textContent = `Please choose ${missing.join(", ").replace(/, ([^,]*)$/, " and $1")}.`;
+      return;
+    }
+    const done = $("[data-reserve-done]");
+    const text = $("[data-reserve-done-text]");
+    if (done && text) {
+      const party = checked("party")?.value;
+      text.textContent = `Table for ${party} at ${time} on ${day!.dataset.label}. See you by the fire, ${name}.`;
+      done.hidden = false;
+      form.inert = true;
+      form.classList.add("is-booked");
+      done.focus();
+    }
+  });
+
+  // Mangal nights inquiry (demo)
+  const qForm = $<HTMLFormElement>("[data-inquiry-form]");
+  const qDate = $<HTMLInputElement>("#q-date");
+  if (qDate) {
+    const min = new Date(now);
+    min.setDate(now.getDate() + 7);
+    qDate.min = min.toISOString().slice(0, 10);
+  }
+  qForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = new FormData(qForm);
+    const guests = Number(data.get("guests"));
+    const err = $("[data-inquiry-error]");
+    const missing: string[] = [];
+    if (!String(data.get("name")).trim()) missing.push("your name");
+    if (!(guests >= 8 && guests <= 24)) missing.push("a group size between 8 and 24");
+    if (!data.get("date")) missing.push("a date");
+    if (!String(data.get("phone")).trim()) missing.push("a phone number");
+    if (missing.length) {
+      if (err) err.textContent = `Please add ${missing.join(", ").replace(/, ([^,]*)$/, " and $1")}.`;
+      return;
+    }
+    const done = $("[data-inquiry-done]");
+    const text = $("[data-inquiry-done-text]");
+    if (done && text) {
+      const date = new Date(String(data.get("date")) + "T12:00");
+      text.textContent = `${guests} guests, ${data.get("menu")} menu, ${dayName.format(date)} ${fmtDate.format(date)}. Bora will call you within one working day.`;
+      qForm.hidden = true;
+      done.hidden = false;
+      done.focus();
+    }
+  });
+</script>

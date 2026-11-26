@@ -7,4 +7,4 @@
 | Photos (optional, see PHOTOS.md) | Unsplash | Unsplash License |
 
 No template used. Tile pattern, embers, dish illustrations and map are custom SVG made for this concept.
-Build: add any icon set or other asset here before using it.
+Build (2026-11-26): no further external assets. Icons (`src/concepts/restaurant/Icon.astro`), the 8-point star tile (`Tile.astro`) and all illustrations were drawn for this concept. Fonts are credited in the footer.

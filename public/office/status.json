@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-26T11:46:52.977Z",
+  "updatedAt": "2026-11-26T11:58:02.232Z",
   "current": "restaurant",
   "agents": {
     "research": {
@@ -10,11 +10,11 @@
       "finishedAt": "2026-11-26T06:49:49.823Z"
     },
     "build": {
-      "state": "working",
+      "state": "done",
       "concept": "restaurant",
-      "message": "Building Sumakara",
+      "message": "Sumakara built: HTML menu with dietary filters, reservation widget with adisyon slip, mangal nights inquiry, kahvaltı, visit/FAQ",
       "startedAt": "2026-11-26T11:46:52.977Z",
-      "finishedAt": null
+      "finishedAt": "2026-11-26T11:58:02.232Z"
     },
     "qa": {
       "state": "done",
@@ -25,6 +25,13 @@
     }
   },
   "log": [
+    {
+      "at": "2026-11-26T11:58:02.232Z",
+      "agent": "build",
+      "state": "done",
+      "concept": "restaurant",
+      "message": "Sumakara built: HTML menu with dietary filters, reservation widget with adisyon slip, mangal nights inquiry, kahvaltı, visit/FAQ"
+    },
     {
       "at": "2026-11-26T11:46:52.977Z",
       "agent": "build",
