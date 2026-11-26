@@ -11,7 +11,7 @@ export const concepts = [
     brand: "Sumakara",
     sector: "Restaurant / café",
     summary: "Anatolian charcoal grill & meze house: HTML menu with dietary filters, reservations and private dining.",
-    status: "draft",
+    status: "ready",
     date: "2026-11-26",
   },
   {
