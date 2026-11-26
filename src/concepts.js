@@ -7,6 +7,14 @@
 
 export const concepts = [
   {
+    slug: "restaurant",
+    brand: "Sumakara",
+    sector: "Restaurant / café",
+    summary: "Anatolian charcoal grill & meze house: HTML menu with dietary filters, reservations and private dining.",
+    status: "draft",
+    date: "2026-11-26",
+  },
+  {
     slug: "dental-clinic",
     brand: "Tessaly Dental Studio",
     sector: "Dental clinic",

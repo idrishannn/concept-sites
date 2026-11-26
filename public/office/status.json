@@ -1,13 +1,13 @@
 {
-  "updatedAt": "2026-11-26T06:46:17.973Z",
+  "updatedAt": "2026-11-26T06:49:49.823Z",
   "current": "restaurant",
   "agents": {
     "research": {
-      "state": "working",
+      "state": "done",
       "concept": "restaurant",
-      "message": "Researching Restaurant / café",
+      "message": "Brief for Sumakara (Anatolian grill & meze) written",
       "startedAt": "2026-11-26T06:46:17.973Z",
-      "finishedAt": null
+      "finishedAt": "2026-11-26T06:49:49.823Z"
     },
     "build": {
       "state": "done",
@@ -25,6 +25,13 @@
     }
   },
   "log": [
+    {
+      "at": "2026-11-26T06:49:49.823Z",
+      "agent": "research",
+      "state": "done",
+      "concept": "restaurant",
+      "message": "Brief for Sumakara (Anatolian grill & meze) written"
+    },
     {
       "at": "2026-11-26T06:46:17.973Z",
       "agent": "research",

@@ -10,7 +10,7 @@ Idrishan can edit this list at any time: move lines, add sectors, or delete them
 - [x] Biotech startup → Lumora Bio (external, 2026-11-21)
 - [x] Video editor portfolio → Mara Lind (external, 2026-11-20)
 - [x] Dental clinic → `dental-clinic` (2026-11-25, manual test run)
-- [ ] Restaurant / café (menu, hours, reservations)
+- [x] Restaurant / café → `restaurant` (2026-11-26)
 - [ ] Real estate agent (listings, search, valuation request)
 - [ ] Law firm (practice areas, attorneys, consultation request)
 - [ ] Personal trainer / fitness studio (programs, pricing, booking)
