@@ -1,13 +1,13 @@
 {
-  "updatedAt": "2026-11-25T20:06:36.580Z",
-  "current": "dental-clinic",
+  "updatedAt": "2026-11-26T06:46:17.973Z",
+  "current": "restaurant",
   "agents": {
     "research": {
-      "state": "done",
-      "concept": "dental-clinic",
-      "message": "Brief for Tessaly Dental Studio (manual test run)",
-      "startedAt": null,
-      "finishedAt": "2026-11-25T20:06:36.307Z"
+      "state": "working",
+      "concept": "restaurant",
+      "message": "Researching Restaurant / café",
+      "startedAt": "2026-11-26T06:46:17.973Z",
+      "finishedAt": null
     },
     "build": {
       "state": "done",
@@ -25,6 +25,13 @@
     }
   },
   "log": [
+    {
+      "at": "2026-11-26T06:46:17.973Z",
+      "agent": "research",
+      "state": "working",
+      "concept": "restaurant",
+      "message": "Researching Restaurant / café"
+    },
     {
       "at": "2026-11-25T20:06:36.580Z",
       "agent": "qa",
