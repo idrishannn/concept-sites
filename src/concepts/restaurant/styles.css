@@ -896,7 +896,7 @@
 .c-sumakara .dish {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr) auto auto auto;
+  grid-template-columns: 4.5rem minmax(0, 1fr) minmax(0, 1.2fr) auto auto auto;
   align-items: center;
   gap: 0.5rem 1.5rem;
   padding: 1.15rem 0.75rem;
@@ -906,6 +906,24 @@
 }
 .c-sumakara .dish:hover {
   background: rgb(246 236 228 / 0.05);
+}
+.c-sumakara .thumb {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 14px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s var(--ease-out), border-radius 0.5s var(--ease-out);
+}
+.c-sumakara .thumb-empty {
+  background:
+    radial-gradient(circle at 35% 35%, rgb(240 168 48 / 0.35), transparent 60%),
+    rgb(246 236 228 / 0.06);
+  border: 1px dashed rgb(246 236 228 / 0.18);
+}
+.c-sumakara .dish:hover .thumb {
+  transform: scale(1.08) rotate(-2deg);
+  border-radius: 50%;
 }
 .c-sumakara .dish-name h4 {
   margin: 0;
@@ -1961,14 +1979,16 @@
     scroll-margin-top: 12rem;
   }
   .c-sumakara .dish {
-    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-columns: 4rem minmax(0, 1fr) auto auto;
     grid-template-areas:
-      "name price add"
-      "desc desc desc"
-      "diet diet diet";
+      "thumb name price add"
+      "thumb desc desc desc"
+      "thumb diet diet diet";
+    align-items: start;
     gap: 0.35rem 1rem;
     padding-inline: 0;
   }
+  .c-sumakara .dish .thumb { grid-area: thumb; width: 4rem; height: 4rem; }
   .c-sumakara .dish-name { grid-area: name; }
   .c-sumakara .dish .desc { grid-area: desc; }
   .c-sumakara .diet { grid-area: diet; justify-content: flex-start; }

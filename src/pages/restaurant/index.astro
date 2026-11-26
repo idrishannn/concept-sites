@@ -32,6 +32,10 @@ const photo = (name: string) => (existsSync(`public/photos/restaurant/${name}.jp
 const photoNames = ["hero", "coals", "fire", "kahvalti", "plate-adana", "plate-ezme", "plate-kunefe", "cat-meze", "cat-mangal", "cat-pide", "cat-sweets", "cat-drinks"];
 const photos: Record<string, string | null> = Object.fromEntries(photoNames.map((n) => [n, photo(n)]));
 const anyPhoto = Object.values(photos).some(Boolean);
+const dishPhoto = (slug?: string) =>
+  slug && existsSync(`public/photos/restaurant/dishes/${slug}.jpg`)
+    ? { lg: `/photos/restaurant/dishes/${slug}.jpg`, sm: `/photos/restaurant/dishes/${slug}-sm.jpg` }
+    : null;
 
 const tagLabel = Object.fromEntries(dietary.map((d) => [d.id, d.label]));
 const tagIcon: Record<string, string> = { veg: "leaf", vegan: "sprout", gf: "wheat", spicy: "flame" };
@@ -256,8 +260,11 @@ const embers = Array.from({ length: 16 }, (_, i) => ({
                   <p>{m.intro}</p>
                 </header>
                 <ul class="dishes">
-                  {m.items.map((it, j) => (
-                    <li class="dish" data-tags={it.tags.join(" ")} data-preview={photos[`cat-${m.id}`] ?? ""} style={`view-transition-name:dish-${m.id}-${j}`}>
+                  {m.items.map((it, j) => {
+                    const ph = dishPhoto(it.photo);
+                    return (
+                    <li class:list={["dish", { "has-thumb": ph }]} data-tags={it.tags.join(" ")} data-preview={ph?.lg ?? photos[`cat-${m.id}`] ?? ""} style={`view-transition-name:dish-${m.id}-${j}`}>
+                      {ph ? <img class="thumb" src={ph.sm} alt="" width="200" height="200" loading="lazy" decoding="async" /> : <span class="thumb thumb-empty" aria-hidden="true" />}
                       <div class="dish-name">
                         <h4 lang="tr">{it.tr}</h4>
                         <span class="en">{it.en}</span>
@@ -271,12 +278,13 @@ const embers = Array.from({ length: 16 }, (_, i) => ({
                           </li>
                         ))}
                       </ul>
-                      <span class="dish-price" aria-label={`${it.price} dollars`}>{it.price}</span>
+                      <span class="dish-price" aria-label={it.price === "0" ? "Free" : `${it.price} dollars`}>{it.price === "0" ? "Free" : it.price}</span>
                       <button type="button" class="add" data-add data-name={it.tr} data-price={it.price} data-cat={m.id} aria-label={`Add ${it.tr} to your sofra`}>
                         <Icon name="plus" size={18} />
                       </button>
                     </li>
-                  ))}
+                    );
+                  })}
                 </ul>
                 <p class="no-match" hidden data-no-match>Nothing in this section matches your filters.</p>
               </section>
