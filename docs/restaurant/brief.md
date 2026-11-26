@@ -121,12 +121,12 @@ Fraunces + Geist).
 ## Photos
 Optional; the page must look complete with SVG/CSS placeholders. See `PHOTOS.md`.
 
-## Layout fingerprint (added after build, for comparison)
-- hero: full-width color block with giant wordmark, photo/illustration card right
-- nav: compact bar with live "open now" status + Reserve button
-- sections: small-caps eyebrow, big heading left, lead paragraph right (too close to dental-clinic)
-- grid: centered wrap; 3-card rows; tabbed text menu
-- background: cream with full-bleed red, blue and near-black bands
-- signature: "Tonight from the coals" specials board; receipt-style reservation summary
+## Layout fingerprint (v2, redesign 2026-11-26)
+- hero: full-viewport photo with scroll-driven zoom, rising embers, giant width-axis wordmark at the bottom
+- nav: transparent over the hero, turns solid after it; floating "Reserve" pill after the hero
+- sections: numbered chapters (01–06) with big chapter numerals, no eyebrow + lead-right pattern
+- grid: split-screen with sticky photo (fire), sticky menu index + filters, horizontal snap rails
+- background: coal and ayran alternating with full-bleed iznik blue and photo bands
+- signature: scroll-zoom hero + marquee ticker; adisyon-style live booking receipt
 - palette: pomegranate red, coal, saffron, Iznik blue
-- type: Anybody + Instrument Sans
+- type: Anybody (width axis animated) + Instrument Sans

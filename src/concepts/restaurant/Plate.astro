@@ -1,0 +1,67 @@
+---
+// Flat illustrations of the three signature plates, drawn for this concept.
+interface Props {
+  id: "adana" | "ezme" | "kunefe";
+}
+const { id } = Astro.props;
+---
+
+<svg viewBox="0 0 200 140" aria-hidden="true" focusable="false" class="plate-svg">
+  {
+    id === "adana" && (
+      <g>
+        <ellipse cx="100" cy="74" rx="86" ry="46" class="f-ayran s-line" />
+        <line x1="18" y1="80" x2="186" y2="60" class="s-steel thick" />
+        <rect x="34" y="58" width="128" height="22" rx="11" class="f-pom-deep" transform="rotate(-6.8 100 70)" />
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <line x1={46 + i * 20} y1={70 - i * 2.4} x2={52 + i * 20} y2={60 - i * 2.4} class="s-char" />
+        ))}
+        <g class="f-pom">
+          {[0, 1, 2, 3, 4].map((i) => (
+            <circle cx={52 + i * 22} cy={104 - (i % 2) * 4} r="5" />
+          ))}
+        </g>
+        <path d="M150 92c10-4 20 2 24 10" class="s-leaf" />
+        <path d="M40 98c8-6 18-4 22 2" class="s-leaf" />
+      </g>
+    )
+  }
+  {
+    id === "ezme" && (
+      <g>
+        <ellipse cx="128" cy="78" rx="62" ry="46" class="f-saffron-soft" />
+        <path d="M84 52c20-16 70-16 88 4 10 30-4 50-44 52-38 0-52-22-44-56z" class="f-ayran s-line" />
+        <ellipse cx="78" cy="78" rx="48" ry="40" class="f-iznik" />
+        <ellipse cx="78" cy="76" rx="38" ry="31" class="f-pom" />
+        <g class="f-ember">
+          {[0, 1, 2, 3, 4, 5, 6].map((i) => (
+            <circle cx={60 + ((i * 13) % 38)} cy={64 + ((i * 11) % 26)} r="4" />
+          ))}
+        </g>
+        <g class="f-leaf">
+          {[0, 1, 2].map((i) => (
+            <ellipse cx={70 + i * 12} cy={70 + (i % 2) * 10} rx="4" ry="2" />
+          ))}
+        </g>
+      </g>
+    )
+  }
+  {
+    id === "kunefe" && (
+      <g>
+        <circle cx="100" cy="70" r="56" class="f-char" />
+        <circle cx="100" cy="70" r="46" class="f-saffron" />
+        <g class="s-ember">
+          {[0, 1, 2, 3, 4, 5, 6, 7].map((i) => (
+            <path d={`M${66 + i * 9} 42c6 10-6 18 0 28s-6 18 0 28`} />
+          ))}
+        </g>
+        <g class="f-leaf">
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <circle cx={86 + ((i * 9) % 30)} cy={58 + ((i * 7) % 24)} r="3" />
+          ))}
+        </g>
+      </g>
+    )
+  }
+</svg>

@@ -5,6 +5,7 @@ import { existsSync } from "node:fs";
 import Base from "../../layouts/Base.astro";
 import Icon from "../../concepts/restaurant/Icon.astro";
 import Tile from "../../concepts/restaurant/Tile.astro";
+import Plate from "../../concepts/restaurant/Plate.astro";
 import "../../concepts/restaurant/styles.css";
 import {
   brand,
@@ -31,25 +32,33 @@ const photo = (name: string) => (existsSync(`public/photos/restaurant/${name}.jp
 const photos = { hero: photo("hero"), coals: photo("coals"), fire: photo("fire"), kahvalti: photo("kahvalti") };
 const anyPhoto = Object.values(photos).some(Boolean);
 
-const tagOf = Object.fromEntries(dietary.map((d) => [d.id, d]));
+const tagLabel = Object.fromEntries(dietary.map((d) => [d.id, d.label]));
 const tagIcon: Record<string, string> = { veg: "leaf", vegan: "sprout", gf: "wheat", spicy: "flame" };
 const fmtHours = (s: string[][]) => s.map(([a, b, label]) => `${a}–${b}${label ? ` (${label})` : ""}`).join(" · ");
+const tickerWords = ["Meze", "Mangal", "Kahvaltı", "Lavaş from the coals", "Rakı", "Künefe", "Tea is on us"];
+const embers = Array.from({ length: 16 }, (_, i) => ({
+  left: (i * 37) % 100,
+  s: 2 + (i % 4),
+  d: 7 + ((i * 5) % 7),
+  delay: -((i * 1.3) % 9),
+  x: ((i % 2 ? 1 : -1) * (20 + ((i * 13) % 50))),
+}));
 ---
 
-<Base {title} {description} ogImage="/og/restaurant.png" themeColor="#B4232A">
+<Base {title} {description} ogImage="/og/restaurant.png" themeColor="#170a0b">
   <div class="c-sumakara">
     <header class="site-header" data-header>
-      <div class="wrap header-inner">
-        <a href="#top" class="logo" aria-label="Sumakara, back to top">
-          <svg class="logo-mark" width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+      <div class="pad header-inner">
+        <a href="#top" class="logo">
+          <svg width="28" height="28" viewBox="0 0 30 30" aria-hidden="true">
             <rect class="f-pom" x="5" y="5" width="20" height="20" rx="2"></rect>
             <rect class="f-pom" x="5" y="5" width="20" height="20" rx="2" transform="rotate(45 15 15)"></rect>
             <circle class="f-saffron" cx="15" cy="15" r="4.2"></circle>
           </svg>
-          <span>Sumakara</span>
+          Sumakara
         </a>
         <nav class="main-nav" aria-label="Main">
-          <ul>{nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}</ul>
+          <ul>{nav.map((n) => <li><a href={n.href} data-nav-link>{n.label}</a></li>)}</ul>
         </nav>
         <p class="open-pill" data-open-pill><span class="dot" aria-hidden="true"></span><span data-open-text>Tue–Sun · see hours</span></p>
         <a class="btn btn-pom header-cta" href="#reserve">Reserve</a>
@@ -60,116 +69,84 @@ const fmtHours = (s: string[][]) => s.map(([a, b, label]) => `${a}–${b}${label
         </button>
       </div>
       <div class="mobile-menu" id="mobile-menu" data-open="false">
-        <ul>{nav.map((n) => <li><a href={n.href} data-menu-link>{n.label}</a></li>)}</ul>
-        <a class="btn btn-pom" href="#reserve" data-menu-link>Reserve a table</a>
+        <nav aria-label="Mobile">
+          {nav.map((n) => <a class="big" href={n.href} data-menu-link>{n.label}</a>)}
+        </nav>
+        <a class="btn btn-fire" href="#reserve" data-menu-link>Reserve a table</a>
+        <a class="btn btn-line" href={brand.phoneHref}><Icon name="phone" size={18} />{brand.phone}</a>
       </div>
     </header>
 
     <main id="main">
-      <span id="top"></span>
+      <!-- HERO -->
+      <section class="hero" id="top" aria-labelledby="hero-title">
+        <div class="hero-media" aria-hidden="true">
+          {photos.hero ? <img src={photos.hero} alt="" width="1066" height="1600" fetchpriority="high" /> : <div class="ph"></div>}
+        </div>
+        <div class="embers" aria-hidden="true">
+          {embers.map((e) => <i style={`left:${e.left}%;--s:${e.s}px;--d:${e.d}s;--delay:${e.delay}s;--x:${e.x}px`}></i>)}
+        </div>
+        <span class="scroll-cue" aria-hidden="true">Scroll · the coals are lit</span>
 
-      <!-- Hero -->
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="embers" aria-hidden="true">{Array.from({ length: 8 }, (_, i) => <span style={`--i:${i}`}></span>)}</div>
-        <div class="wrap">
-          <p class="hero-kicker">Meze · Mangal · Kahvaltı<span class="kicker-place"> <span aria-hidden="true">—</span> Halvern Square</span></p>
-          <h1 id="hero-title" class="wordmark">
-            <span class="wordmark-text"><span>Suma</span><span>kara</span></span><span class="sr-only">: Anatolian charcoal grill and meze</span>
-          </h1>
-          <div class="hero-row">
-            <div class="hero-copy">
-              <p class="hero-line">Anatolian charcoal grill &amp; meze. <strong>Everything touches the fire.</strong></p>
-              <p class="hero-sub">Small plates to share, skewers off a two-meter oak-charcoal mangal, and a weekend breakfast table that takes all morning.</p>
-              <div class="hero-ctas">
-                <a class="btn btn-saffron" href="#reserve">Reserve a table <Icon name="arrow" size={18} /></a>
-                <a class="btn btn-line" href="#menu">See the menu</a>
-              </div>
-              <p class="hero-today"><Icon name="clock" size={18} /><span data-today-line>Tue–Fri from 17:00 · Sat & Sun kahvaltı from 10:00</span></p>
-              <p class="hero-today"><Icon name="table" size={18} />Walk-ins welcome at the bar</p>
+        <div class="pad hero-copy">
+          <div>
+            <p class="hero-kicker">Meze · Mangal · Kahvaltı — Halvern Square</p>
+            <p class="hero-lede">Anatolian charcoal grill and meze. Small plates to share, skewers off a two-meter oak-charcoal mangal.</p>
+            <div class="hero-actions">
+              <a class="btn btn-fire" href="#reserve">Reserve a table <Icon name="arrow" size={18} /></a>
+              <a class="btn btn-line" href="#menu">See the menu</a>
             </div>
-            <figure class="hero-art">
-              {
-                photos.hero ? (
-                  <img src={photos.hero} alt="Skewers of meat grilling over glowing charcoal" width="800" height="1000" loading="eager" />
-                ) : (
-                  <svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-                    <defs>
-                      <linearGradient id="h-sky" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0" style="stop-color:var(--char)"></stop>
-                        <stop offset="1" style="stop-color:var(--coal)"></stop>
-                      </linearGradient>
-                      <radialGradient id="h-glow" cx="50%" cy="100%" r="75%">
-                        <stop offset="0" style="stop-color:var(--saffron)"></stop>
-                        <stop offset=".35" style="stop-color:var(--ember)"></stop>
-                        <stop offset="1" style="stop-color:var(--ember);stop-opacity:0"></stop>
-                      </radialGradient>
-                    </defs>
-                    <rect width="400" height="480" fill="url(#h-sky)"></rect>
-                    <ellipse class="glow" cx="200" cy="470" rx="320" ry="230" fill="url(#h-glow)"></ellipse>
-                    <g class="smoke">
-                      <path d="M120 230c-20-40 30-60 10-100s20-60 0-100"></path>
-                      <path d="M250 220c-20-40 30-60 10-100s20-60 0-100"></path>
-                      <path d="M320 240c-14-30 20-44 6-74"></path>
-                    </g>
-                    {
-                      [
-                        { y: 268, kind: "lamb" },
-                        { y: 318, kind: "veg" },
-                        { y: 368, kind: "adana" },
-                      ].map((s, k) => (
-                        <g class="skewer" style={`--k:${k}`}>
-                          <line x1="20" y1={s.y} x2="390" y2={s.y - 12} class="s-steel"></line>
-                          <circle cx="388" cy={s.y - 12} r="6" class="f-saffron"></circle>
-                          {s.kind === "adana" ? (
-                            <rect x="70" y={s.y - 18} width="260" height="26" rx="13" class="f-pom-deep" transform={`rotate(-1.9 200 ${s.y})`}></rect>
-                          ) : (
-                            Array.from({ length: 7 }, (_, j) => (
-                              <rect
-                                x={62 + j * 40}
-                                y={s.y - 18 - j * 1.3}
-                                width="30"
-                                height="30"
-                                rx="7"
-                                class={s.kind === "veg" ? ["f-saffron", "f-pom", "f-leaf"][j % 3] : j % 2 ? "f-pom-deep" : "f-char-meat"}
-                              ></rect>
-                            ))
-                          )}
-                        </g>
-                      ))
-                    }
-                    <g class="grate">{Array.from({ length: 13 }, (_, i) => <line x1={i * 32 + 8} y1="400" x2={i * 32 + 8} y2="480"></line>)}</g>
-                    <g class="coals">
-                      {Array.from({ length: 16 }, (_, i) => (
-                        <ellipse cx={(i * 53) % 400} cy={440 + ((i * 17) % 36)} rx={20 + ((i * 7) % 12)} ry="12" class={i % 3 ? "f-coal" : "f-ember"}></ellipse>
-                      ))}
-                    </g>
-                  </svg>
-                )
-              }
-              <figcaption><span>Fire lit</span> 16:00 daily</figcaption>
-            </figure>
+          </div>
+          <div class="today" data-today>
+            <span>Today</span>
+            <strong data-today-hours>17:00–22:30</strong>
+            <span>Walk-ins welcome at the bar</span>
           </div>
         </div>
-        <div class="skewer-rule" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <h1 id="hero-title" class="wordmark" aria-label="Sumakara, Anatolian charcoal grill and meze">Sumakara</h1>
       </section>
 
-      <!-- Specials -->
-      <section class="specials" aria-labelledby="specials-title">
-        <div class="wrap">
-          <div class="specials-head">
-            <h2 class="h2" id="specials-title">Tonight from the coals</h2>
-            <p data-board-date>Written on the board at 16:00</p>
+      <!-- TICKER -->
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          {[0, 1].map(() => <ul>{tickerWords.map((w) => <li>{w}</li>)}</ul>)}
+        </div>
+      </div>
+
+      <!-- 01 FIRE -->
+      <section class="chapter fire" id="fire" aria-labelledby="fire-title">
+        <figure class="fire-media">
+          {photos.coals ? <img src={photos.coals} alt="Glowing oak charcoal in the mangal" width="1280" height="1600" loading="lazy" /> : <div class="ph" aria-hidden="true"></div>}
+          <figcaption>Oak charcoal · lit at 16:00</figcaption>
+        </figure>
+        <div class="fire-content">
+          <div class="reveal">
+            <p class="chapter-mark"><b>01</b> The fire</p>
+            <h2 class="chapter-title" id="fire-title" style="margin-top:1.25rem">One grill. Lit every afternoon, tended all night.</h2>
+            <p class="body">
+              Sumakara is built around a mangal: a long open charcoal grill like the ones on every street corner in
+              southeastern Turkey. No gas, no shortcuts. Just oak coals, a cook who watches them, and food that tastes of the fire.
+            </p>
           </div>
-          <ul class="specials-list" role="list">
+          {
+            facts.map((f) => (
+              <div class="fact reveal">
+                <span class="n">{f.n}</span>
+                <h3>{f.label}</h3>
+                <p>{f.text}</p>
+              </div>
+            ))
+          }
+          <ul class="hands reveal" aria-label="The people at the fire">
             {
-              specials.map((s) => (
-                <li class="special reveal">
-                  <h3>{s.name}</h3>
-                  <p>{s.text}</p>
-                  <p class="special-foot">
-                    <span>{s.note}</span>
-                    <span class="coin" aria-label={`${s.price} dollars`}>{s.price}</span>
-                  </p>
+              team.map((t) => (
+                <li class="hand">
+                  <span class="ini" aria-hidden="true">{t.initials}</span>
+                  <div>
+                    <h3>{t.name}</h3>
+                    <p class="role">{t.role}</p>
+                    <p>{t.note}</p>
+                  </div>
                 </li>
               ))
             }
@@ -177,115 +154,107 @@ const fmtHours = (s: string[][]) => s.map(([a, b, label]) => `${a}–${b}${label
         </div>
       </section>
 
-      <!-- Menu -->
-      <section class="menu" id="menu" aria-labelledby="menu-title">
-        <div class="wrap">
-          <div class="section-head reveal">
-            <div>
-              <p class="eyebrow">The menu</p>
-              <h2 class="h2" id="menu-title">Share everything. Start with meze.</h2>
-            </div>
-            <p class="lead">Prices in dollars. <strong>Allergies?</strong> Tell us when you book. The kitchen can adapt most plates, and every dish is tagged below.</p>
-          </div>
+      <!-- 02 TONIGHT -->
+      <section class="chapter tonight pad" id="tonight" aria-labelledby="tonight-title">
+        <div class="tonight-head reveal">
+          <p class="chapter-mark"><b>02</b> Tonight</p>
+          <h2 class="chapter-title" id="tonight-title">From the coals, this evening.</h2>
+          <p class="stamp" data-board-day>Today's board<br />written at 16:00</p>
+        </div>
+        <ol class="board">
+          {
+            specials.map((s, i) => (
+              <li class="reveal">
+                <span class="idx">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{s.name}</h3>
+                </div>
+                <div>
+                  <p>{s.text}</p>
+                  <span class="note">{s.note}</span>
+                </div>
+                <span class="price" aria-label={`${s.price} dollars`}>${s.price}</span>
+              </li>
+            ))
+          }
+        </ol>
 
-          <div class="start-here reveal">
-            <p class="start-label">New here? Start with these three</p>
-            <ul role="list">
+        <div class="rail-head">
+          <h3>New here? Start with these three.</h3>
+          <div class="rail-nav">
+            <button type="button" aria-label="Previous plate" data-rail-prev><Icon name="arrow" size={20} /></button>
+            <button type="button" aria-label="Next plate" data-rail-next><Icon name="arrow" size={20} /></button>
+          </div>
+        </div>
+        <ul class="rail" data-rail aria-label="Signature plates">
+          {
+            [...signature, ...signature.slice(0, 0)].map((d) => (
+              <li class="plate">
+                <Plate id={d.id} />
+                <div class="plate-body">
+                  <h4>{d.name}</h4>
+                  <span class="price" aria-label={`${d.price} dollars`}>${d.price}</span>
+                  <p>{d.text}</p>
+                </div>
+              </li>
+            ))
+          }
+          <li class="plate" style="background:var(--pom);color:var(--ayran);display:grid;align-content:end;padding:1.75rem">
+            <p style="font:800 clamp(1.6rem,3vw,2.25rem)/1.05 var(--font-display)">The whole menu is one scroll away.</p>
+            <a class="btn btn-fire" href="#menu" style="justify-self:start;margin-top:1.25rem">Open the menu <Icon name="arrow" size={18} /></a>
+          </li>
+        </ul>
+      </section>
+
+      <!-- 03 MENU -->
+      <section class="chapter menu-ch pad" id="menu" aria-labelledby="menu-title">
+        <div class="menu-intro reveal">
+          <p class="chapter-mark"><b>03</b> The menu</p>
+          <h2 class="chapter-title" id="menu-title">Share everything. Start with meze.</h2>
+          <p class="body">Prices in dollars. <strong>Allergies?</strong> Tell us when you book. The kitchen can adapt most plates, and every dish is tagged below.</p>
+        </div>
+
+        <div class="menu-layout" data-menu>
+          <aside class="menu-index" aria-label="Menu sections and filters">
+            <ol>{menu.map((m) => <li><a href={`#cat-${m.id}`} data-cat-link={m.id}>{m.label}</a></li>)}</ol>
+            <div class="filters" role="group" aria-labelledby="filter-label">
+              <p id="filter-label">Show only</p>
               {
-                signature.map((d) => (
-                  <li class="sig">
-                    <div class="sig-art" aria-hidden="true">
-                      <svg viewBox="0 0 200 140">
-                        <rect width="200" height="140" class="f-cream"></rect>
-                        {d.id === "adana" && (
-                          <g>
-                            <ellipse cx="100" cy="74" rx="86" ry="46" class="f-ayran s-line"></ellipse>
-                            <line x1="18" y1="80" x2="186" y2="60" class="s-steel thick"></line>
-                            <rect x="34" y="58" width="128" height="22" rx="11" class="f-pom-deep" transform="rotate(-6.8 100 70)"></rect>
-                            {[0, 1, 2, 3, 4, 5].map((i) => <line x1={46 + i * 20} y1={70 - i * 2.4} x2={52 + i * 20} y2={60 - i * 2.4} class="s-char"></line>)}
-                            <g class="f-pom">{[0, 1, 2, 3, 4].map((i) => <circle cx={52 + i * 22} cy={104 - (i % 2) * 4} r="5"></circle>)}</g>
-                            <path d="M150 92c10-4 20 2 24 10" class="s-leaf"></path>
-                            <path d="M40 98c8-6 18-4 22 2" class="s-leaf"></path>
-                          </g>
-                        )}
-                        {d.id === "ezme" && (
-                          <g>
-                            <ellipse cx="128" cy="78" rx="62" ry="46" class="f-saffron-soft"></ellipse>
-                            <path d="M84 52c20-16 70-16 88 4 10 30-4 50-44 52-38 0-52-22-44-56z" class="f-ayran s-line"></path>
-                            <ellipse cx="78" cy="78" rx="48" ry="40" class="f-iznik"></ellipse>
-                            <ellipse cx="78" cy="76" rx="38" ry="31" class="f-pom"></ellipse>
-                            <g class="f-ember">{[0, 1, 2, 3, 4, 5, 6].map((i) => <circle cx={60 + ((i * 13) % 38)} cy={64 + ((i * 11) % 26)} r="4"></circle>)}</g>
-                            <g class="f-leaf">{[0, 1, 2].map((i) => <ellipse cx={70 + i * 12} cy={70 + (i % 2) * 10} rx="4" ry="2"></ellipse>)}</g>
-                          </g>
-                        )}
-                        {d.id === "kunefe" && (
-                          <g>
-                            <circle cx="100" cy="70" r="56" class="f-char"></circle>
-                            <circle cx="100" cy="70" r="46" class="f-saffron"></circle>
-                            <g class="s-ember">{[0, 1, 2, 3, 4, 5, 6, 7].map((i) => <path d={`M${66 + i * 9} 42c6 10-6 18 0 28s-6 18 0 28`}></path>)}</g>
-                            <g class="f-leaf">{[0, 1, 2, 3, 4, 5].map((i) => <circle cx={86 + ((i * 9) % 30)} cy={58 + ((i * 7) % 24)} r="3"></circle>)}</g>
-                          </g>
-                        )}
-                      </svg>
-                    </div>
-                    <div class="sig-body">
-                      <h3>{d.name}</h3>
-                      <p>{d.text}</p>
-                    </div>
-                    <span class="coin" aria-label={`${d.price} dollars`}>{d.price}</span>
-                  </li>
+                dietary.map((d) => (
+                  <button type="button" class="filter" aria-pressed="false" data-filter={d.id}>
+                    <Icon name={tagIcon[d.id]} size={16} />
+                    {d.label}
+                  </button>
                 ))
               }
-            </ul>
-          </div>
-
-          <div class="menu-ui" data-menu>
-            <div class="menu-controls">
-              <div class="tabs" role="tablist" aria-label="Menu sections" data-tabs>
-                {
-                  menu.map((m, i) => (
-                    <button type="button" role="tab" id={`tab-${m.id}`} aria-controls={`panel-${m.id}`} aria-selected={i === 0 ? "true" : "false"} tabindex={i === 0 ? 0 : -1} data-tab={m.id}>
-                      {m.label}
-                    </button>
-                  ))
-                }
-              </div>
-              <div class="filters" role="group" aria-label="Show only dishes that are">
-                {
-                  dietary.map((d) => (
-                    <button type="button" class="filter" aria-pressed="false" data-filter={d.id}>
-                      <Icon name={tagIcon[d.id]} size={16} />
-                      {d.label}
-                    </button>
-                  ))
-                }
-              </div>
             </div>
-            <p class="sr-only" aria-live="polite" data-menu-status></p>
+            <p class="filter-status" aria-live="polite" data-filter-status></p>
+          </aside>
 
+          <div>
             {
-              menu.map((m, i) => (
-                <div class="panel" role="tabpanel" id={`panel-${m.id}`} aria-labelledby={`tab-${m.id}`} data-panel={m.id} tabindex="0">
-                  <h3 class="panel-title">{m.label}</h3>
-                  <p class="panel-intro">{m.intro}</p>
-                  <ul class="dishes" role="list">
+              menu.map((m) => (
+                <section class="cat" id={`cat-${m.id}`} aria-labelledby={`h-${m.id}`} data-cat={m.id}>
+                  <div class="cat-head">
+                    <h3 id={`h-${m.id}`}>{m.label}</h3>
+                    <p>{m.intro}</p>
+                  </div>
+                  <ul class="dishes">
                     {m.items.map((it, j) => (
-                      <li class="dish" data-tags={it.tags.join(" ")} style={`view-transition-name: d-${m.id}-${j}`}>
+                      <li class="dish" data-tags={it.tags.join(" ")} style={`view-transition-name:dish-${m.id}-${j}`}>
                         <div class="dish-top">
-                          <h4>
-                            <span lang="tr">{it.tr}</span>
-                            <small>{it.en}</small>
-                          </h4>
-                          <span class="leader" aria-hidden="true"></span>
-                          <span class="price"><span class="sr-only">Price: </span>{it.price}</span>
+                          <h4 lang="tr">{it.tr}</h4>
+                          <span class="dots" aria-hidden="true" />
+                          <span class="p" aria-label={`${it.price} dollars`}>{it.price}</span>
                         </div>
-                        <p>{it.text}</p>
+                        <p class="en">{it.en}</p>
+                        <p class="desc">{it.text}</p>
                         {it.tags.length > 0 && (
-                          <ul class="tags" role="list" aria-label="Dietary">
+                          <ul class="tags" aria-label="Dietary">
                             {it.tags.map((t) => (
                               <li class={`tag tag-${t}`}>
-                                <Icon name={tagIcon[t]} size={14} />
-                                {tagOf[t].label}
+                                <Icon name={tagIcon[t]} size={13} />
+                                {tagLabel[t]}
                               </li>
                             ))}
                           </ul>
@@ -293,377 +262,233 @@ const fmtHours = (s: string[][]) => s.map(([a, b, label]) => `${a}–${b}${label
                       </li>
                     ))}
                   </ul>
-                  <p class="empty" hidden data-empty>
-                    Nothing in {m.label.toLowerCase()} matches all of those right now. Ask us: the kitchen can often adapt a dish.
-                  </p>
-                </div>
+                  <p class="no-match" hidden data-no-match>Nothing in this section matches your filters.</p>
+                </section>
               ))
             }
-            <p class="menu-foot"><Icon name="phone" size={18} /><span>Pickup orders: call <a href={brand.phoneHref}>{brand.phone}</a> from 16:30. Ready in about 25 minutes.</span></p>
+            <p class="pickup"><Icon name="phone" size={18} />Pickup orders: call <a href={brand.phoneHref}>{brand.phone}</a> from 16:30. Ready in about 25 minutes.</p>
           </div>
         </div>
       </section>
 
-      <!-- Kahvaltı -->
-      <section class="kahvalti" id="kahvalti" aria-labelledby="kahvalti-title">
-        <Tile id="tile-k" tone="blue" height={28} />
-        <div class="wrap kahvalti-grid">
-          <div class="reveal">
-            <p class="eyebrow">Weekend kahvaltı · Sat & Sun 10:00–15:00</p>
-            <h2 class="h2" id="kahvalti-title">A breakfast that covers the whole table.</h2>
-            <p class="lead">The Turkish way to spend a slow morning: thirty small plates, eggs in the pan and tea until someone has to leave.</p>
-            <p class="kahvalti-price"><strong>${kahvalti.price}</strong> per person · for {kahvalti.min} to {kahvalti.max} guests · kids under 10 half price</p>
-            <ul class="spread" role="list">
-              {kahvalti.spread.map((s) => <li><Icon name="check" size={18} />{s}</li>)}
-            </ul>
-            <a class="btn btn-saffron" href="#reserve" data-preset="weekend">Book weekend kahvaltı <Icon name="arrow" size={18} /></a>
-          </div>
-          <figure class="kahvalti-art reveal">
-            {
-              photos.kahvalti ? (
-                <img src={photos.kahvalti} alt="A table covered with small plates of a Turkish breakfast spread" width="900" height="900" loading="lazy" />
-              ) : (
-                <svg viewBox="0 0 400 400" aria-hidden="true">
-                  <rect width="400" height="400" class="f-ayran"></rect>
-                  <g class="cloth">{Array.from({ length: 11 }, (_, i) => <line x1={i * 40} y1="0" x2={i * 40} y2="400"></line>)}{Array.from({ length: 11 }, (_, i) => <line x1="0" y1={i * 40} x2="400" y2={i * 40}></line>)}</g>
-                  {
-                    [
-                      { x: 92, y: 88, r: 50, fill: "f-cream", dots: "f-sumac", n: 9 },
-                      { x: 212, y: 70, r: 38, fill: "f-cream", dots: "f-leaf", n: 7 },
-                      { x: 318, y: 104, r: 48, fill: "f-ayran", dots: "f-pom", n: 6 },
-                      { x: 120, y: 214, r: 44, fill: "f-saffron-soft", dots: "f-saffron", n: 1 },
-                      { x: 250, y: 200, r: 64, fill: "f-char", dots: "f-saffron", n: 3 },
-                      { x: 92, y: 324, r: 42, fill: "f-cream", dots: "f-pom", n: 1 },
-                      { x: 214, y: 330, r: 40, fill: "f-ayran", dots: "f-ash", n: 0 },
-                      { x: 330, y: 300, r: 46, fill: "f-cream", dots: "f-pom-deep", n: 5 },
-                    ].map((p, k) => (
-                      <g>
-                        <circle cx={p.x} cy={p.y} r={p.r + 6} class="f-plate"></circle>
-                        <circle cx={p.x} cy={p.y} r={p.r} class={p.fill}></circle>
-                        {p.n === 1 ? (
-                          <circle cx={p.x} cy={p.y} r={p.r * 0.55} class={p.dots}></circle>
-                        ) : p.n === 3 ? (
-                          [0, 1, 2].map((i) => <circle cx={p.x - 20 + i * 20} cy={p.y + (i % 2 ? -10 : 10)} r="15" class="f-saffron"></circle>)
-                        ) : (
-                          Array.from({ length: p.n }, (_, i) => (
-                            <circle cx={p.x + Math.cos(i * 2.4 + k) * p.r * 0.5} cy={p.y + Math.sin(i * 2.4 + k) * p.r * 0.5} r="7" class={p.dots}></circle>
-                          ))
-                        )}
-                      </g>
-                    ))
-                  }
-                  <g class="tea">
-                    <path d="M176 262h22l-3 26h-16z" class="f-pom-deep"></path>
-                    <path d="M300 222h22l-3 26h-16z" class="f-pom-deep"></path>
-                    <ellipse cx="187" cy="291" rx="15" ry="4" class="f-plate"></ellipse>
-                    <ellipse cx="311" cy="251" rx="15" ry="4" class="f-plate"></ellipse>
-                  </g>
-                </svg>
-              )
-            }
+      <Tile id="tile-k" tone="blue" height={28} />
+
+      <!-- 04 KAHVALTI -->
+      <section class="chapter kahvalti" id="kahvalti" aria-labelledby="k-title">
+        <div class="pad kahvalti-grid">
+          <figure class="arch reveal">
+            {photos.kahvalti ? <img src={photos.kahvalti} alt="A table covered with small plates of a Turkish breakfast spread" width="1066" height="1600" loading="lazy" /> : null}
           </figure>
+          <div class="reveal">
+            <p class="chapter-mark"><b>04</b> Weekend kahvaltı · Sat & Sun 10:00–15:00</p>
+            <h2 class="chapter-title" id="k-title">A breakfast that covers the whole table.</h2>
+            <p class="body">The Turkish way to spend a slow morning: thirty small plates, eggs in the pan and tea until someone has to leave.</p>
+            <p class="k-price"><strong>${kahvalti.price}</strong> per person · for {kahvalti.min} to {kahvalti.max} guests · kids under 10 half price</p>
+            <ul class="spread">{kahvalti.spread.map((s) => <li>{s}</li>)}</ul>
+            <a class="btn btn-fire" href="#reserve" data-preset-day="weekend">Book weekend kahvaltı <Icon name="arrow" size={18} /></a>
+          </div>
         </div>
       </section>
 
-      <!-- The fire -->
-      <section class="fire" id="fire" aria-labelledby="fire-title">
-        <div class="fire-glow" aria-hidden="true">
-          {photos.coals && <img src={photos.coals} alt="" width="1600" height="900" loading="lazy" />}
+      <!-- 05 MANGAL NIGHTS -->
+      <section class="chapter nights" id="mangal-nights" aria-labelledby="n-title">
+        <div class="nights-bg" aria-hidden="true">
+          {photos.fire ? <img src={photos.fire} alt="" width="1066" height="1600" loading="lazy" /> : <div class="ph"></div>}
         </div>
-        <div class="wrap">
-          <div class="fire-intro reveal">
-            <p class="eyebrow">The fire</p>
-            <h2 class="h2" id="fire-title">One grill, lit every afternoon, tended all night.</h2>
-            <p class="lead">
-              Sumakara is built around a mangal: a long open charcoal grill like the ones on every street corner in
-              southeastern Turkey. No gas, no shortcuts. Just oak coals, a cook who watches them, and food that tastes
-              of the fire.
-            </p>
+        <div class="pad nights-grid">
+          <div class="reveal">
+            <p class="chapter-mark"><b>05</b> Mangal nights · private dining</p>
+            <h2 class="chapter-title" id="n-title">The long table is yours, for 8 to 24.</h2>
+            <p class="body">Birthdays, team dinners, the night before a wedding. One long table next to the grill, a set menu, and a host who looks after nothing but your group.</p>
+            <ul class="sets">
+              {
+                setMenus.map((s) => (
+                  <li class:list={["set", { featured: s.featured }]}>
+                    <h3>
+                      {s.name}
+                      {s.featured && <span class="badge">Most booked</span>}
+                    </h3>
+                    <span class="pp">${s.price}<small>per guest</small></span>
+                    <p>{s.text}</p>
+                  </li>
+                ))
+              }
+            </ul>
           </div>
-          <ul class="facts" role="list">
-            {facts.map((f) => <li class="reveal"><p class="fact-n">{f.n}</p><h3>{f.label}</h3><p>{f.text}</p></li>)}
-          </ul>
-          <ul class="team" role="list">
-            {
-              team.map((p) => (
-                <li class="person reveal">
-                  <span class="avatar" aria-hidden="true">{p.initials}</span>
-                  <div>
-                    <h3>{p.name}</h3>
-                    <p class="role">{p.role}</p>
-                    <p>{p.note}</p>
-                  </div>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
-      </section>
 
-      <!-- Mangal nights -->
-      <section class="mangal" id="mangal-nights" aria-labelledby="mangal-title">
-        <div class="wrap">
-          <div class="section-head reveal">
-            <div>
-              <p class="eyebrow">Mangal nights · private dining</p>
-              <h2 class="h2" id="mangal-title">The long table is yours, for 8 to 24.</h2>
-            </div>
-            <p class="lead">Birthdays, team dinners, the night before a wedding. One long table next to the grill, a set menu, and a host who looks after nothing but your group.</p>
-          </div>
-          <div class="mangal-grid">
-            <div class="mangal-menus">
-              <div class="flames reveal" aria-hidden="true">
-                {
-                  photos.fire ? (
-                    <img src={photos.fire} alt="" width="1200" height="800" loading="lazy" />
-                  ) : (
-                    <svg viewBox="0 0 600 220" preserveAspectRatio="xMidYMax slice">
-                      <rect width="600" height="220" class="f-coal"></rect>
-                      {Array.from({ length: 9 }, (_, i) => (
-                        <path
-                          class={`flame ${["f-ember", "f-saffron", "f-pom"][i % 3]}`}
-                          style={`--d:${i * 0.31}s`}
-                          d={`M${i * 70 - 10} 220c-10-50 30-70 20-130 40 30 60 70 50 130z`}
-                        ></path>
-                      ))}
-                      <g class="table-line"><rect x="40" y="186" width="520" height="10" rx="5"></rect></g>
-                    </svg>
-                  )
-                }
+          <div class="glass-form reveal" data-inquiry>
+            <form novalidate data-inquiry-form>
+              <h3>Ask about a mangal night</h3>
+              <p>We reply within one working day with a proposal and a deposit link.</p>
+              <div class="field">
+                <label for="iq-name">Your name</label>
+                <input id="iq-name" name="name" autocomplete="name" required />
               </div>
-              <ul class="sets" role="list">
-                {
-                  setMenus.map((s) => (
-                    <li class:list={["set reveal", { featured: s.featured }]}>
-                      {s.featured && <span class="set-flag">Most booked</span>}
-                      <h3>{s.name}</h3>
-                      <p class="set-price"><strong>${s.price}</strong> per guest</p>
-                      <p>{s.text}</p>
-                    </li>
-                  ))
-                }
-              </ul>
-            </div>
-
-            <div class="card inquiry" data-inquiry>
-              <form data-inquiry-form novalidate>
-                <h3>Ask about a mangal night</h3>
-                <p class="form-note">We reply within one working day with a proposal and a deposit link.</p>
+              <div class="row-2">
                 <div class="field">
-                  <label for="q-name">Your name</label>
-                  <input id="q-name" name="name" autocomplete="name" required />
-                </div>
-                <div class="field-row">
-                  <div class="field">
-                    <label for="q-guests">Guests (8–24)</label>
-                    <input id="q-guests" name="guests" type="number" inputmode="numeric" min="8" max="24" value="12" required />
-                  </div>
-                  <div class="field">
-                    <label for="q-date">Preferred date</label>
-                    <input id="q-date" name="date" type="date" required />
-                  </div>
+                  <label for="iq-guests">Guests (8–24)</label>
+                  <input id="iq-guests" name="guests" type="number" min="8" max="24" inputmode="numeric" value="12" required />
                 </div>
                 <div class="field">
-                  <label for="q-menu">Set menu</label>
-                  <select id="q-menu" name="menu">
-                    {setMenus.map((s) => <option value={s.name} selected={s.featured}>{s.name} · ${s.price} per guest</option>)}
-                    <option value="Not sure yet">Not sure yet, help me choose</option>
-                  </select>
+                  <label for="iq-date">Preferred date</label>
+                  <input id="iq-date" name="date" type="date" required />
                 </div>
-                <div class="field">
-                  <label for="q-phone">Phone</label>
-                  <input id="q-phone" name="phone" type="tel" autocomplete="tel" required />
-                </div>
-                <div class="field">
-                  <label for="q-msg">What's the occasion? <span class="opt">(optional)</span></label>
-                  <textarea id="q-msg" name="msg" rows="3"></textarea>
-                </div>
-                <p class="form-error" role="alert" data-inquiry-error></p>
-                <button class="btn btn-pom" type="submit">Send inquiry <Icon name="arrow" size={18} /></button>
-              </form>
-              <div class="done" data-inquiry-done hidden tabindex="-1">
-                <span class="done-mark"><Icon name="check" size={28} /></span>
-                <h3>Inquiry received</h3>
-                <p data-inquiry-done-text></p>
-                <p class="demo-note">This is a concept site, so nothing was actually sent.</p>
               </div>
+              <div class="field">
+                <label for="iq-menu">Set menu</label>
+                <select id="iq-menu" name="menu">
+                  {setMenus.map((s) => <option selected={s.featured}>{s.name} · ${s.price} per guest</option>)}
+                  <option>Not sure yet</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="iq-phone">Phone</label>
+                <input id="iq-phone" name="phone" type="tel" autocomplete="tel" required />
+              </div>
+              <div class="field">
+                <label for="iq-note">What's the occasion? <small>(optional)</small></label>
+                <textarea id="iq-note" name="note"></textarea>
+              </div>
+              <p class="err" role="alert" data-iq-error></p>
+              <button class="btn btn-pom" type="submit">Send inquiry <Icon name="arrow" size={18} /></button>
+            </form>
+            <div class="sent" hidden tabindex="-1" data-iq-done>
+              <div class="ok"><Icon name="check" size={28} /></div>
+              <h3>Inquiry received</h3>
+              <p data-iq-text></p>
+              <p style="margin-top:.75rem;font-size:.85rem">This is a concept site, so nothing was actually sent.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Quotes -->
-      <section class="quotes" aria-labelledby="quotes-title">
-        <div class="wrap">
-          <h2 class="h2" id="quotes-title">Guests say</h2>
-          <ul class="quote-list" role="list">
-            {
-              quotes.map((q) => (
-                <li class="reveal">
-                  <blockquote>“{q.quote}”</blockquote>
-                  <p class="who"><strong>{q.name}</strong> · {q.detail}</p>
-                </li>
-              ))
-            }
-          </ul>
+      <!-- GUESTS -->
+      <section class="guests pad" aria-labelledby="g-title">
+        <p class="chapter-mark reveal" id="g-title">Guests say</p>
+        <div class="quotes" tabindex="0" aria-label="Guest quotes, scroll sideways">
+          {
+            quotes.map((q) => (
+              <figure>
+                <blockquote>{q.quote}</blockquote>
+                <figcaption>
+                  <strong>{q.name}</strong> · {q.detail}
+                </figcaption>
+              </figure>
+            ))
+          }
         </div>
       </section>
 
-      <!-- Reserve -->
-      <section class="reserve" id="reserve" aria-labelledby="reserve-title">
-        <div class="wrap reserve-grid">
-          <div class="reserve-intro reveal">
-            <p class="eyebrow">Reserve</p>
-            <h2 class="h2" id="reserve-title">Book a table in under a minute.</h2>
-            <p class="lead">Tables for 1 to 8. We hold your table for 15 minutes. Running late? Call <a href={brand.phoneHref}>{brand.phone}</a>.</p>
-            <p class="lead small">9 or more guests? <a href="#mangal-nights">Plan a mangal night</a> instead.</p>
-          </div>
+      <!-- 06 RESERVE -->
+      <section class="chapter reserve pad" id="reserve" aria-labelledby="r-title">
+        <div class="reserve-head reveal">
+          <p class="chapter-mark"><b>06</b> Reserve</p>
+          <h2 class="chapter-title" id="r-title">Book a table in under a minute.</h2>
+          <p class="body">Tables for 1 to 8. We hold your table for 15 minutes. Running late? Call <a href={brand.phoneHref}>{brand.phone}</a>. 9 or more guests? <a href="#mangal-nights">Plan a mangal night</a> instead.</p>
+        </div>
 
-          <div class="reserve-box" data-reserve>
-            <form class="reserve-form" data-reserve-form novalidate>
+        <div class="stage">
+          <div class="book" data-book>
+            <form novalidate data-book-form>
               <fieldset>
                 <legend>Guests</legend>
-                <div class="chips party">
+                <div class="chips">
                   {
                     [1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                      <label class="chip">
-                        <input type="radio" name="party" value={n} checked={n === 2} />
-                        <span>{n}</span>
-                      </label>
+                      <div class="chip">
+                        <input type="radio" name="guests" id={`g-${n}`} value={n} checked={n === 2} />
+                        <label for={`g-${n}`}>{n}</label>
+                      </div>
                     ))
                   }
-                  <a class="chip chip-link" href="#mangal-nights">9+</a>
                 </div>
               </fieldset>
               <fieldset>
                 <legend>Day</legend>
-                <div class="chips days" data-days>
-                  <noscript><p>Online booking needs JavaScript. Please call us on {brand.phone}.</p></noscript>
-                </div>
+                <div class="chips" data-days><noscript><p class="hint">Online booking needs JavaScript. Please call us.</p></noscript></div>
               </fieldset>
               <fieldset>
                 <legend>Time</legend>
-                <div data-times><p class="hint">Pick a day to see free times.</p></div>
+                <div class="chips" data-times><p class="hint">Pick a day to see free times.</p></div>
               </fieldset>
-              <div class="field-row">
+              <div class="row-2">
                 <div class="field">
-                  <label for="r-name">Name</label>
-                  <input id="r-name" name="name" autocomplete="name" required />
+                  <label for="bk-name">Name</label>
+                  <input id="bk-name" name="name" autocomplete="name" required />
                 </div>
                 <div class="field">
-                  <label for="r-phone">Phone <span class="opt">(optional)</span></label>
-                  <input id="r-phone" name="phone" type="tel" autocomplete="tel" />
+                  <label for="bk-phone">Phone <small>(optional)</small></label>
+                  <input id="bk-phone" name="phone" type="tel" autocomplete="tel" />
                 </div>
               </div>
               <div class="field">
-                <label for="r-note">Allergies or a special occasion? <span class="opt">(optional)</span></label>
-                <input id="r-note" name="note" />
+                <label for="bk-note">Allergies or a special occasion? <small>(optional)</small></label>
+                <input id="bk-note" name="note" />
               </div>
-              <p class="form-error" role="alert" data-reserve-error></p>
+              <p class="err" role="alert" data-bk-error></p>
               <button class="btn btn-pom" type="submit">Confirm the table <Icon name="arrow" size={18} /></button>
             </form>
-
-            <aside class="slip" aria-label="Your reservation">
-              <p class="slip-head"><span>Sumakara</span><span>Adisyon Nº 0187</span></p>
-              <dl data-slip>
-                <div><dt>Guests</dt><dd data-slip-party>2</dd></div>
-                <div><dt>Day</dt><dd data-slip-day>—</dd></div>
-                <div><dt>Time</dt><dd data-slip-time>—</dd></div>
-                <div><dt>Name</dt><dd data-slip-name>—</dd></div>
-              </dl>
-              <p class="slip-total"><span>Total</span><span>one good evening</span></p>
-              <p class="slip-foot">Tea is on the house.</p>
-              <div class="slip-done" data-reserve-done hidden tabindex="-1">
-                <p class="stamp">Booked</p>
-                <p data-reserve-done-text></p>
-                <p class="demo-note">This is a concept site, so no table was actually booked.</p>
-              </div>
-            </aside>
+            <div class="sent" hidden tabindex="-1" data-bk-done>
+              <div class="ok"><Icon name="check" size={28} /></div>
+              <h3>Table requested</h3>
+              <p data-bk-text></p>
+              <p style="margin-top:.75rem;font-size:.85rem">This is a concept site, so no booking was actually made.</p>
+            </div>
           </div>
+
+          <aside class="receipt" aria-label="Your booking summary" aria-live="polite">
+            <p class="r-brand">SUMAKARA <span>ADİSYON № 0187</span></p>
+            <dl>
+              <dt>Guests</dt><dd data-r-guests>2</dd>
+              <dt>Day</dt><dd data-r-day>—</dd>
+              <dt>Time</dt><dd data-r-time>—</dd>
+              <dt>Name</dt><dd data-r-name>—</dd>
+            </dl>
+            <p class="r-total"><span>TOTAL</span><span>ONE GOOD EVENING</span></p>
+            <p class="r-foot">Tea is on the house.</p>
+          </aside>
         </div>
       </section>
 
-      <!-- Visit -->
-      <section class="visit" id="visit" aria-labelledby="visit-title">
-        <div class="wrap visit-grid">
+      <!-- VISIT + FAQ -->
+      <section class="visit pad" id="visit" aria-labelledby="v-title">
+        <h2 class="sr-only" id="v-title">Visit Sumakara</h2>
+        <div class="visit-strip">
           <div class="reveal">
-            <p class="eyebrow">Visit</p>
-            <h2 class="h2" id="visit-title">Follow the smell of charcoal.</h2>
-            <address class="addr">
-              <Icon name="pin" />
-              <span>{brand.address[0]}<br />{brand.address[1]}<br /><a href={brand.phoneHref}>{brand.phone}</a></span>
-            </address>
-            <table class="hours-table">
-              <caption class="sr-only">Opening hours</caption>
-              <tbody>
-                {
-                  hours.map((h) => (
-                    <tr data-day={h.day}>
-                      <th scope="row">{h.label}</th>
-                      <td>{h.services.length ? fmtHours(h.services) : h.note}</td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </table>
-            <p class="small-note">Kitchen closes 30 minutes before we do.</p>
+            <h3><Icon name="pin" size={20} />Find us</h3>
+            <p>{brand.address[0]}<br />{brand.address[1]}</p>
+            <p style="margin-top:.5rem;color:var(--ink-soft)">Follow the smell of charcoal: two minutes from the Halvern Square tram stop, bike racks out front.</p>
+            <a class="directions" href="#visit"><Icon name="route" size={18} />Directions</a>
           </div>
-          <div class="visit-side">
-            <div class="map reveal" role="img" aria-label="Illustrated map: Sumakara on Coalyard Lane, two minutes from Halvern Square station and next to the Coalyard garage">
-              <svg viewBox="0 0 600 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-                <rect width="600" height="420" class="f-cream"></rect>
-                <g class="blocks">
-                  <rect x="30" y="30" width="170" height="120" rx="6"></rect>
-                  <rect x="250" y="30" width="140" height="120" rx="6"></rect>
-                  <rect x="440" y="30" width="140" height="160" rx="6"></rect>
-                  <rect x="30" y="200" width="170" height="190" rx="6"></rect>
-                  <rect x="440" y="240" width="140" height="150" rx="6"></rect>
-                </g>
-                <rect x="250" y="200" width="140" height="190" rx="6" class="f-iznik-soft"></rect>
-                <g class="streets">
-                  <path d="M0 175h600"></path>
-                  <path d="M225 0v420"></path>
-                  <path d="M415 0v420"></path>
-                </g>
-                <path d="M0 175h600" class="tram"></path>
-                <circle cx="320" cy="175" r="11" class="f-iznik"></circle>
-                <text x="320" y="180" text-anchor="middle" class="map-t on-dark">M</text>
-                <text x="260" y="225" class="map-t">Halvern Square</text>
-                <rect x="458" y="258" width="34" height="34" rx="4" class="f-iznik"></rect>
-                <text x="475" y="281" text-anchor="middle" class="map-t on-dark">P</text>
-                <text x="458" y="312" class="map-t small">Coalyard garage</text>
-                <text x="422" y="160" class="map-t small" transform="rotate(-90 422 160)">Coalyard Lane</text>
-                <g class="pin-bob">
-                  <path d="M415 300c0-18 13-30 28-30s28 12 28 30c0 22-28 46-28 46s-28-24-28-46z" class="f-pom" transform="translate(-28 -10)"></path>
-                  <circle cx="415" cy="290" r="8" class="f-saffron"></circle>
-                </g>
-                <text x="452" y="372" class="map-t pin-label">SUMAKARA</text>
-              </svg>
-            </div>
-            <ul class="visit-facts" role="list">
-              <li><Icon name="train" /><span><strong>Metro</strong>Halvern Square, Line 2, 2 min walk</span></li>
-              <li><Icon name="car" /><span><strong>Parking</strong>Coalyard garage next door, first 2 hours free after 18:00</span></li>
-              <li><Icon name="access" /><span><strong>Access</strong>Step-free entrance and accessible restroom</span></li>
+          <div class="reveal">
+            <h3><Icon name="clock" size={20} />Opening hours</h3>
+            <ul class="hours-list" data-hours>
+              {
+                hours.map((h) => (
+                  <li data-day={h.day}>
+                    <span>{h.label}</span>
+                    <span>{h.services.length ? fmtHours(h.services) : "Closed"}</span>
+                  </li>
+                ))
+              }
             </ul>
           </div>
-        </div>
-      </section>
-
-      <!-- FAQ -->
-      <section class="faq" aria-labelledby="faq-title">
-        <div class="wrap faq-grid">
           <div class="reveal">
-            <p class="eyebrow">Questions</p>
-            <h2 class="h2" id="faq-title">Before you come.</h2>
-            <p class="lead">Anything else? Call us between 14:00 and 23:00. Bora picks up.</p>
+            <h3><Icon name="phone" size={20} />Call or drop by</h3>
+            <p><a href={brand.phoneHref}><strong>{brand.phone}</strong></a></p>
+            <p style="margin-top:.5rem;color:var(--ink-soft)">Step-free entrance and an accessible restroom. High chairs on request. Kitchen closes 30 minutes before we do.</p>
           </div>
-          <div class="faq-list">
+        </div>
+
+        <div class="faq">
+          <h2 class="reveal">Good to know.</h2>
+          <div class="reveal">
             {
               faq.map((f) => (
-                <details>
+                <details name="faq">
                   <summary>
                     {f.q}
-                    <span class="pm" aria-hidden="true"><Icon name="plus" size={18} /></span>
+                    <Icon name="plus" size={20} />
                   </summary>
                   <p>{f.a}</p>
                 </details>
@@ -675,42 +500,25 @@ const fmtHours = (s: string[][]) => s.map(([a, b, label]) => `${a}–${b}${label
     </main>
 
     <footer class="site-footer">
-      <Tile id="tile-f" tone="dark" height={40} />
-      <div class="wrap">
+      <Tile id="tile-f" tone="dark" height={28} />
+      <p class="footer-word" aria-hidden="true">Sumakara</p>
+      <div class="pad">
         <div class="footer-grid">
-          <div>
-            <p class="footer-mark">Sumakara</p>
-            <p>{brand.line}</p>
-          </div>
-          <div>
-            <h2 class="footer-h">Find us</h2>
-            <p>{brand.address.join(", ")}<br /><a href={brand.phoneHref}>{brand.phone}</a></p>
-          </div>
-          <div>
-            <h2 class="footer-h">Hours</h2>
-            <p>Tue–Thu 17:00–22:30<br />Fri 17:00–23:30<br />Sat 10:00–15:00 & 17:00–23:30<br />Sun 10:00–15:00 · Mon closed</p>
-          </div>
-          <div>
-            <h2 class="footer-h">Explore</h2>
-            <ul role="list">
-              {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
-              <li><a href="#reserve">Reserve</a></li>
-            </ul>
-          </div>
+          <p>{brand.address.join(", ")} · <a href={brand.phoneHref}>{brand.phone}</a></p>
+          <ul>
+            {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+            <li><a href="#reserve">Reserve</a></li>
+          </ul>
         </div>
-        <p class="fictional">
-          © 2026 Sumakara is a fictional restaurant created as a design concept. Names, people, dishes, prices, address
-          and phone number are invented. Fonts: Anybody and Instrument Sans (SIL Open Font License). Illustrations made for this concept.{anyPhoto && " Photos: Unsplash."}{" "}
-          <a href="/">More concepts</a>
+        <p class="fine">
+          © 2026 Sumakara is a fictional restaurant created as a design concept. Names, people, prices, address and
+          phone number are invented. Fonts: Anybody and Instrument Sans (SIL Open Font License). Illustrations made for
+          this concept.{anyPhoto && " Photos: Unsplash."} <a href="/">More concepts</a>
         </p>
       </div>
     </footer>
 
-    <nav class="action-bar" aria-label="Quick actions">
-      <a href={brand.phoneHref}><Icon name="phone" size={20} />Call</a>
-      <a class="primary" href="#reserve"><Icon name="table" size={20} />Reserve</a>
-      <a href="#visit"><Icon name="route" size={20} />Directions</a>
-    </nav>
+    <a class="btn btn-pom float-cta" href="#reserve" data-float-cta>Reserve <Icon name="arrow" size={18} /></a>
   </div>
 </Base>
 
@@ -719,264 +527,225 @@ const fmtHours = (s: string[][]) => s.map(([a, b, label]) => `${a}–${b}${label
 
   const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s);
   const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => [...r.querySelectorAll<T>(s)];
-  const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3));
-  const dayName = new Intl.DateTimeFormat("en-US", { weekday: "long" });
+  const toMin = (t: string) => {
+    const [h, m] = t.split(":").map(Number);
+    return h * 60 + m;
+  };
+  const now = new Date();
+  const today = hours.find((h) => h.day === now.getDay());
 
-  // Header shadow
+  // Header: transparent over the hero, solid after it. Floating Reserve after the hero.
   const header = $("[data-header]");
-  const onScroll = () => header?.classList.toggle("scrolled", window.scrollY > 8);
+  const floatCta = $("[data-float-cta]");
+  const reserve = $("#reserve");
+  const onScroll = () => {
+    const past = window.scrollY > window.innerHeight * 0.75;
+    header?.classList.toggle("solid", window.scrollY > window.innerHeight - 80);
+    const rr = reserve?.getBoundingClientRect();
+    const atReserve = rr ? rr.top < window.innerHeight && rr.bottom > 0 : false;
+    floatCta?.classList.toggle("show", past && !atReserve);
+  };
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
   // Mobile menu
   const toggle = $<HTMLButtonElement>("[data-menu-toggle]");
-  const mobile = $("#mobile-menu");
+  const mmenu = $("#mobile-menu");
   const setMenu = (open: boolean) => {
-    if (!toggle || !mobile) return;
+    if (!toggle || !mmenu) return;
     toggle.setAttribute("aria-expanded", String(open));
-    mobile.dataset.open = String(open);
-    $("[data-icon-open]", toggle)?.toggleAttribute("hidden", open);
-    $("[data-icon-close]", toggle)?.toggleAttribute("hidden", !open);
+    mmenu.dataset.open = String(open);
+    toggle.querySelector("[data-icon-open]")?.toggleAttribute("hidden", open);
+    toggle.querySelector("[data-icon-close]")?.toggleAttribute("hidden", !open);
+    document.body.style.overflow = open ? "hidden" : "";
   };
   toggle?.addEventListener("click", () => setMenu(toggle.getAttribute("aria-expanded") !== "true"));
   $$("[data-menu-link]").forEach((a) => a.addEventListener("click", () => setMenu(false)));
   document.addEventListener("keydown", (e) => e.key === "Escape" && setMenu(false));
 
-  // Open-now status + today's hours
-  const now = new Date();
-  const today = hours.find((h) => h.day === now.getDay())!;
-  const mins = now.getHours() * 60 + now.getMinutes();
-  const openService = today.services.find(([a, b]) => mins >= toMin(a) && mins < toMin(b));
-  const nextService = today.services.find(([a]) => mins < toMin(a));
+  // Open now + today's hours (visitor's local clock: demo behaviour)
   const pill = $("[data-open-pill]");
   const pillText = $("[data-open-text]");
-  if (pill && pillText) {
-    if (openService) {
-      const kitchen = toMin(openService[1]) - 30;
-      pill.dataset.state = "open";
-      pillText.textContent = `Open now · kitchen closes ${String(Math.floor(kitchen / 60)).padStart(2, "0")}:${String(kitchen % 60).padStart(2, "0")}`;
-    } else if (nextService) {
-      pill.dataset.state = "soon";
-      pillText.textContent = `Opens today at ${nextService[0]}`;
-    } else {
-      pill.dataset.state = "closed";
-      pillText.textContent = "Closed now · see hours";
-    }
+  const mins = now.getHours() * 60 + now.getMinutes();
+  if (today && pill && pillText) {
+    const open = today.services.find(([a, b]) => mins >= toMin(a) && mins < toMin(b));
+    pill.dataset.state = open ? "open" : "closed";
+    pillText.textContent = open
+      ? `Open now · kitchen closes ${(() => { const k = toMin(open[1]) - 30; return `${String(Math.floor(k / 60)).padStart(2, "0")}:${String(k % 60).padStart(2, "0")}`; })()}`
+      : today.services.length
+        ? `Closed now · opens ${today.services.find(([a]) => mins < toMin(a))?.[0] ?? "tomorrow"}`
+        : "Closed today · back tomorrow";
   }
-  const todayLine = $("[data-today-line]");
-  if (todayLine) {
-    todayLine.textContent = today.services.length
-      ? `Today: ${today.services.map(([a, b, l]) => `${a}–${b}${l ? ` ${l.toLowerCase()}` : ""}`).join(" & ")}`
-      : "Closed today, back tomorrow from 17:00";
-  }
-  $(`.hours-table tr[data-day="${now.getDay()}"]`)?.classList.add("is-today");
-  const board = $("[data-board-date]");
-  if (board) board.textContent = `${dayName.format(now)}'s board · written at 16:00`;
+  const todayHours = $("[data-today-hours]");
+  if (todayHours && today) todayHours.textContent = today.services.length ? today.services.map(([a, b]) => `${a}–${b}`).join(" · ") : "Closed today";
+  $(`[data-hours] li[data-day="${now.getDay()}"]`)?.classList.add("is-today");
 
-  // Menu: tabs + dietary filters
-  const menuRoot = $("[data-menu]");
-  if (menuRoot) {
-    menuRoot.dataset.js = "true";
-    const tabs = $$<HTMLButtonElement>("[data-tab]", menuRoot);
-    const panels = $$("[data-panel]", menuRoot);
-    const filters = $$<HTMLButtonElement>("[data-filter]", menuRoot);
-    const status = $("[data-menu-status]", menuRoot);
-    let active = tabs[0]?.dataset.tab ?? "";
+  // Plate rail arrows
+  const rail = $("[data-rail]");
+  const step = () => (rail?.querySelector("li")?.getBoundingClientRect().width ?? 300) + 20;
+  $("[data-rail-next]")?.addEventListener("click", () => rail?.scrollBy({ left: step(), behavior: "smooth" }));
+  $("[data-rail-prev]")?.addEventListener("click", () => rail?.scrollBy({ left: -step(), behavior: "smooth" }));
 
-    const withTransition = (fn: () => void) => {
-      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const d = document as Document & { startViewTransition?: (cb: () => void) => unknown };
-      if (d.startViewTransition && !reduce) d.startViewTransition(fn);
-      else fn();
-    };
-
-    const render = () => {
-      const want = filters.filter((f) => f.getAttribute("aria-pressed") === "true").map((f) => f.dataset.filter!);
-      panels.forEach((p) => {
-        p.hidden = p.dataset.panel !== active;
-        let shown = 0;
-        const dishes = $$("[data-tags]", p);
-        dishes.forEach((d) => {
-          const tags = d.dataset.tags!.split(" ");
-          if (tags.includes("vegan")) tags.push("veg");
-          const ok = want.every((w) => tags.includes(w));
-          d.hidden = !ok;
-          if (ok) shown++;
-        });
-        const empty = $("[data-empty]", p);
-        if (empty) empty.hidden = shown > 0;
-        if (p.dataset.panel === active && status) {
-          const label = tabs.find((t) => t.dataset.tab === active)?.textContent?.trim();
-          status.textContent = `${label}: showing ${shown} of ${dishes.length} dishes`;
-        }
+  // Menu: highlight the category in view
+  const catLinks = $$<HTMLAnchorElement>("[data-cat-link]");
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        const id = (en.target as HTMLElement).dataset.cat;
+        catLinks.forEach((a) => a.setAttribute("aria-current", String(a.dataset.catLink === id)));
+        const active = catLinks.find((a) => a.dataset.catLink === id);
+        active?.scrollIntoView({ block: "nearest", inline: "nearest" });
       });
-      tabs.forEach((t) => {
-        const on = t.dataset.tab === active;
-        t.setAttribute("aria-selected", String(on));
-        t.tabIndex = on ? 0 : -1;
-      });
-    };
+    },
+    { rootMargin: "-35% 0px -60% 0px" },
+  );
+  $$("[data-cat]").forEach((s) => io.observe(s));
 
-    tabs.forEach((t, i) => {
-      t.addEventListener("click", () => withTransition(() => { active = t.dataset.tab!; render(); }));
-      t.addEventListener("keydown", (e) => {
-        const dir = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
-        if (!dir) return;
-        e.preventDefault();
-        const next = tabs[(i + dir + tabs.length) % tabs.length];
-        next.focus();
-        next.click();
+  // Menu: dietary filters (AND), animated with the View Transitions API when available
+  const active = new Set<string>();
+  const status = $("[data-filter-status]");
+  const applyFilters = () => {
+    let shown = 0;
+    $$("[data-cat]").forEach((cat) => {
+      let inCat = 0;
+      $$<HTMLElement>(".dish", cat).forEach((d) => {
+        const tags = (d.dataset.tags ?? "").split(" ");
+        const ok = [...active].every((t) => tags.includes(t));
+        d.hidden = !ok;
+        if (ok) inCat++;
       });
+      shown += inCat;
+      const nm = $("[data-no-match]", cat);
+      if (nm) nm.hidden = inCat > 0;
     });
-    filters.forEach((f) =>
-      f.addEventListener("click", () =>
-        withTransition(() => {
-          f.setAttribute("aria-pressed", String(f.getAttribute("aria-pressed") !== "true"));
-          render();
-        }),
-      ),
-    );
-    render();
-  }
-
-  // Reservation widget (demo: nothing is sent)
-  const form = $<HTMLFormElement>("[data-reserve-form]");
-  const daysBox = $("[data-days]");
-  const timesBox = $("[data-times]");
-  const fmtShort = new Intl.DateTimeFormat("en-US", { weekday: "short" });
-  const fmtDate = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
-  const slotsFor = (day: number) => {
-    const h = hours.find((x) => x.day === day)!;
-    return h.services.map(([a, b, label]) => {
-      const out: string[] = [];
-      for (let m = toMin(a); m <= toMin(b) - 90; m += 30) out.push(`${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`);
-      return { label: label ?? "Dinner", slots: out };
-    });
+    if (status) status.textContent = active.size ? `${shown} dishes match` : "";
   };
-  // deterministic "fully booked" slots so the widget feels real
-  const isFull = (dateKey: string, t: string) => [...(dateKey + t)].reduce((s, c) => s + c.charCodeAt(0), 0) % 7 === 0;
-
-  if (daysBox) {
-    for (let i = 0; i < 14; i++) {
-      const d = new Date(now);
-      d.setDate(now.getDate() + i);
-      const closed = d.getDay() === 1;
-      const id = `rd-${i}`;
-      const label = i === 0 ? "Today" : i === 1 ? "Tomorrow" : fmtShort.format(d);
-      const wrap = document.createElement("label");
-      wrap.className = "chip day";
-      wrap.innerHTML = `<input type="radio" name="day" id="${id}" value="${d.toISOString().slice(0, 10)}" data-dow="${d.getDay()}" data-label="${dayName.format(d)}, ${fmtDate.format(d)}" ${closed ? "disabled" : ""}><span>${label}<small>${closed ? "Closed" : fmtDate.format(d)}</small></span>`;
-      daysBox.appendChild(wrap);
-    }
-  }
-
-  const checked = (name: string) => form?.querySelector<HTMLInputElement>(`input[name="${name}"]:checked`) ?? null;
-
-  const renderTimes = () => {
-    const day = checked("day");
-    if (!timesBox || !day) return;
-    const groups = slotsFor(Number(day.dataset.dow));
-    timesBox.innerHTML = groups
-      .map(
-        (g) =>
-          `<p class="slot-group">${g.label}</p><div class="chips">${g.slots
-            .map((t) => {
-              const full = isFull(day.value, t);
-              const id = `rt-${t.replace(":", "")}`;
-              return `<label class="chip time${full ? " full" : ""}"><input type="radio" name="time" id="${id}" value="${t}" ${full ? "disabled" : ""}><span>${t}${full ? "<small>Full</small>" : ""}</span></label>`;
-            })
-            .join("")}</div>`,
-      )
-      .join("");
-  };
-
-  const slip = {
-    party: $("[data-slip-party]"),
-    day: $("[data-slip-day]"),
-    time: $("[data-slip-time]"),
-    name: $("[data-slip-name]"),
-  };
-  const errorBox = $("[data-reserve-error]");
-  const updateSlip = () => {
-    const party = checked("party")?.value ?? "";
-    const day = checked("day");
-    const time = checked("time")?.value ?? "";
-    const name = form?.querySelector<HTMLInputElement>("#r-name")?.value.trim() ?? "";
-    if (slip.party) slip.party.textContent = party ? `${party} ${party === "1" ? "guest" : "guests"}` : "—";
-    if (slip.day) slip.day.textContent = day?.dataset.label ?? "—";
-    if (slip.time) slip.time.textContent = time || "—";
-    if (slip.name) slip.name.textContent = name || "—";
-    if (errorBox) errorBox.textContent = "";
-  };
-
-  form?.addEventListener("change", (e) => {
-    if ((e.target as HTMLInputElement).name === "day") renderTimes();
-    updateSlip();
-  });
-  form?.addEventListener("input", updateSlip);
-
-  // "Book weekend kahvaltı" preselects the next Saturday
-  $$("[data-preset='weekend']").forEach((a) =>
-    a.addEventListener("click", () => {
-      const sat = $$<HTMLInputElement>('input[name="day"]').find((i) => i.dataset.dow === "6");
-      if (sat) {
-        sat.checked = true;
-        renderTimes();
-        updateSlip();
-      }
+  $$<HTMLButtonElement>("[data-filter]").forEach((b) =>
+    b.addEventListener("click", () => {
+      const id = b.dataset.filter!;
+      const on = b.getAttribute("aria-pressed") !== "true";
+      b.setAttribute("aria-pressed", String(on));
+      on ? active.add(id) : active.delete(id);
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      // @ts-ignore: startViewTransition is not in every lib.dom version yet
+      if (document.startViewTransition && !reduce) document.startViewTransition(applyFilters);
+      else applyFilters();
     }),
   );
 
+  // Reservation: days (Mondays closed), times from opening hours, live receipt
+  const daysBox = $("[data-days]");
+  const timesBox = $("[data-times]");
+  const fmtDay = new Intl.DateTimeFormat("en-US", { weekday: "short" });
+  const fmtDate = new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" });
+  const dayInfo = new Map<string, { label: string; dow: number }>();
+  if (daysBox) {
+    for (let i = 0; i < 8; i++) {
+      const d = new Date(now);
+      d.setDate(now.getDate() + i);
+      const dow = d.getDay();
+      const h = hours.find((x) => x.day === dow);
+      const closed = !h || h.services.length === 0;
+      const label = i === 0 ? "Today" : i === 1 ? "Tomorrow" : fmtDay.format(d);
+      const id = `day-${i}`;
+      dayInfo.set(id, { label: `${label}, ${fmtDate.format(d)}`, dow });
+      const wrap = document.createElement("div");
+      wrap.className = "chip";
+      wrap.innerHTML = `<input type="radio" name="day" id="${id}" value="${id}" ${closed ? "disabled" : ""}><label for="${id}">${label}<small>${closed ? "Closed" : fmtDate.format(d)}</small></label>`;
+      daysBox.appendChild(wrap);
+    }
+  }
+  const renderTimes = (dayId: string) => {
+    if (!timesBox) return;
+    const info = dayInfo.get(dayId);
+    const h = hours.find((x) => x.day === info?.dow);
+    timesBox.innerHTML = "";
+    const slots: string[] = [];
+    h?.services.forEach(([a, b]) => {
+      for (let t = toMin(a); t <= toMin(b) - 90; t += 30) slots.push(`${String(Math.floor(t / 60)).padStart(2, "0")}:${String(t % 60).padStart(2, "0")}`);
+    });
+    const isToday = dayId === "day-0";
+    slots.forEach((s, i) => {
+      const past = isToday && toMin(s) <= mins + 30;
+      const wrap = document.createElement("div");
+      wrap.className = "chip";
+      wrap.innerHTML = `<input type="radio" name="time" id="t-${i}" value="${s}" ${past ? "disabled" : ""}><label for="t-${i}">${s}</label>`;
+      timesBox.appendChild(wrap);
+    });
+    if (!slots.length) timesBox.innerHTML = `<p class="hint">No tables that day.</p>`;
+  };
+
+  const form = $<HTMLFormElement>("[data-book-form]");
+  const val = (n: string) => form?.querySelector<HTMLInputElement>(`[name="${n}"]:checked`)?.value ?? "";
+  const r = (k: string, v: string) => {
+    const el = $(`[data-r-${k}]`);
+    if (el) el.textContent = v || "—";
+  };
+  form?.addEventListener("change", (e) => {
+    const t = e.target as HTMLInputElement;
+    if (t.name === "day") renderTimes(t.value);
+    r("guests", val("guests"));
+    r("day", dayInfo.get(val("day"))?.label ?? "");
+    r("time", val("time"));
+  });
+  form?.querySelector<HTMLInputElement>("#bk-name")?.addEventListener("input", (e) => r("name", (e.target as HTMLInputElement).value.trim()));
+  // "Book weekend kahvaltı" preselects the next Saturday/Sunday
+  $$("[data-preset-day]").forEach((a) =>
+    a.addEventListener("click", () => {
+      const id = [...dayInfo.entries()].find(([k, v]) => (v.dow === 6 || v.dow === 0) && !($(`#${k}`) as HTMLInputElement)?.disabled)?.[0];
+      const input = id ? $<HTMLInputElement>(`#${id}`) : null;
+      if (input) {
+        input.checked = true;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    }),
+  );
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
-    const day = checked("day");
-    const time = checked("time")?.value;
-    const name = form.querySelector<HTMLInputElement>("#r-name")?.value.trim();
-    const missing = [!day && "a day", !time && "a time", !name && "your name"].filter(Boolean) as string[];
+    const err = $("[data-bk-error]");
+    const name = form.querySelector<HTMLInputElement>("#bk-name");
+    const missing = [!val("day") && "a day", !val("time") && "a time", !name?.value.trim() && "your name"].filter(Boolean) as string[];
+    name?.setAttribute("aria-invalid", String(!name.value.trim()));
     if (missing.length) {
-      if (errorBox) errorBox.textContent = `Please choose ${missing.join(", ").replace(/, ([^,]*)$/, " and $1")}.`;
+      if (err) err.textContent = `Please choose ${missing.join(", ").replace(/, ([^,]*)$/, " and $1")}.`;
       return;
     }
-    const done = $("[data-reserve-done]");
-    const text = $("[data-reserve-done-text]");
-    if (done && text) {
-      const party = checked("party")?.value;
-      text.textContent = `Table for ${party} at ${time} on ${day!.dataset.label}. See you by the fire, ${name}.`;
+    if (err) err.textContent = "";
+    form.hidden = true;
+    const done = $("[data-bk-done]");
+    const txt = $("[data-bk-text]");
+    if (txt) txt.textContent = `${val("guests")} ${val("guests") === "1" ? "guest" : "guests"}, ${dayInfo.get(val("day"))?.label} at ${val("time")}. See you by the fire, ${name!.value.trim()}.`;
+    if (done) {
       done.hidden = false;
-      form.inert = true;
-      form.classList.add("is-booked");
       done.focus();
     }
   });
 
-  // Mangal nights inquiry (demo)
-  const qForm = $<HTMLFormElement>("[data-inquiry-form]");
-  const qDate = $<HTMLInputElement>("#q-date");
-  if (qDate) {
-    const min = new Date(now);
-    min.setDate(now.getDate() + 7);
-    qDate.min = min.toISOString().slice(0, 10);
-  }
-  qForm?.addEventListener("submit", (e) => {
+  // Mangal nights inquiry (demo, nothing sent)
+  const iq = $<HTMLFormElement>("[data-inquiry-form]");
+  iq?.addEventListener("submit", (e) => {
     e.preventDefault();
-    const data = new FormData(qForm);
-    const guests = Number(data.get("guests"));
-    const err = $("[data-inquiry-error]");
-    const missing: string[] = [];
-    if (!String(data.get("name")).trim()) missing.push("your name");
-    if (!(guests >= 8 && guests <= 24)) missing.push("a group size between 8 and 24");
-    if (!data.get("date")) missing.push("a date");
-    if (!String(data.get("phone")).trim()) missing.push("a phone number");
-    if (missing.length) {
-      if (err) err.textContent = `Please add ${missing.join(", ").replace(/, ([^,]*)$/, " and $1")}.`;
+    const err = $("[data-iq-error]");
+    const get = (id: string) => iq.querySelector<HTMLInputElement>(id)!;
+    const name = get("#iq-name"), guests = get("#iq-guests"), date = get("#iq-date"), phone = get("#iq-phone");
+    const g = Number(guests.value);
+    const problems: string[] = [];
+    [name, date, phone].forEach((f) => f.setAttribute("aria-invalid", String(!f.value.trim())));
+    if (!name.value.trim()) problems.push("your name");
+    if (!(g >= 8 && g <= 24)) problems.push("8 to 24 guests");
+    if (!date.value) problems.push("a date");
+    if (!phone.value.trim()) problems.push("a phone number");
+    guests.setAttribute("aria-invalid", String(!(g >= 8 && g <= 24)));
+    if (problems.length) {
+      if (err) err.textContent = `Please add ${problems.join(", ").replace(/, ([^,]*)$/, " and $1")}.`;
       return;
     }
-    const done = $("[data-inquiry-done]");
-    const text = $("[data-inquiry-done-text]");
-    if (done && text) {
-      const date = new Date(String(data.get("date")) + "T12:00");
-      text.textContent = `${guests} guests, ${data.get("menu")} menu, ${dayName.format(date)} ${fmtDate.format(date)}. Bora will call you within one working day.`;
-      qForm.hidden = true;
+    iq.hidden = true;
+    const done = $("[data-iq-done]");
+    const txt = $("[data-iq-text]");
+    if (txt) txt.textContent = `${g} guests on ${date.value}. We'll call ${name.value.trim()} within one working day.`;
+    if (done) {
       done.hidden = false;
       done.focus();
     }
