@@ -1903,3 +1903,8 @@
   filter: grayscale(0.6);
   transition: opacity 0.3s, filter 0.3s;
 }
+
+/* QA: keep the phone number on one line */
+.c-sumakara a[href^="tel:"] {
+  white-space: nowrap;
+}

@@ -178,7 +178,7 @@ export const quotes = [
 
 export const faq = [
   { q: "Can you cook for allergies and dietary needs?", a: "Yes. Every dish is tagged on the menu, and the kitchen can adapt most plates. Tell us when you book, or tell your server. We prepare gluten-free bread on a separate stone." },
-  { q: "Is your meat halal?", a: "Our lamb and chicken come from a halal-certified butcher we have worked with for years. We also serve alcohol, so please ask us if that matters for your table." },
+  { q: "Is your meat halal?", a: "Our lamb and chicken come from a halal butcher we have worked with for years. We also serve alcohol, so please ask us if that matters for your table." },
   { q: "Are kids welcome?", a: "Very. We have high chairs, a kids' plate of chicken skewer, rice and yogurt, and crayons for the paper tablecloths." },
   { q: "Do you take groups?", a: "Up to 8 guests can book online. For 9 to 24 guests, send a Mangal nights inquiry and we'll plan a set menu together." },
   { q: "Is there a dress code?", a: "No. Come as you are. You will smell a little of charcoal when you leave, and that's part of the deal." },

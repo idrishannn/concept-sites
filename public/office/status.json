@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-26T16:46:41.963Z",
+  "updatedAt": "2026-11-26T16:48:25.537Z",
   "current": "restaurant",
   "agents": {
     "research": {
@@ -17,14 +17,21 @@
       "finishedAt": "2026-11-26T11:58:02.232Z"
     },
     "qa": {
-      "state": "working",
+      "state": "done",
       "concept": "restaurant",
-      "message": "Reviewing Sumakara",
+      "message": "Sumakara QA clean; 2 small fixes; portfolio text written",
       "startedAt": "2026-11-26T16:46:41.963Z",
-      "finishedAt": null
+      "finishedAt": "2026-11-26T16:48:25.537Z"
     }
   },
   "log": [
+    {
+      "at": "2026-11-26T16:48:25.537Z",
+      "agent": "qa",
+      "state": "done",
+      "concept": "restaurant",
+      "message": "Sumakara QA clean; 2 small fixes; portfolio text written"
+    },
     {
       "at": "2026-11-26T16:46:41.963Z",
       "agent": "qa",
