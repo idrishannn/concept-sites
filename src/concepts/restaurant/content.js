@@ -83,9 +83,9 @@ export const menu = [
       { photo: "adana", tr: "Adana kebab", en: "Spiced minced lamb", text: "Hand-minced with tail fat and chili, sumac onions.", price: "26", tags: ["spicy"] },
       { photo: "kuzu-sis", tr: "Kuzu şiş", en: "Lamb leg skewers", text: "Marinated overnight in onion juice and thyme.", price: "29", tags: ["gf"] },
       { photo: "tavuk-kanat", tr: "Tavuk kanat", en: "Chicken wings", text: "Pepper paste and yogurt marinade, lemon.", price: "21", tags: ["gf", "spicy"] },
-      { photo: "patlican-kebab", tr: "Patlıcan kebabı", en: "Aubergine & lamb kebab", text: "Minced lamb and aubergine on one skewer, on lavaş with yogurt.", price: "27", tags: [] },
-      { tr: "Hellim şiş", en: "Halloumi & vegetable skewer", text: "Courgette, peppers, onions, oregano oil.", price: "22", tags: ["veg", "gf"] },
-      { photo: "mantar-sis", tr: "Mantar & patlıcan şiş", en: "Mushroom & aubergine", text: "Pomegranate glaze, walnut tarator.", price: "20", tags: ["vegan", "gf"] },
+      { photo: "patlican-kebab", tr: "Patlıcan kebabı", en: "Aubergine & lamb skewer", text: "Minced lamb and aubergine on one skewer, on lavaş with yogurt.", price: "27", tags: [] },
+      { photo: "beyti", tr: "Beyti", en: "Wrapped kebab", text: "Lamb kebab rolled in lavaş, sliced, with tomato butter and yogurt.", price: "28", tags: [] },
+      { photo: "hellim-sis", tr: "Hellim şiş", en: "Halloumi & vegetable skewer", text: "Halloumi, aubergine and cherry tomatoes, oregano oil.", price: "22", tags: ["veg", "gf"] },
     ],
   },
   {
@@ -117,10 +117,8 @@ export const menu = [
     items: [
       { photo: "cay", tr: "Çay", en: "Turkish tea, tulip glass", text: "Brewed in a double kettle, as strong as you like. Free after dinner.", price: "0", tags: ["vegan", "gf"] },
       { photo: "ayran", tr: "Ayran", en: "Salted yogurt drink", text: "Frothy, made by the jug. The classic with kebab.", price: "5", tags: ["veg", "gf"] },
-      { tr: "Şalgam", en: "Fermented turnip juice", text: "Sour, salty, cold. Ask for it spicy.", price: "5", tags: ["vegan", "gf", "spicy"] },
       { photo: "visne", tr: "Vişne şerbeti", en: "Sour cherry sherbet", text: "House syrup, soda, crushed ice.", price: "6", tags: ["vegan", "gf"] },
       { photo: "kahve", tr: "Türk kahvesi", en: "Turkish coffee", text: "Cooked in sand, a lokum on the side.", price: "5", tags: ["vegan", "gf"] },
-      { tr: "Rakı", en: "Anise spirit, by the glass", text: "With ice and cold water, the meze's best friend.", price: "11", tags: ["vegan", "gf"] },
     ],
   },
 ];
@@ -167,7 +165,7 @@ export const setMenus = [
   {
     name: "Büyük sofra",
     price: "92",
-    text: "The full table: ten meze, whole fish, three skewers, sweets and a rakı pairing.",
+    text: "The full table: ten meze, whole fish, three skewers, sweets and Turkish coffee.",
   },
 ];
 
@@ -179,7 +177,7 @@ export const quotes = [
 
 export const faq = [
   { q: "Can you cook for allergies and dietary needs?", a: "Yes. Every dish is tagged on the menu, and the kitchen can adapt most plates. Tell us when you book, or tell your server. We prepare gluten-free bread on a separate stone." },
-  { q: "Is your meat halal?", a: "Our lamb and chicken come from a halal butcher we have worked with for years. We also serve alcohol, so please ask us if that matters for your table." },
+  { q: "Is your meat halal?", a: "Our lamb and chicken come from a halal butcher we have worked with for years. Ask us about any dish and we'll tell you exactly what goes into it." },
   { q: "Are kids welcome?", a: "Very. We have high chairs, a kids' plate of chicken skewer, rice and yogurt, and crayons for the paper tablecloths." },
   { q: "Do you take groups?", a: "Up to 8 guests can book online. For 9 to 24 guests, send a Mangal nights inquiry and we'll plan a set menu together." },
   { q: "Is there a dress code?", a: "No. Come as you are. You will smell a little of charcoal when you leave, and that's part of the deal." },

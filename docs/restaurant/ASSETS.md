@@ -53,3 +53,10 @@ Each dish has `dishes/<slug>.jpg` (640×800 preview) and `dishes/<slug>-sm.jpg` 
 | `cat-drinks.jpg` | `pexels-sena-124841843-9981360.jpg` | Pexels License |
 
 Menu changes to match the photos: Beyti → Patlıcan kebabı; Fırın sütlaç → Fıstıklı baklava; İncir & tahin → Cevizli kurabiye; added Çay (free). Hellim şiş, Şalgam and Rakı have no photo (designed empty thumbnail).
+
+### Corrections 2026-11-27 (Idrishan's review)
+- `haydari` now uses `pexels-omerkayann-14908999.jpg` (the earlier photo was beyti).
+- `beyti` (restored to the menu) uses `pexels-vitrinreklam-15390223.jpg`.
+- `hellim-sis` uses `pexels-aidin-gheshlaghi-423868104-16716140.jpg` (halloumi skewers).
+- `patlican-kebab` (aubergine & lamb skewer) keeps `pexels-shameel-mukkath-3421394-5191846.jpg`.
+- Removed from the menu: Mantar & patlıcan şiş (no photo), Şalgam (no photo), Rakı (removed everywhere at Idrishan's request).

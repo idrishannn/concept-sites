@@ -40,7 +40,7 @@ const dishPhoto = (slug?: string) =>
 const tagLabel = Object.fromEntries(dietary.map((d) => [d.id, d.label]));
 const tagIcon: Record<string, string> = { veg: "leaf", vegan: "sprout", gf: "wheat", spicy: "flame" };
 const fmtHours = (s: string[][]) => s.map(([a, b, label]) => `${a}–${b}${label ? ` (${label})` : ""}`).join(" · ");
-const tickerWords = ["Meze", "Mangal", "Kahvaltı", "Lavaş from the coals", "Rakı", "Künefe", "Tea is on us"];
+const tickerWords = ["Meze", "Mangal", "Kahvaltı", "Lavaş from the coals", "Ayran", "Künefe", "Tea is on us"];
 const embers = Array.from({ length: 16 }, (_, i) => ({
   left: (i * 37) % 100,
   s: 2 + (i % 4),
