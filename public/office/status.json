@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-26T06:49:49.823Z",
+  "updatedAt": "2026-11-26T11:46:52.977Z",
   "current": "restaurant",
   "agents": {
     "research": {
@@ -10,11 +10,11 @@
       "finishedAt": "2026-11-26T06:49:49.823Z"
     },
     "build": {
-      "state": "done",
-      "concept": "dental-clinic",
-      "message": "Single-page site with booking widget",
-      "startedAt": null,
-      "finishedAt": "2026-11-25T20:06:36.444Z"
+      "state": "working",
+      "concept": "restaurant",
+      "message": "Building Sumakara",
+      "startedAt": "2026-11-26T11:46:52.977Z",
+      "finishedAt": null
     },
     "qa": {
       "state": "done",
@@ -25,6 +25,13 @@
     }
   },
   "log": [
+    {
+      "at": "2026-11-26T11:46:52.977Z",
+      "agent": "build",
+      "state": "working",
+      "concept": "restaurant",
+      "message": "Building Sumakara"
+    },
     {
       "at": "2026-11-26T06:49:49.823Z",
       "agent": "research",
