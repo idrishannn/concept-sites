@@ -2103,3 +2103,8 @@
 body:has(.c-sumakara .dock:not([hidden])) .concept-badge {
   display: none;
 }
+
+/* keep each dish in frame when the panel crops the photo */
+.c-sumakara .sig-panel:nth-child(1) .sig-media img { object-position: 62% 70%; }
+.c-sumakara .sig-panel:nth-child(2) .sig-media img { object-position: 67% 50%; }
+.c-sumakara .sig-panel:nth-child(3) .sig-media img { object-position: 84% 50%; }
