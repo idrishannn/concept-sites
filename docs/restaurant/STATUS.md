@@ -2,7 +2,7 @@
 slug: restaurant
 
 - [x] 1 Research  (2026-11-26 09:55) – brief written: Anatolian charcoal grill & meze house; HTML menu with dietary filters, reservation widget, private "mangal nights" inquiry; Anybody + Instrument Sans, pomegranate/sumac/saffron/iznik palette
-- [x] 2 Build     (2026-11-26 15:05) – single page, 11 sections: stretching Anybody wordmark hero (scroll-driven `wdth`), specials board, HTML menu with 5 tabs + dietary filters (View Transitions), kahvaltı, the fire + team (initials), mangal nights set menus + inquiry (demo), reservation widget with live adisyon slip (demo), visit map/hours with today highlighted, FAQ; `npm run qa` clean at 320/375/768/1440
+- [x] 2 Build     (2026-11-26 14:58) – single page, 11 sections: stretching Anybody wordmark hero (scroll-driven `wdth`), specials board, HTML menu with 5 tabs + dietary filters (View Transitions), kahvaltı, the fire + team (initials), mangal nights set menus + inquiry (demo), reservation widget with live adisyon slip (demo), visit map/hours with today highlighted, FAQ; `npm run qa` clean at 320/375/768/1440
 - [ ] 3 QA
 
 ## Notes for Idrishan
