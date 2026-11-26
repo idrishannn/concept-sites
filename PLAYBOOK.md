@@ -111,8 +111,9 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
 - **Layout fingerprint.** Every brief includes a short fingerprint so sameness is easy to spot:
   `hero` (type of hero), `nav` (header style), `sections` (section-heading pattern), `grid`
   (main layout system), `background` (page canvas), `signature` (the one memorable component),
-  `palette`, `type`. Compare it with the fingerprints of the last three concepts: at most two of
-  the eight items may be similar, and `hero`, `sections` and `grid` must all differ.
+  `palette`, `type`. Compare it with the fingerprints of **every** existing concept
+  (`docs/*/brief.md` and `docs/external/*.md`): against each one, at most two of the eight items
+  may be similar, and `hero`, `sections` and `grid` must all differ.
   Common patterns to avoid repeating by default: small-caps eyebrow + big heading left + lead
   paragraph right; cream page background; three-card rows everywhere; dark "feature" band;
   illustrated map + FAQ + sticky mobile action bar as the closing sequence.
