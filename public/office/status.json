@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-27T06:49:56.735Z",
+  "updatedAt": "2026-11-27T11:46:23.154Z",
   "current": "real-estate",
   "agents": {
     "research": {
@@ -10,11 +10,11 @@
       "finishedAt": "2026-11-27T06:49:56.735Z"
     },
     "build": {
-      "state": "done",
-      "concept": "restaurant",
-      "message": "Sumakara built: HTML menu with dietary filters, reservation widget with adisyon slip, mangal nights inquiry, kahvaltı, visit/FAQ",
-      "startedAt": "2026-11-26T11:46:52.977Z",
-      "finishedAt": "2026-11-26T11:58:02.232Z"
+      "state": "working",
+      "concept": "real-estate",
+      "message": "Building Tillwick",
+      "startedAt": "2026-11-27T11:46:23.154Z",
+      "finishedAt": null
     },
     "qa": {
       "state": "done",
@@ -25,6 +25,13 @@
     }
   },
   "log": [
+    {
+      "at": "2026-11-27T11:46:23.154Z",
+      "agent": "build",
+      "state": "working",
+      "concept": "real-estate",
+      "message": "Building Tillwick"
+    },
     {
       "at": "2026-11-27T06:49:56.735Z",
       "agent": "research",
