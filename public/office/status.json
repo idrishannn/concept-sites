@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-27T16:46:15.619Z",
+  "updatedAt": "2026-11-27T16:52:01.169Z",
   "current": "real-estate",
   "agents": {
     "research": {
@@ -17,14 +17,21 @@
       "finishedAt": "2026-11-27T11:58:56.126Z"
     },
     "qa": {
-      "state": "working",
+      "state": "done",
       "concept": "real-estate",
-      "message": "Reviewing Tillwick",
+      "message": "Tillwick QA'd: 2 layout fixes, qa clean, portfolio text written",
       "startedAt": "2026-11-27T16:46:15.619Z",
-      "finishedAt": null
+      "finishedAt": "2026-11-27T16:52:01.169Z"
     }
   },
   "log": [
+    {
+      "at": "2026-11-27T16:52:01.169Z",
+      "agent": "qa",
+      "state": "done",
+      "concept": "real-estate",
+      "message": "Tillwick QA'd: 2 layout fixes, qa clean, portfolio text written"
+    },
     {
       "at": "2026-11-27T16:46:15.619Z",
       "agent": "qa",

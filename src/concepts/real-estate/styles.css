@@ -350,6 +350,9 @@
   font-size: 0.85rem;
   font-weight: 500;
 }
+.c-estate .hero-kicker-text {
+  text-wrap: balance;
+}
 .c-estate .dot {
   width: 10px;
   height: 10px;
@@ -1831,6 +1834,10 @@
 }
 
 /* ---------- contact + faq ---------- */
+.c-estate .how + .reviews {
+  /* same canvas as "How we work": avoid a doubled gap */
+  padding-top: 0;
+}
 .c-estate .contact {
   border-top: 1px solid var(--line);
 }
