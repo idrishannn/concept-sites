@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-27T11:58:56.126Z",
+  "updatedAt": "2026-11-27T16:46:15.619Z",
   "current": "real-estate",
   "agents": {
     "research": {
@@ -17,14 +17,21 @@
       "finishedAt": "2026-11-27T11:58:56.126Z"
     },
     "qa": {
-      "state": "done",
-      "concept": "restaurant",
-      "message": "Sumakara QA clean; 2 small fixes; portfolio text written",
-      "startedAt": "2026-11-26T16:46:41.963Z",
-      "finishedAt": "2026-11-26T16:48:25.537Z"
+      "state": "working",
+      "concept": "real-estate",
+      "message": "Reviewing Tillwick",
+      "startedAt": "2026-11-27T16:46:15.619Z",
+      "finishedAt": null
     }
   },
   "log": [
+    {
+      "at": "2026-11-27T16:46:15.619Z",
+      "agent": "qa",
+      "state": "working",
+      "concept": "real-estate",
+      "message": "Reviewing Tillwick"
+    },
     {
       "at": "2026-11-27T11:58:56.126Z",
       "agent": "build",
