@@ -254,9 +254,8 @@ export const listings = [
     status: "For sale",
     size: "wide",
     tone: "brick",
-    photo: null,
-    soon: "Photos on Monday. The decorators finish on Friday.",
-    alt: "Line drawing of a small brick rowhouse on Tallow Street",
+    photo: "listing-6",
+    alt: "White rowhouse on Tallow Street with a pale blue door under an old wisteria",
     why: "The cheapest way into Kilnworth this year. The loft is already boarded, so the third bedroom is half done.",
     agent: "Juno",
     facts: [

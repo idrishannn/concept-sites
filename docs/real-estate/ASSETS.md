@@ -16,4 +16,6 @@
 No template, JS library or animation package used. `lucide-static` was considered in the brief but not needed.
 Footer credits: fonts named; "Photos: Unsplash" appears automatically once any listing photo exists.
 
+| `listing-6.jpg` pale blue door, wisteria | Benjamin Cheng, Unsplash (_9h6HrtFncg); cropped to the door, leaving out a wall plaque | Unsplash License |
+
 Added 2026-11-27 (downloaded by Idrishan; cropped and compressed to ≤ 460 KB).
