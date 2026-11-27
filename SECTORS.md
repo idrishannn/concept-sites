@@ -11,7 +11,7 @@ Idrishan can edit this list at any time: move lines, add sectors, or delete them
 - [x] Video editor portfolio → Mara Lind (external, 2026-11-20)
 - [x] Dental clinic → `dental-clinic` (2026-11-25, manual test run)
 - [x] Restaurant / café → `restaurant` (2026-11-26)
-- [ ] Real estate agent (listings, search, valuation request)
+- [x] Real estate agent → `real-estate` (2026-11-27)
 - [ ] Law firm (practice areas, attorneys, consultation request)
 - [ ] Personal trainer / fitness studio (programs, pricing, booking)
 - [ ] Hair & beauty salon / barbershop (services, prices, booking)

@@ -7,6 +7,14 @@
 
 export const concepts = [
   {
+    slug: "real-estate",
+    brand: "Tillwick",
+    sector: "Real estate agent",
+    summary: "Neighbourhood estate agents: sentence-style home search, buying/selling switch, value range estimator and street-by-street guides.",
+    status: "draft",
+    date: "2026-11-27",
+  },
+  {
     slug: "restaurant",
     brand: "Sumakara",
     sector: "Restaurant / café",
