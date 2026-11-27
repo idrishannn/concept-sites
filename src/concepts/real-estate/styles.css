@@ -774,6 +774,37 @@
   object-fit: cover;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+/* a listing whose photos aren't taken yet: a typographic house-number panel */
+.c-estate .tile-soon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 56px 22px 20px;
+  background: var(--ink);
+  color: var(--on-ink);
+  overflow: hidden;
+}
+.c-estate .tile-soon-no {
+  position: absolute;
+  top: 6px;
+  right: 18px;
+  font: 400 clamp(7rem, 24cqi, 12rem)/1.1 var(--font-display);
+  letter-spacing: -0.05em;
+  color: var(--highlight);
+}
+.c-estate .tile-soon-street {
+  position: relative;
+  font: italic 400 1.9rem/1.05 var(--font-display);
+}
+.c-estate .tile-soon-note {
+  position: relative;
+  margin-top: 10px;
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--on-ink) 78%, transparent);
+  max-width: 24ch;
+}
 .c-estate .tile:hover .tile-media img,
 .c-estate .tile:hover .tile-media .facade {
   transform: scale(1.03);

@@ -12,5 +12,5 @@ until each file exists. No people appear in any of these.
 | `listing-4.jpg` | https://unsplash.com/photos/ornate-facade-of-a-building-with-arched-windows-and-balconies-71RbY3hOlSk | Alexander Mass | Old Ropewalk apartment with arched windows and balconies |
 | `listing-5.jpg` | https://unsplash.com/photos/X1TVWO1sDss | Bill Mason | Quillby Docks street door / urban façade |
 
-Listing 6 has no photo planned; it keeps its SVG façade drawing (fine as a design choice).
+All five added 2026-11-27. Listing 6 has no photo: it shows a typographic "photos on Monday" panel (PLAYBOOK media rule: no clip-art stand-ins).
 Footer credit: "Photos: Unsplash".

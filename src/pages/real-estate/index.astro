@@ -248,6 +248,12 @@ const estateData = {
                     <div class="tile-media">
                       {t.src ? (
                         <img src={t.src} alt={t.alt} loading="lazy" decoding="async" />
+                      ) : t.soon ? (
+                        <div class="tile-soon">
+                          <span class="tile-soon-no" aria-hidden="true">{t.address.split(" ")[0]}</span>
+                          <span class="tile-soon-street" aria-hidden="true">{t.address.split(" ").slice(1).join(" ")}</span>
+                          <p class="tile-soon-note">{t.soon}</p>
+                        </div>
                       ) : (
                         <Facade kind={t.type} tone={t.tone} label={t.alt} />
                       )}
@@ -682,7 +688,7 @@ const estateData = {
         <div class="ftr-notes">
           <p><strong>Tillwick is a fictional brand.</strong> Listings, prices, sales, reviews and people are invented for this concept.</p>
           <p>
-            {anyPhoto ? "Photos: Unsplash. " : ""}Façade drawings, map and icons made for this concept. Fonts: Newsreader and Geist (SIL Open Font License).
+            {anyPhoto ? "Photos: Unsplash. " : ""}Map and icons made for this concept. Fonts: Newsreader and Geist (SIL Open Font License).
           </p>
           <p>Concept by <a href="/">Idrishan Demirdag</a>.</p>
         </div>

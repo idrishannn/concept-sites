@@ -255,6 +255,7 @@ export const listings = [
     size: "wide",
     tone: "brick",
     photo: null,
+    soon: "Photos on Monday. The decorators finish on Friday.",
     alt: "Line drawing of a small brick rowhouse on Tallow Street",
     why: "The cheapest way into Kilnworth this year. The loft is already boarded, so the third bedroom is half done.",
     agent: "Juno",
