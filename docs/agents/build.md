@@ -13,8 +13,11 @@
 6. Install the fonts and libraries it needs from npm (check `npm view <pkg> version` and the
    license first). Record any non-trivial library, illustration set or animation in `ASSETS.md`.
 7. Build `src/pages/<slug>/index.astro` and `src/concepts/<slug>/` following the brief and the
-   design standard. Realistic, specific copy; no placeholders. For planned stock photos, follow
-   PLAYBOOK §2 (render the `<img>` only if the file exists; otherwise a polished placeholder).
+   design standard. Realistic, specific copy; no placeholders. Follow the brief's media mode
+   (PLAYBOOK §2 "Media choice"). For planned photos/videos, render the `<img>`/`<video>` only if
+   the file exists; otherwise an abstract, designed placeholder (never clip-art of the subject).
+   Videos: poster, muted/playsinline, pause control, no autoplay under reduced motion. Mode C:
+   no photos or illustrations at all; carry the design with type, color blocks and layout.
    Credit external assets in the footer next to the fictional-brand note.
 8. Run `npm run qa -- <slug>`. Open the screenshots in `qa-output/<slug>/` and fix anything that
    looks broken or unpolished. Repeat until the report has no problems.

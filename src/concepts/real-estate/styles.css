@@ -100,6 +100,17 @@
 }
 
 /* ---------- audience voice ---------- */
+/* text that changes with Buying/Selling fades in where it stands (no layout jump) */
+@media (prefers-reduced-motion: no-preference) {
+  .c-estate [data-voice] {
+    animation: voice-in 0.35s ease both;
+  }
+  @keyframes voice-in {
+    from {
+      opacity: 0;
+    }
+  }
+}
 .c-estate[data-audience="buy"] [data-voice="sell"],
 .c-estate[data-audience="sell"] [data-voice="buy"] {
   display: none;
@@ -234,8 +245,6 @@
   border-radius: 999px;
   background: var(--paper);
   border: 1px solid var(--line);
-  order: 3;
-  width: 100%;
 }
 .c-estate .switch-btn {
   flex: 1;
@@ -285,14 +294,37 @@
 .c-estate .hdr-links a:hover {
   border-color: var(--ink);
 }
-@media (min-width: 720px) {
-  .c-estate .switch {
-    order: 0;
-    width: auto;
+/* phones: one compact row (mark, switch, CTA); the long labels come back from 720px */
+@media (max-width: 719px) {
+  .c-estate .hdr-inner {
+    flex-wrap: nowrap;
+    gap: 8px;
+    min-height: 58px;
+    padding-block: 8px;
+  }
+  .c-estate .mark {
+    gap: 8px;
+    min-width: 0;
+  }
+  .c-estate .mark-glyph {
+    width: 28px;
+    height: 28px;
+  }
+  .c-estate .mark-sub {
+    display: none;
   }
   .c-estate .switch-btn {
-    flex: none;
+    min-height: 34px;
+    padding: 0 0.7rem;
+    font-size: 0.85rem;
   }
+}
+@media (max-width: 479px) {
+  .c-estate .hdr-cta {
+    display: none;
+  }
+}
+@media (min-width: 720px) {
   .c-estate .hdr-cta-long {
     display: inline;
   }
@@ -374,7 +406,6 @@
 }
 .c-estate .hero-title > span {
   display: block;
-  view-transition-name: estate-hero-title;
 }
 
 .c-estate .sentence {
@@ -385,7 +416,6 @@
   border-radius: var(--radius);
   box-shadow: 6px 6px 0 var(--ink);
   max-width: 1000px;
-  view-transition-name: estate-sentence;
 }
 .c-estate .sentence-text {
   font: 400 clamp(1.4rem, 3.3vw, 2.6rem) / 1.55 var(--font-display);
@@ -496,11 +526,113 @@
   padding-left: 14px;
 }
 
-::view-transition-old(estate-hero-title),
-::view-transition-new(estate-hero-title),
-::view-transition-old(estate-sentence),
-::view-transition-new(estate-sentence) {
-  animation-duration: 0.32s;
+/* hero side card: fills the right of the title on wide screens */
+.c-estate .hero-side {
+  display: none;
+}
+@media (min-width: 1100px) {
+  .c-estate .hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    column-gap: clamp(32px, 4vw, 64px);
+    align-items: start;
+  }
+  .c-estate .hero-inner > * {
+    grid-column: 1 / -1;
+  }
+  .c-estate .hero-inner > .hero-kicker {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+  }
+  .c-estate .hero-inner > .hero-title {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .c-estate .hero-inner > .hero-side {
+    display: block;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: end;
+  }
+}
+.c-estate .hero-card {
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transform: rotate(1.5deg);
+  transition: transform 0.25s ease;
+}
+.c-estate .hero-card:hover {
+  transform: rotate(0deg) translateY(-3px);
+}
+.c-estate .hero-card-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--concrete);
+  border-bottom: 1.5px solid var(--ink);
+}
+.c-estate .hero-card-media img,
+.c-estate .hero-card-media svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.c-estate .hero-card-body {
+  padding: 14px 18px 16px;
+}
+.c-estate .hero-card-price {
+  font: 500 1.7rem/1 var(--font-display);
+  font-variant-numeric: tabular-nums;
+}
+.c-estate .hero-card-addr {
+  margin-top: 6px;
+  font-weight: 600;
+}
+.c-estate .hero-card-meta {
+  margin-top: 2px;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+.c-estate .hero-card--sold {
+  background: var(--ink);
+  color: var(--on-ink);
+  padding-top: 22px;
+}
+.c-estate .hero-card--sold .hero-card-meta {
+  color: color-mix(in srgb, var(--on-ink) 75%, transparent);
+}
+.c-estate .hero-card--sold .hero-card-body {
+  border-top: 1px dashed color-mix(in srgb, var(--on-ink) 35%, transparent);
+  margin-top: 18px;
+}
+.c-estate .hero-card-kicker,
+.c-estate .hero-card-big,
+.c-estate .hero-card-sub {
+  padding-inline: 18px;
+}
+.c-estate .hero-card-kicker {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--highlight);
+}
+.c-estate .hero-card-big {
+  margin-top: 8px;
+  font: 400 6.5rem/0.9 var(--font-display);
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+.c-estate .hero-card-big span {
+  font-size: 0.45em;
+  margin-left: 4px;
+}
+.c-estate .hero-card-sub {
+  margin-top: 6px;
 }
 
 /* ---------- section scaffolding ---------- */
@@ -569,9 +701,7 @@
   display: flex;
   flex-direction: column;
 }
-.c-estate[data-audience="sell"] .swap .value {
-  order: -1;
-}
+
 
 /* ---------- bento listings ---------- */
 .c-estate .bento {
@@ -2080,5 +2210,22 @@
 @media (min-width: 700px) and (max-width: 1039px) {
   .c-estate .bento > .tile:last-child {
     grid-column: span 2;
+  }
+}
+
+/* phones: the shared concept badge sits in the hero's top padding and scrolls away with it,
+   so it never covers the hero figures (the footer repeats the fictional-brand note) */
+@media (max-width: 719px) {
+  body:has(.c-estate) .concept-badge {
+    position: absolute;
+    top: 68px;
+    bottom: auto;
+    left: auto;
+    right: 12px;
+    font-size: 11px;
+    padding: 4px 9px;
+  }
+  .c-estate .hero {
+    padding-top: 60px;
   }
 }

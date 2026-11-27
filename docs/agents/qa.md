@@ -18,7 +18,9 @@
    - Hard rules: fictional brand note and badge present; no real brands/people/claims; people in
      photos never presented as staff or reviewers; every external asset listed in `ASSETS.md`
      with a free license and credited in the footer
-   - The page looks complete even if the photos in `PHOTOS.md` haven't been added yet
+   - The page looks complete even if the photos/videos in `PHOTOS.md` haven't been added yet
+   - Media mode (PLAYBOOK §2): matches the brief; no flat clip-art standing in for photos; videos
+     have a poster, a pause control and respect reduced motion; mode C has no stray imagery
 5. Fix what you find. Re-run QA until there are no problems. `public/og/<slug>.png` is regenerated.
 6. In `STATUS.md`: check step 3 with a summary; fill "Notes for Idrishan" (what's good, what you
    weren't sure about, photos to download if any); write the Upwork portfolio text (max 600

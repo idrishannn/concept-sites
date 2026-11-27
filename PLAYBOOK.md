@@ -75,16 +75,42 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
 - **Illustrations & icons (usable directly):** CC0/MIT sets from npm or GitHub, e.g.
   `lucide-static`, `@phosphor-icons/core`, open illustration sets with CC0 licenses, SVG patterns.
   Custom SVG made for the concept is always fine.
-- **Photos & video (stock):** when a concept clearly benefits from photography, choose specific
-  free photos/videos on Unsplash or Pexels during research (use web search to find the pages).
-  Since they can't be downloaded here:
-  1. Build the layout with a tasteful placeholder: a gradient or SVG in the photo's colors, with
-     the final path wired in (e.g. `/photos/<slug>/hero.jpg`). In the Astro frontmatter, render the
-     `<img>` only if the file exists (`existsSync("public/photos/<slug>/hero.jpg")`), otherwise
-     render the placeholder. This avoids 404s and the page looks finished either way.
-  2. List each photo in `docs/<slug>/PHOTOS.md`: target file path, source page URL, photographer,
-     license, why it was chosen. Idrishan downloads them into `public/photos/<slug>/` later.
-  3. The page must look complete and polished *without* the photos, too.
+- **Media choice (photo, video, or none): decided per concept, by the design.** Every brief
+  picks ONE media mode in its design direction and says why (one or two sentences):
+  - **A · Photography.** For sectors where seeing the real thing sells it (food, homes, interiors,
+    travel, fitness, products). Use a few strong photos, large, with deliberate crops. Usually
+    4 to 8 is enough; quality beats quantity.
+  - **B · Video.** For sectors where motion is the product or the mood (video production, events,
+    gyms, hospitality, cars). Use one short loop (hero or one section, 6–15 s, no sound), or a few
+    clips in a reel. Rules: always a `poster` image; `muted autoplay loop playsinline`; no autoplay
+    when `prefers-reduced-motion: reduce` (show the poster plus a play button); a visible pause
+    control for anything over 5 s; `preload="none"` or `"metadata"` and lazy start below the fold;
+    target ≤ 4 MB per clip (H.264 MP4, 720p is fine; WebM optional). Video can be mixed with a few
+    photos.
+  - **C · Type and color only.** When the site will look better without pictures (law, finance,
+    consulting, SaaS, studios, many personal brands), don't use photos or illustrations at all.
+    Design with typography, color blocks, grids, rules, numbers, texture and motion. This is a
+    first-class choice, not a fallback. Done well, it often looks more premium than stock photos.
+  - **Not allowed as a default:** flat "clip-art" SVG drawings (generic houses, people, laptops)
+    used because a photo was missing. If a concept was meant to be A or B and the files aren't
+    there yet, the placeholder must be abstract and designed (a color field, gradient, pattern or
+    typographic panel in the photo's palette), never a cartoon of the subject. Custom SVG
+    remains fine for diagrams, maps, icons, patterns and brand marks.
+  - Vary the mode across the gallery: don't pick the same mode three concepts in a row unless the
+    sectors clearly need it.
+- **Getting stock photos & video in (A and B).** Choose specific free files on Unsplash, Pexels
+  or Pixabay during research (use web search to find the pages). Since they can't be downloaded
+  here:
+  1. Build the layout with the abstract placeholder above, with the final path wired in
+     (e.g. `/photos/<slug>/hero.jpg`, `/video/<slug>/hero.mp4` + `hero-poster.jpg`). In the Astro
+     frontmatter, render the `<img>`/`<video>` only if the file exists
+     (`existsSync("public/photos/<slug>/hero.jpg")`), otherwise render the placeholder. This avoids
+     404s and the page looks finished either way.
+  2. List each file in `docs/<slug>/PHOTOS.md` (photos and videos in one list): target file path,
+     source page URL, photographer/creator, license, why it was chosen; for video also the
+     duration and the resolution to download. Idrishan downloads them, and they are compressed
+     before they go into `public/` (photos ≤ 400 KB, videos ≤ 4 MB).
+  3. The page must look complete and polished *without* the files, too.
 - **Motion:** use where it helps the story, never everywhere. Options, in order of preference:
   CSS (transitions, keyframes, scroll-driven animations, View Transitions) → `motion` (npm) →
   GSAP (check its current license on npm before using) → Lottie (only animations with a clear free
@@ -124,7 +150,7 @@ Sunday: no new concept. The 15:00 run is skipped; the 20:00 run does a weekly re
   - View Transitions API for multi-page concepts
   - Container queries, `clamp()` fluid type, variable fonts
   - Subtle micro-interactions on buttons, cards, form fields
-  - SVG illustrations and patterns made for the concept
+  - SVG patterns, maps and diagrams made for the concept (not clip-art; see "Media choice" in §2)
 - **Motion must respect `prefers-reduced-motion`**, never block content, and never hurt performance.
 - **Copy:** realistic, specific and short. No lorem ipsum. Write like a good copywriter for that
   sector. Use the sector's real vocabulary.

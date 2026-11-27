@@ -17,3 +17,10 @@ Concept site for Tillwick, a fictional two-agent estate agency, built around how
 Live demo: https://concept-sites-drab.vercel.app/real-estate/
 ## Issues / follow-ups
 - Upwork job pages and REW.ca refused automated reading; the r/web_design search returned no threads. Research used the other sources listed in the brief.
+
+### 2026-11-27 · fixes after Idrishan's review
+- Buying/Selling switch no longer jumps when scrolled (View Transition removed; text fades in place).
+- Desktop hero: right-side card (Just listed / latest sale, follows the switch).
+- Reviews trimmed from 12 to 6.
+- Phones: one-row header; concept badge moved into the hero's top padding (no longer covers the figures).
+- Waiting on: the 5 listing photos (`PHOTOS.md`). The hero card uses `listing-1.jpg` automatically.

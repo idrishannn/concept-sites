@@ -318,16 +318,10 @@ export const team = [
 export const reviews = [
   { text: "Juno told us our first asking price was too high and why. We dropped it $15k and had three offers in a week.", who: "Marta S.", tag: "Sold in Kilnworth" },
   { text: "Ravi sent us a house on Marsh Lane the night before it went online. We viewed at 8am.", who: "Dev and Ana P.", tag: "Bought in Saltmeadow" },
-  { text: "Straight answers on the service charge, which nobody else would give us.", who: "Tom R.", tag: "Bought in Old Ropewalk" },
   { text: "Every Friday a short email: what the buyer's lawyer said, what's next. Never had to chase once.", who: "Helen W.", tag: "Sold in Larchmere Heights" },
   { text: "We were selling and buying at the same time. They lined the two up to the day.", who: "Ola and Ben K.", tag: "Sold & bought in Saltmeadow" },
   { text: "Honest about the bus depot. We bought two streets over and are glad.", who: "Priya N.", tag: "Bought in Kilnworth" },
-  { text: "Ran every viewing themselves, including two on a Sunday because we asked.", who: "Graham L.", tag: "Sold in Quillby Docks" },
   { text: "The value range was within $6k of what we got.", who: "Sofia D.", tag: "Sold in Kilnworth" },
-  { text: "First-time buyers, no idea what we were doing. Ravi explained the survey line by line.", who: "Jamie and Lee C.", tag: "Bought in Quillby Docks" },
-  { text: "They knew which flats in the building had had the roof leak. That alone was worth it.", who: "Nadia F.", tag: "Bought in Old Ropewalk" },
-  { text: "No glossy brochure, just good photos and the right price. Sold in nine days.", who: "Arthur M.", tag: "Sold in Saltmeadow" },
-  { text: "Juno walked the stairs with my mum to check she could manage them. Kind and practical.", who: "Rosa T.", tag: "Bought in Larchmere Heights" },
 ];
 
 export const faq = [

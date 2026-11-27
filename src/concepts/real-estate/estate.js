@@ -60,8 +60,8 @@ function audience(root) {
       $$("[data-side]", root).forEach((r) => (r.checked = r.dataset.side === mode));
       if (focus) $(mode === "sell" ? "#v-beds-s" : "#s-beds", root)?.focus({ preventScroll: true });
     };
-    if (document.startViewTransition && !reduceMotion()) document.startViewTransition(apply);
-    else apply();
+    // No view transition and no section reordering: both made the page jump while scrolled.
+    apply();
   };
   btns.forEach((b) => b.addEventListener("click", () => set(b.dataset.setAudience)));
   intent?.addEventListener("change", () => intent.value === "sell" && set("sell", { focus: true }));
