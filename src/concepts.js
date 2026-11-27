@@ -11,7 +11,7 @@ export const concepts = [
     brand: "Tillwick",
     sector: "Real estate agent",
     summary: "Neighbourhood estate agents: sentence-style home search, buying/selling switch, value range estimator and street-by-street guides.",
-    status: "draft",
+    status: "ready",
     date: "2026-11-27",
   },
   {

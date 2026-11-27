@@ -26,3 +26,4 @@ Live demo: https://concept-sites-drab.vercel.app/real-estate/
 - Waiting on: the 5 listing photos (`PHOTOS.md`). The hero card uses `listing-1.jpg` automatically.
 - 23:20 · 5 listing photos added (cropped, ≤ 460 KB). Listing 3 cropped to drop a real business sign; listing 5 cropped to the door only (removes a real organisation's logo). Listing 6 now a typographic "photos on Monday" panel instead of a drawing.
 - 23:30 · Listing 6 photo added (Benjamin Cheng, Unsplash). All six listings now have photos.
+- 23:32 · Approved by Idrishan; status set to ready (in the gallery).
