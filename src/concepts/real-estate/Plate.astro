@@ -1,0 +1,16 @@
+---
+// Section heading set on an enamel street-name plate, with a small district code.
+interface Props {
+  code: string;
+  id?: string;
+  level?: "h2" | "h3";
+  tone?: "ink" | "light";
+}
+const { code, id, level = "h2", tone = "ink" } = Astro.props;
+const Tag = level;
+---
+
+<div class={`plate plate--${tone}`}>
+  <Tag class="plate-name" id={id}><slot /></Tag>
+  <span class="plate-code" aria-hidden="true">{code}</span>
+</div>

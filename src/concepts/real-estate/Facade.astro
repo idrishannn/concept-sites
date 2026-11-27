@@ -1,0 +1,116 @@
+---
+// Simple elevation drawing of a façade, used until a listing photo exists (and for listing 6).
+// Colours come from tokens: tone-<name> classes set --wall / --door / --trim on the wrapper.
+interface Props {
+  kind: string;
+  tone: string;
+  label: string;
+}
+const { kind, tone, label } = Astro.props;
+---
+
+<svg class={`facade tone-${tone}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMax slice" role="img" aria-label={label}>
+  <rect class="f-sky" width="400" height="300"></rect>
+  <rect class="f-ground" y="268" width="400" height="32"></rect>
+  {
+    kind === "rowhouse" && (
+      <g>
+        <rect class="f-wall-alt" x="20" y="70" width="110" height="198"></rect>
+        <rect class="f-wall-alt" x="270" y="70" width="110" height="198"></rect>
+        <rect class="f-wall" x="130" y="62" width="140" height="206"></rect>
+        <path class="f-trim-fill" d="M124 62h152v10H124z"></path>
+        <path class="f-roof" d="M120 62l14-22h132l14 22z"></path>
+        <rect class="f-chimney" x="236" y="22" width="16" height="22"></rect>
+        <rect class="f-glass" x="150" y="96" width="42" height="56"></rect>
+        <rect class="f-glass" x="210" y="96" width="42" height="56"></rect>
+        <path class="f-line" d="M171 96v56M231 96v56M150 124h42M210 124h42"></path>
+        <rect class="f-door" x="162" y="186" width="34" height="82"></rect>
+        <path class="f-trim-fill" d="M156 180h46v6h-46z"></path>
+        <rect class="f-glass" x="214" y="186" width="40" height="52"></rect>
+        <path class="f-line" d="M234 186v52"></path>
+        <rect class="f-glass" x="40" y="100" width="30" height="46"></rect>
+        <rect class="f-glass" x="330" y="100" width="30" height="46"></rect>
+        <rect class="f-glass" x="40" y="190" width="30" height="46"></rect>
+        <rect class="f-glass" x="330" y="190" width="30" height="46"></rect>
+      </g>
+    )
+  }
+  {
+    kind === "semi" && (
+      <g>
+        <path class="f-wall" d="M60 130 200 40l140 90v138H60z"></path>
+        <path class="f-roof" d="M44 136 200 34l156 102-10 6L200 48 54 142z"></path>
+        <path class="f-line" d="M200 48v220"></path>
+        <path class="f-trim-fill" d="M84 168h88v86H84z"></path>
+        <path class="f-glass" d="M92 176h72v70H92z"></path>
+        <path class="f-line" d="M116 176v70M140 176v70M92 206h72"></path>
+        <rect class="f-glass" x="228" y="110" width="50" height="40"></rect>
+        <rect class="f-glass" x="112" y="104" width="44" height="40"></rect>
+        <rect class="f-door" x="296" y="186" width="30" height="82"></rect>
+        <path class="f-trim-fill" d="M290 180h42v6h-42z"></path>
+        <rect class="f-glass" x="226" y="190" width="50" height="50"></rect>
+        <path class="f-line" d="M251 190v50"></path>
+      </g>
+    )
+  }
+  {
+    kind === "townhouse" && (
+      <g>
+        <rect class="f-wall-alt" x="0" y="30" width="96" height="238"></rect>
+        <rect class="f-wall-alt" x="304" y="30" width="96" height="238"></rect>
+        <rect class="f-wall" x="96" y="18" width="208" height="250"></rect>
+        <path class="f-trim-fill" d="M90 18h220v10H90zM96 92h208v5H96zM96 160h208v5H96z"></path>
+        <rect class="f-glass" x="122" y="40" width="40" height="44"></rect>
+        <rect class="f-glass" x="180" y="40" width="40" height="44"></rect>
+        <rect class="f-glass" x="238" y="40" width="40" height="44"></rect>
+        <rect class="f-glass" x="122" y="106" width="40" height="48"></rect>
+        <rect class="f-glass" x="180" y="106" width="40" height="48"></rect>
+        <rect class="f-glass" x="238" y="106" width="40" height="48"></rect>
+        <rect class="f-glass" x="122" y="178" width="40" height="52"></rect>
+        <path class="f-trim-fill" d="M176 174c0-14 48-14 48 0v56h-48z"></path>
+        <rect class="f-door" x="184" y="182" width="32" height="48"></rect>
+        <rect class="f-glass" x="238" y="178" width="40" height="52"></rect>
+        <path class="f-step" d="M168 230h64v10h-64zM160 240h80v10h-80zM152 250h96v10h-96zM144 260h112v8H144z"></path>
+      </g>
+    )
+  }
+  {
+    kind === "apartment" && (
+      <g>
+        <rect class="f-wall" x="30" y="40" width="340" height="228"></rect>
+        <path class="f-trim-fill" d="M24 40h352v10H24zM30 120h340v5H30zM30 196h340v5H30z"></path>
+        {[60, 140, 220, 300].map((x) => (
+          <g>
+            <path class="f-glass" d={`M${x} 110v-38a20 20 0 0 1 40 0v38z`}></path>
+            <path class="f-glass" d={`M${x} 188v-38a20 20 0 0 1 40 0v38z`}></path>
+            <path class="f-line" d={`M${x + 20} 52v58M${x + 20} 130v58`}></path>
+            <path class="f-rail" d={`M${x - 6} 190h52M${x - 6} 178h52M${x} 178v12M${x + 13} 178v12M${x + 27} 178v12M${x + 40} 178v12`}></path>
+          </g>
+        ))}
+        <path class="f-door" d="M180 268v-44a20 20 0 0 1 40 0v44z"></path>
+        <rect class="f-glass" x="70" y="222" width="30" height="34"></rect>
+        <rect class="f-glass" x="300" y="222" width="30" height="34"></rect>
+      </g>
+    )
+  }
+  {
+    kind === "loft" && (
+      <g>
+        <rect class="f-wall" x="16" y="50" width="368" height="218"></rect>
+        <path class="f-trim-fill" d="M10 50h380v12H10z"></path>
+        <path class="f-roof" d="M300 50V22h40v28"></path>
+        <path class="f-rail" d="M320 22h60M378 22v26"></path>
+        {[40, 150, 260].map((x) => (
+          <g>
+            <rect class="f-glass" x={x} y="80" width="96" height="72"></rect>
+            <path class="f-line" d={`M${x + 24} 80v72M${x + 48} 80v72M${x + 72} 80v72M${x} 104h96M${x} 128h96`}></path>
+            <rect class="f-glass" x={x} y="174" width="96" height="58"></rect>
+            <path class="f-line" d={`M${x + 32} 174v58M${x + 64} 174v58M${x} 203h96`}></path>
+          </g>
+        ))}
+        <rect class="f-door" x="176" y="238" width="48" height="30"></rect>
+        <text class="f-sign" x="200" y="72" text-anchor="middle">CHANDLER · 1902</text>
+      </g>
+    )
+  }
+</svg>

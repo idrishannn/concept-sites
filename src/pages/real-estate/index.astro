@@ -1,0 +1,669 @@
+---
+import "@fontsource-variable/newsreader/opsz.css";
+import "@fontsource-variable/newsreader/opsz-italic.css";
+import "@fontsource-variable/geist/wght.css";
+import { existsSync } from "node:fs";
+import Base from "../../layouts/Base.astro";
+import Icon from "../../concepts/real-estate/Icon.astro";
+import Plate from "../../concepts/real-estate/Plate.astro";
+import Facade from "../../concepts/real-estate/Facade.astro";
+import EastsideMap from "../../concepts/real-estate/EastsideMap.astro";
+import "../../concepts/real-estate/styles.css";
+import {
+  brand,
+  proof,
+  hoods,
+  hoodName,
+  types,
+  sqftByBeds,
+  conditions,
+  bedOptions,
+  priceOptions,
+  listings,
+  sold,
+  steps,
+  team,
+  reviews,
+  faq,
+} from "../../concepts/real-estate/content.js";
+
+const title = "Tillwick · Neighbourhood estate agents for Port Merrow's Eastside (concept)";
+const description =
+  "Concept website for a fictional two-agent estate agency: a sentence-style home search, a buying/selling switch, a 3-step value range estimator, street-by-street neighbourhood notes and a ledger of recent sales.";
+
+// Stock photos are optional (see docs/real-estate/PHOTOS.md). Render them only once downloaded.
+const photo = (name: string | null) =>
+  name && existsSync(`public/photos/real-estate/${name}.jpg`) ? `/photos/real-estate/${name}.jpg` : null;
+const tiles = listings.map((l) => ({ ...l, src: photo(l.photo) }));
+const anyPhoto = tiles.some((t) => t.src);
+
+const money = (n: number) => "$" + n.toLocaleString("en-US");
+const kMoney = (n: number) => (n >= 1000000 ? `$${(n / 1000000).toFixed(2).replace(/0$/, "")}m` : `$${Math.round(n / 1000)}k`);
+const typeLabel = Object.fromEntries(types.map((t) => [t.id, t.label]));
+const pct = (s: { asked: number; sold: number }) => ((s.sold / s.asked) * 100 - 100);
+const fmtPct = (p: number) => (p > 0 ? "+" : p < 0 ? "−" : "±") + Math.abs(p).toFixed(1) + "%";
+const avgDays = Math.round(sold.reduce((a, s) => a + s.days, 0) / sold.length);
+const avgPct = sold.reduce((a, s) => a + s.sold / s.asked, 0) / sold.length;
+
+// Faint cadastral parcel pattern (deterministic, generated at build time).
+let seed = 7;
+const rnd = () => ((seed = (seed * 9301 + 49297) % 233280) / 233280);
+const cols = 14, rows = 8, W = 1400, H = 800;
+const pts = Array.from({ length: rows + 1 }, (_, r) =>
+  Array.from({ length: cols + 1 }, (_, c) => [
+    (c * W) / cols + (c && c < cols ? (rnd() - 0.5) * 60 : 0),
+    (r * H) / rows + (r && r < rows ? (rnd() - 0.5) * 50 : 0),
+  ]),
+);
+const parcelLines: string[] = [];
+for (let r = 0; r <= rows; r++) parcelLines.push("M" + pts[r].map((p) => p.map((v) => v.toFixed(0)).join(" ")).join(" L"));
+for (let c = 0; c <= cols; c++) parcelLines.push("M" + pts.map((row) => row[c].map((v) => v.toFixed(0)).join(" ")).join(" L"));
+// a few plot subdivisions
+for (let r = 0; r < rows; r++)
+  for (let c = 0; c < cols; c++)
+    if (rnd() > 0.55) {
+      const a = pts[r][c], b = pts[r + 1][c], d = pts[r][c + 1], e = pts[r + 1][c + 1];
+      const t = 0.3 + rnd() * 0.4;
+      parcelLines.push(`M${(a[0] + (d[0] - a[0]) * t).toFixed(0)} ${(a[1] + (d[1] - a[1]) * t).toFixed(0)} L${(b[0] + (e[0] - b[0]) * t).toFixed(0)} ${(b[1] + (e[1] - b[1]) * t).toFixed(0)}`);
+    }
+const parcelPath = parcelLines.join(" ");
+
+const estateData = {
+  listings: listings.map(({ id, hood, beds, price }) => ({ id, hood, beds, price })),
+  hoods: hoods.map(({ id, name, pricePerSqft }) => ({ id, name, pricePerSqft })),
+  types: types.map(({ id, label, factor }) => ({ id, label, factor })),
+  conditions: conditions.map(({ id, factor }) => ({ id, factor })),
+  sqftByBeds,
+  sold: sold.map((s) => ({ ...s, hoodName: hoodName[s.hood], typeLabel: typeLabel[s.type] })),
+};
+---
+
+<Base {title} {description} ogImage="/og/real-estate.png" themeColor="#271A33">
+  <div class="c-estate" data-audience="buy" id="top">
+    <header class="hdr">
+      <div class="wrap hdr-inner">
+        <a href="#top" class="mark">
+          <svg class="mark-glyph" viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="2.5" y="6.5" width="27" height="19" rx="4"></rect>
+            <rect x="5.5" y="9.5" width="21" height="13" rx="2"></rect>
+            <path d="M10 19.5v-4.5l6-4 6 4v4.5"></path>
+          </svg>
+          <span class="mark-text">
+            <span class="mark-name">Tillwick</span>
+            <span class="mark-sub">{brand.district}</span>
+          </span>
+        </a>
+
+        <div class="switch" role="group" aria-label="I'm here to">
+          <button type="button" class="switch-btn" data-set-audience="buy" aria-pressed="true">Buying</button>
+          <button type="button" class="switch-btn" data-set-audience="sell" aria-pressed="false">Selling</button>
+        </div>
+
+        <nav class="hdr-links" aria-label="Sections">
+          <a href="#homes">Homes</a>
+          <a href="#streets">Streets</a>
+          <a href="#sold">Sold</a>
+          <a href="#contact">Contact</a>
+        </nav>
+
+        <a class="hdr-phone" href={brand.phoneHref}><Icon name="phone" size={16} /> {brand.phone}</a>
+        <a class="btn btn--primary hdr-cta" href="#value">
+          <span class="hdr-cta-long">What's my home worth?</span><span class="hdr-cta-short">Home value</span>
+        </a>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- HERO: the search, written as a sentence -->
+      <section class="hero" aria-labelledby="hero-title">
+        <svg class="parcels" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <path d={parcelPath}></path>
+        </svg>
+        <div class="wrap hero-inner">
+          <p class="hero-kicker"><span class="dot" aria-hidden="true"></span> Five neighbourhoods. Known street by street.</p>
+          <h1 class="hero-title" id="hero-title">
+            <span data-voice="buy">Find your street in Port Merrow's <em>Eastside.</em></span>
+            <span data-voice="sell">Sell with the agents who know <em>your street.</em></span>
+          </h1>
+
+          <form class="sentence" data-voice="buy" id="search" action="#homes" aria-label="Search homes for sale">
+            <p class="sentence-text">
+              I'm looking to
+              <label class="sr-only" for="s-intent">I want to</label>
+              <select id="s-intent" class="word" data-intent>
+                <option value="buy" selected>buy</option>
+                <option value="sell">sell</option>
+              </select>
+              a
+              <label class="sr-only" for="s-beds">Bedrooms</label>
+              <select id="s-beds" class="word" name="beds">
+                {bedOptions.map((o) => <option value={o.value}>{o.label}</option>)}
+              </select>
+              in
+              <label class="sr-only" for="s-hood">Neighbourhood</label>
+              <select id="s-hood" class="word" name="hood">
+                <option value="all">all five neighbourhoods</option>
+                {hoods.map((h) => <option value={h.id}>{h.name}</option>)}
+              </select>
+              at
+              <label class="sr-only" for="s-price">Maximum price</label>
+              <select id="s-price" class="word" name="price">
+                {priceOptions.map((o) => <option value={o.value}>{o.value === "0" ? o.label : `up to ${o.label}`}</option>)}
+              </select>.
+            </p>
+            <div class="sentence-actions">
+              <button type="submit" class="btn btn--dark btn--lg">
+                <span data-count-label>Show {listings.length} homes</span> <Icon name="down" size={18} />
+              </button>
+              <p class="match" aria-live="polite"><span class="match-n" data-count>{listings.length}</span> <span data-count-word>homes match</span> right now</p>
+            </div>
+          </form>
+
+          <form class="sentence" data-voice="sell" id="sell-sentence" action="#value" aria-label="Start a home valuation">
+            <p class="sentence-text">
+              I want to sell a
+              <label class="sr-only" for="v-beds-s">Bedrooms</label>
+              <select id="v-beds-s" class="word" name="beds">
+                {[1, 2, 3, 4, 5].map((b) => <option value={b} selected={b === 3}>{b}-bed</option>)}
+              </select>
+              <label class="sr-only" for="v-type-s">Type of home</label>
+              <select id="v-type-s" class="word" name="type">
+                {types.map((t) => <option value={t.id}>{t.label}</option>)}
+              </select>
+              in
+              <label class="sr-only" for="v-hood-s">Neighbourhood</label>
+              <select id="v-hood-s" class="word" name="hood">
+                {hoods.map((h) => <option value={h.id}>{h.name}</option>)}
+              </select>.
+            </p>
+            <div class="sentence-actions">
+              <button type="submit" class="btn btn--dark btn--lg">See my value range <Icon name="arrow" size={18} /></button>
+              <p class="match">Free, three questions, no email needed</p>
+            </div>
+          </form>
+
+          <ul class="proof" aria-label="Our 2026 figures">
+            {proof.map((p) => (
+              <li><strong>{p.value}</strong> {p.label}</li>
+            ))}
+            <li class="proof-note">Our own 2026 figures</li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="swap">
+        <!-- FEATURED HOMES -->
+        <section class="section homes" id="homes" aria-labelledby="homes-title">
+          <div class="wrap">
+            <div class="sec-head">
+              <Plate code="E·01" id="homes-title">Homes for sale</Plate>
+              <p class="sec-note">
+                Six homes we're selling now. Every one has been walked, measured and written up by Juno or Ravi.
+                <button type="button" class="link-btn" data-reset hidden>Show all six</button>
+              </p>
+            </div>
+
+            <div class="bento" data-bento>
+              {
+                tiles.map((t, i) => (
+                  <article
+                    class={`tile tile--${t.size}`}
+                    data-listing={t.id}
+                    data-hood={t.hood}
+                    data-beds={t.beds}
+                    data-price={t.price}
+                    style={`--anchor: --tile-${i}`}
+                  >
+                    <div class="tile-in">
+                    <div class="tile-media">
+                      {t.src ? (
+                        <img src={t.src} alt={t.alt} loading="lazy" decoding="async" />
+                      ) : (
+                        <Facade kind={t.type} tone={t.tone} label={t.alt} />
+                      )}
+                      <span class={`chip ${t.status === "Under offer" ? "chip--offer" : "chip--sale"}`}>{t.status}</span>
+                    </div>
+                    <div class="tile-body">
+                      <p class="tile-price">{money(t.price)}</p>
+                      <h3 class="tile-address">{t.address}</h3>
+                      <p class="tile-hood">
+                        <Icon name="pin" size={14} /> {hoodName[t.hood]} · {typeLabel[t.type]}
+                      </p>
+                      <ul class="tile-spec" aria-label="Specification">
+                        <li><Icon name="bed" size={16} /> {t.beds} bed</li>
+                        <li><Icon name="bath" size={16} /> {t.baths} bath</li>
+                        <li><Icon name="area" size={16} /> {t.sqft.toLocaleString("en-US")} sq ft</li>
+                      </ul>
+                      <p class="tile-why">
+                        <span class="tile-why-label">Why {t.agent} likes it</span> {t.why}
+                      </p>
+                      <button type="button" class="facts-btn" popovertarget={`facts-${t.id}`}>
+                        <Icon name="info" size={16} /> Quick facts
+                      </button>
+                      <div class="facts" id={`facts-${t.id}`} popover>
+                        <p class="facts-title">{t.address}</p>
+                        <dl>
+                          {t.facts.map(([k, v]) => (
+                            <div>
+                              <dt>{k}</dt>
+                              <dd>{v}</dd>
+                            </div>
+                          ))}
+                        </dl>
+                        <button type="button" class="facts-close" popovertarget={`facts-${t.id}`} popovertargetaction="hide">
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                    </div>
+                  </article>
+                ))
+              }
+            </div>
+
+            <div class="empty" data-empty hidden>
+              <div>
+                <p class="empty-title">No homes match that sentence today.</p>
+                <p>Tell Ravi what you're after. A third of our homes sell to our list before they reach the portals.</p>
+              </div>
+              <form class="mini-form" data-demo-form>
+                <div class="field">
+                  <label for="e-name">Your name</label>
+                  <input id="e-name" name="name" autocomplete="name" required />
+                </div>
+                <div class="field">
+                  <label for="e-phone">Phone</label>
+                  <input id="e-phone" name="phone" type="tel" autocomplete="tel" required />
+                </div>
+                <div class="field field--wide">
+                  <label for="e-what">What you're after</label>
+                  <input id="e-what" name="what" data-empty-what />
+                </div>
+                <button class="btn btn--dark" type="submit">Put me on Ravi's list</button>
+                <p class="form-done" role="status" hidden>Thanks. This is a concept site, so nothing was sent.</p>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- VALUE RANGE ESTIMATOR -->
+        <section class="section value" id="value" aria-labelledby="value-title">
+          <div class="wrap value-grid">
+            <div class="value-intro">
+              <Plate code="E·02" id="value-title" tone="light">What's your home worth?</Plate>
+              <p class="value-lead">
+                Three questions, an honest range, and the three Eastside sales it's based on. Then, if you like,
+                Juno comes round and puts it in writing.
+              </p>
+              <ul class="value-points">
+                <li><Icon name="check" size={18} /> No email address, no sign-up</li>
+                <li><Icon name="check" size={18} /> Written valuation within 48 hours</li>
+                <li><Icon name="check" size={18} /> We'll tell you if now is the wrong time</li>
+              </ul>
+              <p class="disclaimer">
+                Demo estimator for a fictional district. The range is worked out from invented sales on this page and
+                is not a real valuation.
+              </p>
+            </div>
+
+            <div class="est" data-est role="group" aria-label="Value range estimator">
+              <ol class="est-steps" aria-label="Progress">
+                <li data-step-dot="1" class="is-on" aria-current="step"><span>1</span> Street</li>
+                <li data-step-dot="2"><span>2</span> Home</li>
+                <li data-step-dot="3"><span>3</span> Condition</li>
+              </ol>
+
+              <fieldset class="est-step" data-step="1">
+                <legend>Where is it?</legend>
+                <div class="field">
+                  <label for="v-street">Street name</label>
+                  <input id="v-street" name="street" autocomplete="address-line1" required minlength="3" aria-describedby="v-street-hint" />
+                  <p class="hint" id="v-street-hint">Just the street is enough, e.g. Kiln Street.</p>
+                  <p class="err">Please add the street, so we can find the nearest sales.</p>
+                </div>
+                <div class="field">
+                  <label for="v-hood">Neighbourhood</label>
+                  <select id="v-hood" name="hood">
+                    {hoods.map((h) => <option value={h.id}>{h.code} · {h.name}</option>)}
+                  </select>
+                </div>
+              </fieldset>
+
+              <fieldset class="est-step" data-step="2" hidden>
+                <legend>What kind of home?</legend>
+                <p class="group-label" id="v-type-label">Type</p>
+                <div class="chips" role="radiogroup" aria-labelledby="v-type-label">
+                  {types.map((t, i) => (
+                    <label class="chip-radio">
+                      <input type="radio" name="type" value={t.id} checked={i === 0} />
+                      <span>{t.label}</span>
+                    </label>
+                  ))}
+                </div>
+                <p class="group-label" id="v-beds-label">Bedrooms</p>
+                <div class="chips" role="radiogroup" aria-labelledby="v-beds-label">
+                  {[1, 2, 3, 4, 5].map((b) => (
+                    <label class="chip-radio chip-radio--num">
+                      <input type="radio" name="beds" value={b} checked={b === 3} />
+                      <span>{b === 5 ? "5+" : b}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+
+              <fieldset class="est-step" data-step="3" hidden>
+                <legend>What condition is it in?</legend>
+                <div class="conds">
+                  {conditions.map((c) => (
+                    <label class="cond">
+                      <input type="radio" name="cond" value={c.id} checked={c.id === "good"} />
+                      <span class="cond-name">{c.label}</span>
+                      <span class="cond-note">{c.note}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+
+              <div class="est-result" data-step="4" hidden tabindex="-1" aria-live="polite">
+                <p class="res-label">Indicative range for <span data-res-where>your home</span></p>
+                <p class="res-range"><span data-res-low>$0</span><span class="res-dash" aria-hidden="true">–</span><span class="sr-only">to</span><span data-res-high>$0</span></p>
+                <div class="res-bar" aria-hidden="true"><span data-res-bar></span></div>
+                <p class="res-mid">Most likely around <strong data-res-mid>$0</strong></p>
+                <p class="group-label">Based on these sales</p>
+                <ul class="comps" data-comps></ul>
+                <div class="res-cta">
+                  <p class="res-cta-title">Get Juno's written valuation</p>
+                  <form class="mini-form" data-demo-form>
+                    <div class="field">
+                      <label for="w-name">Your name</label>
+                      <input id="w-name" name="name" autocomplete="name" required />
+                    </div>
+                    <div class="field">
+                      <label for="w-phone">Phone</label>
+                      <input id="w-phone" name="phone" type="tel" autocomplete="tel" required />
+                    </div>
+                    <button class="btn btn--primary" type="submit">Book my valuation</button>
+                    <p class="form-done" role="status" hidden>Thanks. This is a concept site, so nothing was sent.</p>
+                  </form>
+                </div>
+              </div>
+
+              <div class="est-nav">
+                <button type="button" class="btn btn--ghost" data-est-back hidden><Icon name="back" size={16} /> Back</button>
+                <button type="button" class="btn btn--primary" data-est-next>Next <Icon name="arrow" size={16} /></button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- STREET NOTES -->
+      <section class="section streets" id="streets" aria-labelledby="streets-title">
+        <svg class="parcels parcels--soft" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <path d={parcelPath}></path>
+        </svg>
+        <div class="wrap">
+          <div class="sec-head">
+            <Plate code="E·03" id="streets-title">Street notes</Plate>
+            <p class="sec-note">What we'd tell a friend about each neighbourhood. Including the bits the brochures leave out.</p>
+          </div>
+
+          <div class="notes">
+            <div class="notes-tabs" role="tablist" aria-label="Neighbourhoods">
+              {hoods.map((h, i) => (
+                <button
+                  type="button"
+                  role="tab"
+                  id={`tab-${h.id}`}
+                  aria-controls={`panel-${h.id}`}
+                  aria-selected={i === 0 ? "true" : "false"}
+                  tabindex={i === 0 ? 0 : -1}
+                  data-tab={h.id}
+                >
+                  <span class="tab-code">{h.code}</span> {h.name}
+                </button>
+              ))}
+            </div>
+
+            <div class="notes-body">
+              <div class="notes-panels">
+                {hoods.map((h, i) => (
+                  <div class="panel" role="tabpanel" id={`panel-${h.id}`} aria-labelledby={`tab-${h.id}`} hidden={i !== 0} tabindex="0">
+                    <h3 class="panel-title">{h.name}</h3>
+                    <p class="panel-blurb">{h.blurb}</p>
+                    <dl class="panel-stats">
+                      <div>
+                        <dt>Median sale, 2026</dt>
+                        <dd class="num">{kMoney(h.median)}</dd>
+                      </div>
+                      <div>
+                        <dt>Per sq ft</dt>
+                        <dd class="num">${h.pricePerSqft}</dd>
+                      </div>
+                    </dl>
+                    <ul class="panel-list">
+                      <li><Icon name="home" size={18} /><span><strong>Typical homes.</strong> {h.typical}</span></li>
+                      <li><Icon name="ferry" size={18} /><span><strong>To the ferry.</strong> {h.ferry}</span></li>
+                      <li><Icon name="school" size={18} /><span><strong>School run.</strong> {h.schools}</span></li>
+                      <li><Icon name="star" size={18} /><span><strong>Best street.</strong> {h.best}</span></li>
+                      <li class="watch"><Icon name="alert" size={18} /><span><strong>Watch out for.</strong> {h.watch}</span></li>
+                    </ul>
+                  </div>
+                ))}
+              </div>
+              <figure class="notes-map" data-map>
+                <EastsideMap />
+                <figcaption>The Eastside, Port Merrow. Not to scale.</figcaption>
+              </figure>
+            </div>
+          </div>
+
+          <p class="close-cta">
+            Live on one of these streets? <a class="btn btn--primary" href="#value">What's my home worth? <Icon name="arrow" size={16} /></a>
+          </p>
+        </div>
+      </section>
+
+      <!-- RECENTLY SOLD -->
+      <section class="section sold" id="sold" aria-labelledby="sold-title">
+        <div class="wrap">
+          <div class="sec-head">
+            <Plate code="E·04" id="sold-title">Recently sold</Plate>
+            <p class="sec-note">Our last ten sales, asking price next to the price agreed. The good weeks and the slow ones.</p>
+          </div>
+
+          <div class="ledger-tools">
+            <button type="button" class="toggle" aria-pressed="false" data-pct-toggle>
+              <span class="toggle-track" aria-hidden="true"><span></span></span> Show % over asking
+            </button>
+            <p class="ledger-sum">
+              Average: <strong>{avgDays} days</strong> on market · <strong>{(avgPct * 100).toFixed(0)}%</strong> of asking
+            </p>
+          </div>
+
+          <div class="ledger-wrap">
+            <table class="ledger" data-ledger>
+              <caption class="sr-only">Ten recent sales by Tillwick in the Eastside (fictional data)</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Address</th>
+                  <th scope="col">Neighbourhood</th>
+                  <th scope="col">Home</th>
+                  <th scope="col" class="r">Asked</th>
+                  <th scope="col" class="r">Sold</th>
+                  <th scope="col" class="r col-pct">vs asking</th>
+                  <th scope="col" class="r">Days</th>
+                  <th scope="col" class="r">Month</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sold.map((s) => {
+                  const p = pct(s);
+                  return (
+                    <tr>
+                      <th scope="row" data-label="Address">{s.address}</th>
+                      <td data-label="Neighbourhood">{hoodName[s.hood]}</td>
+                      <td data-label="Home">{s.beds}-bed {typeLabel[s.type]}</td>
+                      <td data-label="Asked" class="r num">{money(s.asked)}</td>
+                      <td data-label="Sold" class="r num"><span class="sold-tag">{money(s.sold)}</span></td>
+                      <td data-label="vs asking" class={`r num col-pct ${p > 0 ? "up" : p < 0 ? "down" : ""}`}>{fmtPct(p)}</td>
+                      <td data-label="Days on market" class="r num">{s.days}</td>
+                      <td data-label="Month" class="r">{s.month}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          <p class="disclaimer">Fictional sales for a fictional district. In a live site this table would be fed from the agency's own records.</p>
+          <p class="close-cta">
+            Want to know where yours would sit in this table? <a class="btn btn--primary" href="#value">What's my home worth? <Icon name="arrow" size={16} /></a>
+          </p>
+        </div>
+      </section>
+
+      <!-- HOW WE WORK + TEAM -->
+      <section class="section how" id="how" aria-labelledby="how-title">
+        <div class="wrap">
+          <div class="sec-head">
+            <Plate code="E·05" id="how-title">How we work</Plate>
+            <p class="sec-note">Two agents, one district, no call centre. You'll have our mobile numbers from day one.</p>
+          </div>
+
+          <div class="how-cols">
+            {(["buy", "sell"] as const).map((k) => (
+              <div class={`how-col how-col--${k}`}>
+                <h3 class="how-title">{k === "buy" ? "If you're buying" : "If you're selling"}</h3>
+                <ol class="how-steps">
+                  {steps[k].map(([t, d]) => (
+                    <li>
+                      <strong>{t}</strong>
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            ))}
+          </div>
+
+          <div class="team">
+            {team.map((m) => (
+              <div class="person">
+                <span class="avatar" aria-hidden="true">{m.initials}</span>
+                <div>
+                  <h3 class="person-name">{m.name}</h3>
+                  <p class="person-role">{m.role}</p>
+                  <p class="person-bio">{m.bio}</p>
+                  <a class="person-phone" href={m.phoneHref}><Icon name="phone" size={16} /> {m.phone}</a>
+                </div>
+              </div>
+            ))}
+            <p class="fee"><span class="fee-big">1.75%</span> + tax, only when your sale completes. Buyers pay us nothing.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- REVIEWS -->
+      <section class="section reviews" id="reviews" aria-labelledby="reviews-title">
+        <div class="wrap">
+          <div class="sec-head">
+            <Plate code="E·06" id="reviews-title">What the neighbours say</Plate>
+            <p class="sec-note">Collected by us after each sale completed. Short, because that's how people wrote them.</p>
+          </div>
+          <ul class="wall">
+            {reviews.map((r, i) => (
+              <li class={`review ${i % 5 === 1 ? "review--ink" : ""}`}>
+                <blockquote>{r.text}</blockquote>
+                <p class="review-who">
+                  {r.who} <span class="review-tag">{r.tag}</span>
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- CONTACT + FAQ -->
+      <section class="section contact" id="contact" aria-labelledby="contact-title">
+        <div class="wrap contact-grid">
+          <div class="contact-form-col">
+            <Plate code="E·07" id="contact-title">Talk to us</Plate>
+            <form class="contact-form" data-demo-form>
+              <div class="field">
+                <label for="c-name">Name</label>
+                <input id="c-name" name="name" autocomplete="name" required />
+                <p class="err">We need a name to call you back.</p>
+              </div>
+              <div class="field">
+                <label for="c-phone">Phone</label>
+                <input id="c-phone" name="phone" type="tel" autocomplete="tel" required minlength="7" />
+                <p class="err">Please add a phone number.</p>
+              </div>
+              <fieldset class="field field--wide">
+                <legend>I'm</legend>
+                <div class="chips">
+                  <label class="chip-radio"><input type="radio" name="side" value="buying" checked data-side="buy" /><span>Buying</span></label>
+                  <label class="chip-radio"><input type="radio" name="side" value="selling" data-side="sell" /><span>Selling</span></label>
+                  <label class="chip-radio"><input type="radio" name="side" value="both" /><span>Both</span></label>
+                </div>
+              </fieldset>
+              <div class="field field--wide">
+                <label for="c-msg">Message <span class="opt">(optional)</span></label>
+                <textarea id="c-msg" name="message" rows="4"></textarea>
+              </div>
+              <button class="btn btn--primary btn--lg" type="submit">Ask for a call back</button>
+              <p class="form-done" role="status" hidden>Thanks. This is a concept site, so nothing was sent.</p>
+            </form>
+            <div class="office">
+              <p><Icon name="pin" size={18} /> <span>{brand.address.join(", ")}</span></p>
+              <p><Icon name="phone" size={18} /> <a href={brand.phoneHref}>{brand.phone}</a></p>
+              <dl class="hours">
+                {brand.hours.map(([d, h]) => (
+                  <div>
+                    <dt>{d}</dt>
+                    <dd>{h}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+
+          <div class="faq-col">
+            <h2 class="faq-title">Questions we get every week</h2>
+            <div class="faq">
+              {faq.map(([q, a], i) => (
+                <details name="estate-faq" open={i === 0}>
+                  <summary>{q}</summary>
+                  <p>{a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="ftr">
+      <div class="wrap ftr-inner">
+        <div class="ftr-brand">
+          <p class="ftr-name">Tillwick</p>
+          <p>{brand.tagline} · {brand.district}</p>
+        </div>
+        <div class="ftr-notes">
+          <p><strong>Tillwick is a fictional brand.</strong> Listings, prices, sales, reviews and people are invented for this concept.</p>
+          <p>
+            {anyPhoto ? "Photos: Unsplash. " : ""}Façade drawings, map and icons made for this concept. Fonts: Newsreader and Geist (SIL Open Font License).
+          </p>
+          <p>Concept by <a href="/">Idrishan Demirdag</a>.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script type="application/json" id="estate-data" set:html={JSON.stringify(estateData)} />
+  </div>
+</Base>
+
+<script>
+  import { initEstate } from "../../concepts/real-estate/estate.js";
+  initEstate();
+</script>

@@ -1,0 +1,42 @@
+---
+// Custom map of the fictional Eastside of Port Merrow: five neighbourhoods, the river and the ferry.
+// Each neighbourhood shape carries data-hood so the street-notes tabs can highlight it.
+const shapes = [
+  { id: "larchmere-heights", code: "E4", name: "Larchmere Heights", d: "M150 26 L418 18 L462 88 L332 100 L156 106 Z", lx: 300, ly: 62 },
+  { id: "old-ropewalk", code: "E3", name: "Old Ropewalk", d: "M34 116 L150 106 L166 300 L48 318 Z", lx: 100, ly: 214 },
+  { id: "kilnworth", code: "E1", name: "Kilnworth", d: "M156 106 L332 100 L346 214 L292 292 L166 300 Z", lx: 250, ly: 196 },
+  { id: "saltmeadow", code: "E2", name: "Saltmeadow", d: "M332 100 L462 88 L566 152 L544 244 L346 214 Z", lx: 420, ly: 150 },
+  { id: "quillby-docks", code: "E5", name: "Quillby Docks", d: "M346 214 L544 244 L584 300 L300 322 L292 292 Z", lx: 440, ly: 282 },
+];
+---
+
+<svg class="emap" viewBox="0 0 600 430" role="img" aria-labelledby="emap-title">
+  <title id="emap-title">Map of the Eastside of Port Merrow with its five neighbourhoods, the river and the ferry to the city centre</title>
+  <defs>
+    <pattern id="emap-plots" width="22" height="22" patternUnits="userSpaceOnUse" patternTransform="rotate(8)">
+      <path d="M0 11h22M11 0v22" class="emap-plotline"></path>
+    </pattern>
+  </defs>
+  <path class="emap-water" d="M0 352 C120 328 240 352 360 338 S520 322 600 334 V430 H0 Z"></path>
+  <path class="emap-bank" d="M0 352 C120 328 240 352 360 338 S520 322 600 334"></path>
+  <g class="emap-hoods">
+    {
+      shapes.map((s) => (
+        <g class="emap-hood" data-hood={s.id}>
+          <path class="emap-shape" d={s.d}></path>
+          <path class="emap-plots" d={s.d}></path>
+          <text class="emap-code" x={s.lx} y={s.ly - 8} text-anchor="middle">{s.code}</text>
+          <text class="emap-name" x={s.lx} y={s.ly + 12} text-anchor="middle">{s.name}</text>
+        </g>
+      ))
+    }
+  </g>
+  <ellipse class="emap-park" cx="490" cy="196" rx="30" ry="16"></ellipse>
+  <text class="emap-small" x="490" y="226" text-anchor="middle">Saltmeadow Park</text>
+  <path class="emap-ferry" d="M446 318 C470 360 486 384 520 412"></path>
+  <circle class="emap-pier" cx="446" cy="316" r="6"></circle>
+  <text class="emap-small" x="474" y="398" text-anchor="end">Ferry · 11 min to the centre</text>
+  <circle class="emap-office" cx="214" cy="244" r="7"></circle>
+  <text class="emap-small" x="226" y="262">Our office</text>
+  <text class="emap-river" x="120" y="392">River Merrow</text>
+</svg>

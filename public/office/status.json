@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-27T11:46:23.154Z",
+  "updatedAt": "2026-11-27T11:58:56.126Z",
   "current": "real-estate",
   "agents": {
     "research": {
@@ -10,11 +10,11 @@
       "finishedAt": "2026-11-27T06:49:56.735Z"
     },
     "build": {
-      "state": "working",
+      "state": "done",
       "concept": "real-estate",
-      "message": "Building Tillwick",
+      "message": "Tillwick built: sentence search, value estimator, street notes, sold ledger; qa clean",
       "startedAt": "2026-11-27T11:46:23.154Z",
-      "finishedAt": null
+      "finishedAt": "2026-11-27T11:58:56.126Z"
     },
     "qa": {
       "state": "done",
@@ -25,6 +25,13 @@
     }
   },
   "log": [
+    {
+      "at": "2026-11-27T11:58:56.126Z",
+      "agent": "build",
+      "state": "done",
+      "concept": "real-estate",
+      "message": "Tillwick built: sentence search, value estimator, street notes, sold ledger; qa clean"
+    },
     {
       "at": "2026-11-27T11:46:23.154Z",
       "agent": "build",
