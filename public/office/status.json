@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-28T11:46:08.181Z",
+  "updatedAt": "2026-11-28T11:59:02.396Z",
   "current": "law-firm",
   "agents": {
     "research": {
@@ -10,11 +10,11 @@
       "finishedAt": "2026-11-28T06:50:18.047Z"
     },
     "build": {
-      "state": "working",
+      "state": "done",
       "concept": "law-firm",
-      "message": "Building Plainstand",
+      "message": "Plainstand built: caption hero, situation finder, fee table, docket timeline, case review form; qa clean",
       "startedAt": "2026-11-28T11:46:08.181Z",
-      "finishedAt": null
+      "finishedAt": "2026-11-28T11:59:02.396Z"
     },
     "qa": {
       "state": "done",
@@ -25,6 +25,13 @@
     }
   },
   "log": [
+    {
+      "at": "2026-11-28T11:59:02.396Z",
+      "agent": "build",
+      "state": "done",
+      "concept": "law-firm",
+      "message": "Plainstand built: caption hero, situation finder, fee table, docket timeline, case review form; qa clean"
+    },
     {
       "at": "2026-11-28T11:46:08.181Z",
       "agent": "build",

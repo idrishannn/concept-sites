@@ -1,0 +1,6 @@
+---
+// Tufte-style sidenote: floats into the margin column on wide screens, opens inline on narrow ones.
+interface Props { id: string; n: number; term: string }
+const { id, n, term } = Astro.props;
+---
+<span class="sn" id={id} role="note"><span class="sn-n" aria-hidden="true">{n}</span><span class="sn-k">{term}:</span> <slot /></span>

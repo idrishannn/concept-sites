@@ -1,0 +1,425 @@
+---
+import "@fontsource-variable/bodoni-moda/opsz.css";
+import "@fontsource-variable/bodoni-moda/opsz-italic.css";
+import "@fontsource-variable/public-sans/wght.css";
+import Base from "../../layouts/Base.astro";
+import Ref from "../../concepts/law-firm/Ref.astro";
+import Side from "../../concepts/law-firm/Side.astro";
+import "../../concepts/law-firm/styles.css";
+import {
+  brand,
+  nav,
+  situations,
+  fees,
+  example,
+  docket,
+  people,
+  intake,
+  notes,
+  faq,
+  callbacks,
+} from "../../concepts/law-firm/content.js";
+
+const title = "Plainstand · Employment lawyers for employees in Calder Falls (concept)";
+const description =
+  "Concept website for a fictional worker-side employment law practice: a situation finder in plain words, a transparent fee table, a docket-style case timeline and a short free case review form.";
+
+const money = (n: number) => "$" + n.toLocaleString("en-US");
+const exFee = Math.round(example.recovery / 3);
+const exYou = example.recovery - exFee - example.costs;
+const lines = Array.from({ length: 28 }, (_, i) => i + 1);
+const parens = Array.from({ length: 12 });
+---
+
+<Base {title} {description} ogImage="/og/law-firm.png" themeColor="#141B2D">
+  <script is:inline>document.documentElement.classList.add("js");</script>
+  <div class="c-law">
+    <header class="top">
+      <div class="top-in">
+        <a class="wm" href="#main">
+          <span class="wm-name">Plainstand</span>
+          <span class="wm-tag">{brand.tagline}</span>
+        </a>
+        <nav class="top-nav" aria-label="Sections">
+          <ul>
+            {nav.map((s) => (
+              <li><a href={`#${s.id}`}><span class="sec-mark">§&nbsp;{s.n}</span> {s.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+        <a class="top-phone" href={`tel:${brand.tel}`}><span class="top-phone-long">{brand.phoneShort}</span><span class="top-phone-short">Call</span></a>
+        <a class="btn btn-ink top-cta" href="#case-review"><span class="cta-long">Free case review</span><span class="cta-short">Case review</span></a>
+      </div>
+    </header>
+
+    <main id="main" class="paper">
+      <!-- Hero: a case caption on pleading paper -->
+      <section class="ms hero" aria-labelledby="hero-title">
+        <ol class="lnums" aria-hidden="true">{lines.map((n) => <li>{n}</li>)}</ol>
+        <p class="court">Employment law, in plain words <span class="court-dot">·</span> {brand.city}</p>
+        <div class="caption">
+          <h1 class="cap" id="hero-title">
+            <span class="cap-party cap-l1"><span class="cap-big">You,</span> <em>the employee,</em></span>
+            <span class="cap-role cap-l2" aria-hidden="true">Employee.</span>
+            <span class="cap-v cap-l3"><em>v.</em></span>
+            <span class="cap-party cap-l4"><span class="cap-big">The company</span> <em>that wronged you.</em></span>
+            <span class="cap-role cap-l5" aria-hidden="true">Employer.</span>
+          </h1>
+          <div class="cap-paren" aria-hidden="true">{parens.map(() => <span>)</span>)}</div>
+          <div class="cap-box">
+            <p class="cap-no">Case review <span>No.&nbsp;yours</span></p>
+            <p class="cap-offer">Free 20-minute case review</p>
+            <ul class="cap-facts">
+              <li>We call back within one business day.</li>
+              <li>Evening calls Tue &amp; Thu until 8 pm.</li>
+            </ul>
+            <div class="cap-ctas">
+              <a class="btn btn-ink" href="#case-review">Free case review</a>
+              <a class="btn btn-line" href={`tel:${brand.tel}`}>Call <span class="nowrap">{brand.phoneShort}</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="txt hero-lead">
+          <p>
+            Fired, underpaid, pushed out or handed a paper to sign? Tell us what happened in your own words. We'll tell you
+            what it's called, what you could ask for and what it would cost, before you decide anything.
+          </p>
+          <p class="hero-only">We only represent employees. <strong>Never companies.</strong></p>
+        </div>
+      </section>
+
+      <!-- § 1 Situation finder -->
+      <section class="ms sec" id="what-happened" aria-labelledby="h-what">
+        <h2 class="mh" id="h-what"><span class="mh-n">§ 1</span> What happened?</h2>
+        <div class="txt">
+          <p class="lead">
+            Most people don't arrive with a legal category. They arrive with a sentence. Pick the one closest to yours.
+          </p>
+          <p>
+            Most jobs are <Ref term="at-will" id="sn-atwill" n={1} /><Side id="sn-atwill" n={1} term="At-will">Either side
+            can end the job at any time, without giving a reason. The exceptions, like retaliation, discrimination and
+            unpaid wages, are where we work.</Side>, so an employer can let you go for almost any reason. Not for an
+            unlawful one. That line is what we look for.
+          </p>
+        </div>
+
+        <div class="wide finder" data-finder data-active={situations[0].id}>
+          <fieldset class="picks">
+            <legend class="sr-only">Which sentence is closest to what happened?</legend>
+            {situations.map((s, i) => (
+              <label class="pick">
+                <input type="radio" name="situation-pick" value={s.id} checked={i === 0} />
+                <span class="pick-box" aria-hidden="true"></span>
+                <span class="pick-q">“{s.quote}”</span>
+              </label>
+            ))}
+          </fieldset>
+
+          <div class="panel-wrap">
+            {situations.map((s, i) => (
+              <article class="panel legal-pad" data-panel={s.id} hidden={i !== 0} aria-label={`About: ${s.quote}`}>
+                <p class="p-label">What lawyers call it</p>
+                <h3 class="p-term">{s.term}</h3>
+                <p class="p-plain">{s.plain}</p>
+                <div class="p-grid">
+                  <div class="p-cell">
+                    <h4 class="p-h">What we'd look at first</h4>
+                    <p>{s.first}</p>
+                  </div>
+                  <div class="p-cell">
+                    <h4 class="p-h">What to gather now</h4>
+                    <ul class="checks">{s.gather.map((g) => <li>{g}</li>)}</ul>
+                  </div>
+                  <div class="p-cell">
+                    <h4 class="p-h">How we'd charge</h4>
+                    <p>{s.charge}</p>
+                  </div>
+                  <div class="p-cell p-time">
+                    <h4 class="p-h">Time matters</h4>
+                    <p>Some of these claims have deadlines measured in months, not years. Asking early costs nothing.</p>
+                  </div>
+                </div>
+                <a class="btn btn-ink" href="#case-review" data-prefill={s.id}>Tell us about this</a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- § 2 Fees -->
+      <section class="ms sec" id="fees" aria-labelledby="h-fees">
+        <h2 class="mh" id="h-fees"><span class="mh-n">§ 2</span> Fees, plainly</h2>
+        <div class="txt">
+          <p class="lead">What it costs, before you ask. All of it goes into a written agreement you can take home and read.</p>
+          <p>
+            Most of our cases are on <Ref term="contingency" id="sn-contingency" n={2} /><Side
+              id="sn-contingency"
+              n={2}
+              term="Contingency">Our fee is a share of what we win for you. If there's no recovery, there's no fee.</Side>.
+            You pay nothing to start, and we only get paid if you do.
+          </p>
+        </div>
+        <div class="wide fee-wrap">
+          <table class="fees">
+            <caption class="sr-only">Plainstand fees</caption>
+            <thead>
+              <tr>
+                <th scope="col">What</th>
+                <th scope="col">How we charge</th>
+                <th scope="col">You pay up front</th>
+                <th scope="col">Costs</th>
+              </tr>
+            </thead>
+            <tbody>
+              {fees.map((f) => (
+                <tr class={f.contingency ? "is-main" : undefined}>
+                  <th scope="row">
+                    <span class="f-what">{f.what}</span>
+                    <span class="f-detail">{f.detail}</span>
+                  </th>
+                  <td data-label="How we charge">{f.how}</td>
+                  <td data-label="You pay up front">{f.upfront}</td>
+                  <td data-label="Costs">{f.costs}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div class="fee-notes">
+            <div class="fee-costs">
+              <h3 class="fn-h">About costs</h3>
+              <p>
+                Costs are separate from our fee: filing fees, court reporters, copies of records. We pay them as the case
+                runs, and they're repaid out of a recovery. <strong>If there's no recovery, you owe us no fee and no
+                costs.</strong>
+              </p>
+            </div>
+            <div class="fee-example">
+              <h3 class="fn-h">Worked example <span>(made-up numbers)</span></h3>
+              <dl class="sum">
+                <div><dt>Settlement</dt><dd>{money(example.recovery)}</dd></div>
+                <div><dt>Our fee, 33⅓%</dt><dd>− {money(exFee)}</dd></div>
+                <div><dt>Costs we advanced</dt><dd>− {money(example.costs)}</dd></div>
+                <div class="sum-total"><dt>You receive</dt><dd>{money(exYou)}</dd></div>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- § 3 Docket timeline -->
+      <section class="ms sec" id="how-it-runs" aria-labelledby="h-runs">
+        <h2 class="mh" id="h-runs"><span class="mh-n">§ 3</span> How a case runs</h2>
+        <div class="txt">
+          <p class="lead">Six entries, honest timings. Most cases never reach the last one.</p>
+          <p>
+            Every step runs against the <Ref term="statute of limitations" id="sn-sol" n={3} /><Side
+              id="sn-sol"
+              n={3}
+              term="Statute of limitations">The legal deadline to bring a claim. Miss it, and even a strong case can't go
+              forward.</Side>, so the first thing we work out is your deadline.
+          </p>
+          <div class="docket-head" aria-hidden="true"><span>No.</span><span>When</span><span>Entry</span></div>
+          <ol class="docket">
+            {docket.map((d, i) => (
+              <li class="entry">
+                <span class="e-no" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <span class="e-when">{d.when}</span>
+                <div class="e-body">
+                  {d.termNote ? (
+                    <>
+                      <h3 class="e-title">
+                        {d.title.slice(0, d.title.toLowerCase().indexOf(d.termNote.term.toLowerCase()))}<Ref term={d.termNote.term} id={`sn-d${i}`} n={d.termNote.n} />
+                      </h3>
+                      <Side id={`sn-d${i}`} n={d.termNote.n} term={d.termNote.term.replace(/^./, (c) => c.toUpperCase())}>
+                        {d.termNote.note}
+                      </Side>
+                    </>
+                  ) : (
+                    <h3 class="e-title">{d.title}</h3>
+                  )}
+                  <dl class="e-split">
+                    <div><dt>You</dt><dd>{d.you}</dd></div>
+                    <div><dt>We</dt><dd>{d.we}</dd></div>
+                  </dl>
+                  <p class="e-time"><span>Usually</span> {d.time}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <p class="after"><a class="link" href="#case-review">Start with entry 1: a free case review</a></p>
+        </div>
+      </section>
+
+      <!-- § 4 People -->
+      <section class="ms sec" id="people" aria-labelledby="h-people">
+        <h2 class="mh" id="h-people"><span class="mh-n">§ 4</span> The people</h2>
+        <div class="txt">
+          <p class="lead">Three of us. You'll know who is working on your case, and you'll have their direct line.</p>
+        </div>
+        <div class="wide sigs">
+          {people.map((p) => (
+            <article class="sig">
+              <div class="seal" aria-hidden="true"><span>{p.initials}</span></div>
+              <p class="sig-line" aria-hidden="true">/s/ {p.name}</p>
+              <h3 class="sig-name">{p.name}</h3>
+              <p class="sig-role">{p.role} <span>· {p.years}</span></p>
+              <ul class="sig-focus" aria-label={`${p.name} focuses on`}>{p.focus.map((f) => <li>{f}</li>)}</ul>
+              <blockquote class="sig-why"><p>{p.why}</p></blockquote>
+              <p class="sig-tel">Direct line <a href={`tel:${p.tel}`} class="nowrap">{p.line}</a></p>
+            </article>
+          ))}
+          <article class="sig sig-intake">
+            <div class="seal" aria-hidden="true"><span>{intake.initials}</span></div>
+            <div class="intake-body">
+              <h3 class="sig-name">{intake.name}</h3>
+              <p class="sig-role">{intake.role}</p>
+              <p class="intake-intro">{intake.intro}</p>
+            </div>
+            <blockquote class="sig-why"><p>{intake.why}</p></blockquote>
+          </article>
+        </div>
+      </section>
+
+      <!-- § 5 Case notes -->
+      <section class="ms sec" id="case-notes" aria-labelledby="h-notes">
+        <h2 class="mh" id="h-notes"><span class="mh-n">§ 5</span> Case notes</h2>
+        <div class="txt">
+          <p class="caveat">Every case is different. These don't predict yours. Details are changed to protect clients.</p>
+          <ul class="memos">
+            {notes.map((m) => (
+              <li class="memo">
+                <dl class="memo-head">
+                  <div><dt>File</dt><dd>{m.file}</dd></div>
+                  <div><dt>Re</dt><dd>{m.re}</dd></div>
+                </dl>
+                <p class="memo-facts">{m.facts}</p>
+                <p class="memo-out"><span>Outcome</span> {m.outcome}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <!-- § 6 Questions -->
+      <section class="ms sec" id="questions" aria-labelledby="h-q">
+        <h2 class="mh" id="h-q"><span class="mh-n">§ 6</span> Questions people ask us</h2>
+        <div class="txt">
+          <div class="faq">
+            {faq.map((f, i) => (
+              <details name="faq" open={i === 0}>
+                <summary><span class="q-mark" aria-hidden="true">Q.</span><span>{f.q}</span></summary>
+                <p>{f.a}</p>
+              </details>
+            ))}
+          </div>
+          <p class="after"><a class="link" href="#case-review">Ask yours in a free case review</a></p>
+        </div>
+      </section>
+
+      <!-- § 7 Case review form -->
+      <section class="ms sec sec-form" id="case-review" aria-labelledby="h-review">
+        <h2 class="mh" id="h-review"><span class="mh-n">§ 7</span> Free case review</h2>
+        <div class="wide review">
+          <div class="review-pad legal-pad">
+            <form class="form" id="review-form" data-form>
+              <p class="form-intro">Five lines is enough. Bea will call to book your 20 minutes with a lawyer.</p>
+              <div class="field">
+                <label for="f-name">Your name</label>
+                <input id="f-name" name="name" type="text" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="f-contact">Phone or email</label>
+                <span class="hint" id="f-contact-hint">Whichever is safest for us to use. Not your work account.</span>
+                <input id="f-contact" name="contact" type="text" autocomplete="tel" required aria-describedby="f-contact-hint" />
+              </div>
+              <div class="field">
+                <label for="f-situation">Closest to what happened</label>
+                <select id="f-situation" name="situation" required>
+                  {situations.map((s) => <option value={s.id}>{s.quote}</option>)}
+                  <option value="other">Something else</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="f-what">What happened, in a few lines</label>
+                <textarea id="f-what" name="what" rows="4" maxlength="1200" required></textarea>
+              </div>
+              <div class="field">
+                <label for="f-date">Any date coming up? <span class="opt">Optional</span></label>
+                <span class="hint" id="f-date-hint">A signing deadline, a meeting with HR, your last day.</span>
+                <input id="f-date" name="date" type="text" aria-describedby="f-date-hint" />
+              </div>
+              <fieldset class="field cb">
+                <legend>Best time to call you back</legend>
+                <div class="cb-row">
+                  {callbacks.map((c, i) => (
+                    <label class="cb-opt">
+                      <input type="radio" name="callback" value={c.id} checked={i === 0} />
+                      <span><b>{c.label}</b> {c.hint}</span>
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              <button class="btn btn-ink btn-submit" type="submit">Send for a free review</button>
+            </form>
+
+            <div class="done" data-done hidden tabindex="-1">
+              <h3 class="done-h">Thank you<span data-name></span>. Here is what happens next.</h3>
+              <ol class="done-steps">
+                <li><b>Bea calls you</b> within one business day, at the time you picked.</li>
+                <li><b>20 minutes with a lawyer</b>, by phone, video or at the office.</li>
+                <li><b>A written note of your options</b>, free, whatever you decide.</li>
+              </ol>
+              <p class="done-demo">This is a design concept: nothing was sent.</p>
+              <button type="button" class="link link-btn" data-again>Start a new review</button>
+            </div>
+          </div>
+
+          <aside class="review-aside" aria-label="Before you send, and how to reach us">
+            <div class="plain-note">
+              <h3 class="pn-h">Before you send</h3>
+              <p>
+                Sending this doesn't make us your lawyers yet, and the form isn't a secure channel: give us the outline,
+                not documents.
+              </p>
+            </div>
+            <div class="office">
+              <h3 class="pn-h">The office</h3>
+              <address>
+                {brand.address}<br />
+                {brand.hours}<br />
+                {brand.evenings}
+              </address>
+              <p><a class="office-tel" href={`tel:${brand.tel}`}>{brand.phone}</a></p>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <footer class="ftr">
+      <div class="ftr-in">
+        <p class="ftr-end" aria-hidden="true">— End of document —</p>
+        <div class="ftr-grid">
+          <div>
+            <p class="ftr-name">Plainstand</p>
+            <p>{brand.tagline} · {brand.city}</p>
+          </div>
+          <div class="ftr-notes">
+            <p>
+              <strong>Plainstand is a fictional brand.</strong> People, cases and fees are invented. This page is a design
+              concept, not legal advice, and contacting it creates no attorney–client relationship.
+            </p>
+            <p>Attorney advertising (fictional). Responsible attorney: Odile Brennick, {brand.address}.</p>
+            <p>No photos or illustrations. Fonts: Bodoni Moda and Public Sans (SIL Open Font License).</p>
+            <p>Concept by <a href="/">Idrishan Demirdag</a>.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</Base>
+
+<script>
+  import { initLaw } from "../../concepts/law-firm/law.js";
+  initLaw();
+</script>

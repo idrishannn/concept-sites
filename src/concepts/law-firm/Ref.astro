@@ -1,0 +1,12 @@
+---
+// Inline glossary reference: the term, a margin number (wide screens) and a toggle (narrow screens).
+// Pair with <Side> placed right after it, inside the same text block.
+interface Props { term: string; id: string; n: number }
+const { term, id, n } = Astro.props;
+---
+<span class="sn-term">{term}</span><sup class="sn-mark" aria-hidden="true">{n}</sup><button
+  type="button"
+  class="sn-toggle"
+  aria-expanded="false"
+  aria-controls={id}
+><span class="sr-only">Plain words for “{term}”</span><span aria-hidden="true">{n}</span></button>

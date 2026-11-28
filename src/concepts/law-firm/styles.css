@@ -1,0 +1,1706 @@
+/* Plainstand: tokens and styles, scoped to .c-law
+   A legal document that happens to be kind: pleading paper, case caption,
+   hanging § headings, a manuscript grid with glossary sidenotes. */
+
+.c-law {
+  --ink: #141b2d;
+  --ink-2: #263049;
+  --paper: #f6f7f4;
+  --paper-2: #eceee9;
+  --sheet: #ffffff;
+  --pad: #f4e9a8;
+  --pad-tint: #faf4d6;
+  --pad-line: #e2d898;
+  --pad-margin: #dc9f8e;
+  --redline: #c2361f;
+  --redline-ink: #a82c17;
+  --carbon: #2f4ba0;
+  --rule: #cdd2d8;
+  --rule-faint: #e4e7ea;
+  --muted: #4a5263;
+  --lnum: #666e7c;
+  --on-ink: #f6f7f4;
+
+  --f-display: "Bodoni Moda Variable", "Didot", "Bodoni 72", "Times New Roman", serif;
+  --f-body: "Public Sans Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius: 0;
+
+  /* manuscript grid: gutter | rule gap | text | note gap | notes */
+  --gutter: 11.5rem;
+  --rgap: 3rem;
+  --ngap: 2.25rem;
+  --notes: 14rem;
+  --page: 72rem;
+  --top-h: 4rem;
+
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 1.0625rem/1.65 var(--f-body);
+  min-height: 100vh;
+}
+
+@media (max-width: 1099px) {
+  .c-law {
+    --gutter: 9.5rem;
+    --rgap: 2.5rem;
+    --ngap: 0rem;
+    --notes: 0rem;
+  }
+}
+@media (max-width: 759px) {
+  .c-law {
+    --gutter: 0rem;
+    --rgap: 1.25rem;
+    --top-h: 3.5rem;
+    font-size: 1rem;
+  }
+}
+
+html:has(.c-law) {
+  scroll-padding-top: calc(var(--top-h, 4rem) + 1rem);
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.c-law) {
+    scroll-behavior: smooth;
+  }
+}
+
+.c-law *,
+.c-law *::before,
+.c-law *::after {
+  box-sizing: border-box;
+}
+.c-law :focus-visible {
+  outline: 2px solid var(--carbon);
+  outline-offset: 3px;
+}
+.c-law p {
+  margin: 0 0 1rem;
+  text-wrap: pretty;
+}
+.c-law h1,
+.c-law h2,
+.c-law h3,
+.c-law h4 {
+  text-wrap: balance;
+}
+.c-law .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.c-law .nowrap {
+  white-space: nowrap;
+}
+.c-law a {
+  color: inherit;
+}
+.c-law .link {
+  color: var(--carbon);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+.c-law .link:hover {
+  text-decoration-color: var(--redline);
+  text-decoration-thickness: 2px;
+}
+.c-law .after {
+  margin-top: 2rem;
+}
+
+/* ---------- Buttons ---------- */
+.c-law .btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 2.875rem;
+  padding: 0.7rem 1.2rem;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius);
+  font: 600 0.9375rem/1.2 var(--f-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+.c-law .btn::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  height: 3px;
+  background: var(--redline);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+.c-law .btn:hover::after,
+.c-law .btn:focus-visible::after {
+  transform: scaleX(1);
+}
+.c-law .btn-ink {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+.c-law .btn-ink:hover {
+  background: var(--ink-2);
+}
+.c-law .btn-line {
+  background: transparent;
+  color: var(--ink);
+}
+.c-law .btn-line:hover {
+  background: var(--paper-2);
+}
+
+/* ---------- Header ---------- */
+.c-law .top {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--ink);
+}
+.c-law .top-in {
+  width: min(100% - 2rem, var(--page));
+  margin-inline: auto;
+  min-height: var(--top-h);
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.c-law .wm {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  line-height: 1.1;
+  margin-right: auto;
+}
+.c-law .wm-name {
+  font: 600 1.5rem/1 var(--f-display);
+  letter-spacing: 0.01em;
+}
+.c-law .wm-tag {
+  font-size: 0.75rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+.c-law .top-nav ul {
+  display: flex;
+  gap: 1.1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.c-law .top-nav a {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid transparent;
+}
+.c-law .top-nav a:hover {
+  border-bottom-color: var(--redline);
+}
+.c-law .sec-mark {
+  color: var(--redline-ink);
+  font-weight: 700;
+}
+.c-law .top-phone {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 0.5rem 0.25rem;
+}
+.c-law .top-phone:hover {
+  color: var(--carbon);
+  text-decoration: underline;
+}
+.c-law .top-cta {
+  min-height: 2.5rem;
+  padding: 0.55rem 1rem;
+}
+.c-law .top-phone-short,
+.c-law .cta-short {
+  display: none;
+}
+@media (max-width: 1239px) {
+  .c-law .top-nav {
+    display: none;
+  }
+}
+@media (max-width: 559px) {
+  .c-law .top-in {
+    gap: 0.5rem;
+  }
+  .c-law .wm-tag {
+    display: none;
+  }
+  .c-law .wm-name {
+    font-size: 1.375rem;
+  }
+  .c-law .top-phone-long,
+  .c-law .cta-long {
+    display: none;
+  }
+  .c-law .top-phone-short,
+  .c-law .cta-short {
+    display: inline;
+  }
+  .c-law .top-phone {
+    border: 1px solid var(--ink);
+    min-height: 2.5rem;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0.8rem;
+  }
+  .c-law .top-cta {
+    padding-inline: 0.8rem;
+  }
+}
+
+/* ---------- Paper + manuscript grid ---------- */
+.c-law .paper {
+  position: relative;
+  width: min(100% - 2rem, var(--page));
+  margin-inline: auto;
+}
+/* double red pleading rule, the full length of the document */
+.c-law .paper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--gutter) + var(--rgap) / 2 - 3px);
+  width: 5px;
+  border-inline: 1px solid var(--redline);
+  pointer-events: none;
+}
+@media (max-width: 759px) {
+  .c-law .paper::before {
+    left: 0;
+  }
+}
+.c-law .ms {
+  display: grid;
+  grid-template-columns:
+    [gutter-start] var(--gutter) [gutter-end] var(--rgap)
+    [text-start] minmax(0, 1fr) [text-end] var(--ngap)
+    [notes-start] var(--notes) [notes-end];
+}
+.c-law .txt {
+  grid-column: text;
+}
+.c-law .wide {
+  grid-column: text-start / notes-end;
+}
+
+.c-law .sec {
+  padding-block: clamp(3.5rem, 7vw, 6rem);
+  border-top: 1px solid var(--rule);
+}
+/* hanging marginal heading: red § number + short title in the gutter */
+.c-law .mh {
+  grid-column: gutter;
+  grid-row: 1 / span 6;
+  align-self: start;
+  position: sticky;
+  top: calc(var(--top-h) + 1.5rem);
+  margin: 0;
+  padding-right: 0.25rem;
+  text-align: right;
+  font: 500 1.75rem/1.1 var(--f-display);
+  font-optical-sizing: auto;
+}
+.c-law .mh-n {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: var(--redline-ink);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.375rem;
+}
+@media (max-width: 1099px) {
+  .c-law .mh {
+    font-size: 1.5rem;
+  }
+}
+@media (max-width: 759px) {
+  .c-law .mh {
+    grid-column: text-start / notes-end;
+    grid-row: auto;
+    position: static;
+    text-align: left;
+    font-size: 2rem;
+    margin-bottom: 1.25rem;
+  }
+  .c-law .mh-n {
+    display: inline;
+    margin-right: 0.35rem;
+    font-size: 1.5rem;
+  }
+}
+.c-law .lead {
+  font: 400 1.5rem/1.32 var(--f-display);
+  font-optical-sizing: auto;
+  max-width: 34ch;
+  margin-bottom: 1.25rem;
+}
+@media (max-width: 759px) {
+  .c-law .lead {
+    font-size: 1.375rem;
+  }
+}
+
+/* ---------- Glossary sidenotes ---------- */
+.c-law .sn-term {
+  text-decoration: underline dotted var(--carbon);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+.c-law .sn-mark {
+  color: var(--carbon);
+  font-weight: 700;
+  font-size: 0.7em;
+  margin-left: 0.12em;
+}
+.c-law .sn-toggle {
+  display: none;
+}
+.c-law .sn {
+  float: right;
+  clear: right;
+  width: var(--notes);
+  margin-right: calc(-1 * (var(--notes) + var(--ngap)));
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+  padding-left: 0.8rem;
+  border-left: 2px solid var(--carbon);
+  font: 400 0.8125rem/1.5 var(--f-body);
+  color: var(--muted);
+  position: relative;
+}
+.c-law .sn-n {
+  color: var(--carbon);
+  font-weight: 700;
+  margin-right: 0.35rem;
+}
+.c-law .sn-k {
+  font-weight: 600;
+  color: var(--ink);
+}
+@media (max-width: 1099px) {
+  .c-law .sn-mark {
+    display: none;
+  }
+  .c-law .sn-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-left: 0.2rem;
+    padding: 0;
+    vertical-align: 0.1em;
+    border: 1px solid var(--carbon);
+    border-radius: 0;
+    background: transparent;
+    color: var(--carbon);
+    font: 700 0.75rem/1 var(--f-body);
+    cursor: pointer;
+  }
+  .c-law .sn-toggle[aria-expanded="true"] {
+    background: var(--carbon);
+    color: var(--sheet);
+  }
+  .c-law .sn {
+    float: none;
+    display: block;
+    width: auto;
+    margin: 0.6rem 0 0.9rem;
+    padding: 0.6rem 0.8rem;
+    background: var(--sheet);
+    font-size: 0.875rem;
+  }
+  .js .c-law .sn {
+    display: none;
+  }
+  .js .c-law .sn.open {
+    display: block;
+  }
+}
+
+/* ---------- Hero: case caption on pleading paper ---------- */
+.c-law .hero {
+  --lh: 2rem;
+  position: relative;
+  padding-block: 3rem 4.5rem;
+}
+.c-law .lnums {
+  grid-column: gutter;
+  position: absolute;
+  top: 3rem;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0 1rem 0 0;
+  list-style: none;
+  text-align: right;
+  font: 500 0.75rem/var(--lh) var(--f-body);
+  font-variant-numeric: tabular-nums;
+  color: var(--lnum);
+}
+@media (max-width: 759px) {
+  .c-law .lnums {
+    display: none;
+  }
+}
+.c-law .court {
+  grid-column: text-start / notes-end;
+  margin: 0 0 2.25rem;
+  padding: 0.45rem 0;
+  border-block: 1px solid var(--rule);
+  text-align: center;
+  font: 600 0.75rem/1.5 var(--f-body);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.c-law .court-dot {
+  color: var(--redline-ink);
+  margin-inline: 0.3em;
+}
+.c-law .caption {
+  grid-column: text-start / notes-end;
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.5rem minmax(15rem, 18.5rem);
+  column-gap: 1.25rem;
+  /* faint ruled lines behind the caption only */
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 calc(var(--lh) - 1px),
+    var(--rule-faint) calc(var(--lh) - 1px) var(--lh)
+  );
+}
+.c-law .cap {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  font: 500 clamp(2.4rem, 1.2rem + 4.6vw, 5.25rem) / 0.98 var(--f-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.005em;
+}
+.c-law .cap-big {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.c-law .cap-party em {
+  display: block;
+  margin-top: 0.3em;
+  font-style: italic;
+  font-weight: 400;
+  font-size: max(1.375rem, 0.4em);
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+.c-law .cap-role {
+  align-self: flex-end;
+  margin: 0.75rem 0 1.5rem;
+  font: 600 0.8125rem/1.4 var(--f-body);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.c-law .cap-l5 {
+  margin-bottom: 0;
+}
+.c-law .cap-v {
+  padding-left: 1.4em;
+  margin-bottom: 0.4em;
+  font-size: 0.72em;
+  color: var(--redline-ink);
+}
+.c-law .cap-paren {
+  contain: size;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font: 400 1.75rem/var(--lh) var(--f-display);
+  color: var(--ink);
+}
+.c-law .cap-box {
+  align-self: center;
+  padding: 1.25rem 1.25rem 1.4rem;
+  border: 1px solid var(--ink);
+  background: var(--sheet);
+}
+.c-law .cap-no {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+  font: 600 0.75rem/1.4 var(--f-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.c-law .cap-no span {
+  color: var(--redline-ink);
+  letter-spacing: 0.06em;
+}
+.c-law .cap-offer {
+  margin-bottom: 0.6rem;
+  font: 600 1.625rem/1.1 var(--f-display);
+  font-optical-sizing: auto;
+}
+.c-law .cap-facts {
+  list-style: none;
+  margin: 0 0 1.1rem;
+  padding: 0;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+.c-law .cap-facts li + li {
+  margin-top: 0.2rem;
+}
+.c-law .cap-ctas {
+  display: grid;
+  gap: 0.5rem;
+}
+.c-law .hero-lead {
+  margin-top: 2.75rem;
+  font-size: 1.1875rem;
+  line-height: 1.6;
+}
+.c-law .hero-lead p:first-child {
+  max-width: 54ch;
+}
+.c-law .hero-only {
+  margin: 1.5rem 0 0;
+  padding-top: 1rem;
+  border-top: 3px double var(--redline);
+  font: italic 400 1.5rem/1.3 var(--f-display);
+}
+.c-law .hero-only strong {
+  font-style: normal;
+  font-weight: 600;
+}
+
+@media (max-width: 1099px) {
+  .c-law .caption {
+    grid-template-columns: minmax(0, 1fr) 2.5rem;
+  }
+  .c-law .cap-box {
+    grid-column: 1 / -1;
+    margin-top: 2.25rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 1.5rem;
+    align-items: end;
+  }
+  .c-law .cap-no {
+    grid-column: 1 / -1;
+  }
+  .c-law .cap-offer,
+  .c-law .cap-facts {
+    grid-column: 1;
+  }
+  .c-law .cap-ctas {
+    grid-column: 2;
+    grid-row: 2 / span 2;
+    margin-bottom: 1.1rem;
+  }
+}
+@media (max-width: 759px) {
+  .c-law .hero {
+    padding-top: 2rem;
+  }
+  .c-law .court {
+    letter-spacing: 0.12em;
+    font-size: 0.6875rem;
+  }
+  .c-law .caption {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .c-law .cap-paren {
+    display: none;
+  }
+  .c-law .cap-box {
+    display: block;
+  }
+  .c-law .cap-ctas {
+    margin-bottom: 0;
+  }
+  .c-law .hero-only {
+    font-size: 1.375rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .c-law .cap > span {
+    animation: law-ink 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .c-law .cap > .cap-l2 { animation-delay: 0.12s; }
+  .c-law .cap > .cap-l3 { animation-delay: 0.24s; }
+  .c-law .cap > .cap-l4 { animation-delay: 0.36s; }
+  .c-law .cap > .cap-l5 { animation-delay: 0.5s; }
+  .c-law .cap-box {
+    animation: law-rise 0.6s 0.55s ease-out both;
+  }
+}
+@keyframes law-ink {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes law-rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- § 1 Situation finder ---------- */
+.c-law .finder {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.25fr);
+  margin-top: 1.5rem;
+  border: 1px solid var(--ink);
+  background: var(--sheet);
+}
+.c-law .picks {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.c-law .pick {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: start;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--rule);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.c-law .pick:last-child {
+  border-bottom: 0;
+}
+.c-law .pick input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+.c-law .pick:hover {
+  background: var(--paper);
+}
+.c-law .pick:has(input:focus-visible) {
+  outline: 2px solid var(--carbon);
+  outline-offset: -4px;
+}
+.c-law .pick-box {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-top: 0.25rem;
+  border: 1.5px solid var(--ink);
+  display: grid;
+  place-items: center;
+  background: var(--sheet);
+}
+.c-law .pick-q {
+  font-size: 1.0625rem;
+  line-height: 1.45;
+}
+.c-law .pick:has(input:checked) {
+  background: var(--paper);
+  box-shadow: inset 3px 0 0 var(--redline);
+}
+.c-law .pick:has(input:checked) .pick-q {
+  font-weight: 600;
+}
+.c-law .pick:has(input:checked) .pick-box::after {
+  content: "";
+  width: 0.55rem;
+  height: 0.55rem;
+  background: var(--redline);
+}
+.c-law .panel-wrap {
+  border-left: 1px solid var(--ink);
+  min-width: 0;
+}
+.c-law .legal-pad {
+  background-color: var(--pad);
+  background-image:
+    linear-gradient(
+      to right,
+      transparent 2.1rem,
+      var(--pad-margin) 2.1rem,
+      var(--pad-margin) calc(2.1rem + 1px),
+      transparent calc(2.1rem + 1px),
+      transparent calc(2.1rem + 4px),
+      var(--pad-margin) calc(2.1rem + 4px),
+      var(--pad-margin) calc(2.1rem + 5px),
+      transparent calc(2.1rem + 5px)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 calc(1.75rem - 1px),
+      var(--pad-line) calc(1.75rem - 1px) 1.75rem
+    );
+}
+.c-law .panel {
+  height: 100%;
+  padding: 1.75rem 1.75rem 2rem 3.4rem;
+  container-type: inline-size;
+  view-transition-name: law-panel;
+}
+.c-law .panel[hidden] {
+  display: none;
+}
+.c-law .p-label {
+  margin: 0;
+  font: 600 0.75rem/1.4 var(--f-body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.c-law .p-term {
+  margin: 0.3rem 0 0.6rem;
+  font: 600 clamp(2rem, 1.4rem + 1.6vw, 2.5rem) / 1.05 var(--f-display);
+  font-optical-sizing: auto;
+}
+.c-law .p-plain {
+  max-width: 48ch;
+  padding-bottom: 1.25rem;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--ink);
+}
+.c-law .p-grid {
+  display: grid;
+  gap: 1.25rem 2rem;
+  margin: 1.25rem 0 1.75rem;
+}
+@container (min-width: 32rem) {
+  .c-law .p-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+.c-law .p-h {
+  margin: 0 0 0.35rem;
+  font: 700 0.8125rem/1.4 var(--f-body);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.c-law .p-cell p {
+  margin: 0;
+  font-size: 0.9688rem;
+}
+.c-law .checks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.9688rem;
+}
+.c-law .checks li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.c-law .checks li + li {
+  margin-top: 0.3rem;
+}
+.c-law .checks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.36em;
+  width: 0.8rem;
+  height: 0.8rem;
+  border: 1.5px solid var(--ink);
+}
+@media (max-width: 899px) {
+  .c-law .finder {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .c-law .panel-wrap {
+    border-left: 0;
+    border-top: 1px solid var(--ink);
+  }
+}
+@media (max-width: 559px) {
+  .c-law .pick {
+    padding: 0.85rem 1rem;
+  }
+  .c-law .panel {
+    padding: 1.5rem 1.1rem 1.75rem 3rem;
+  }
+}
+::view-transition-old(law-panel),
+::view-transition-new(law-panel) {
+  animation-duration: 0.22s;
+}
+
+/* ---------- § 2 Fees ---------- */
+.c-law .fee-wrap {
+  margin-top: 1.5rem;
+}
+.c-law .fees {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--sheet);
+  border-block: 2px solid var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+.c-law .fees th,
+.c-law .fees td {
+  text-align: left;
+  vertical-align: top;
+  padding: 1rem;
+  border-bottom: 1px solid var(--rule);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.c-law .fees thead th {
+  padding-block: 0.7rem;
+  border-bottom: 1px solid var(--ink);
+  font: 700 0.75rem/1.4 var(--f-body);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.c-law .fees tbody th {
+  width: 34%;
+  font-weight: 400;
+}
+.c-law .fees tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.c-law .fees td:nth-of-type(1) {
+  font-weight: 600;
+}
+.c-law .f-what {
+  display: block;
+  font: 600 1.375rem/1.2 var(--f-display);
+  font-optical-sizing: auto;
+}
+.c-law .f-detail {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.c-law .fees .is-main > * {
+  background: var(--pad-tint);
+}
+.c-law .fees .is-main th {
+  box-shadow: inset 3px 0 0 var(--redline);
+}
+.c-law .fee-notes {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  margin-top: 2rem;
+}
+.c-law .fn-h {
+  margin: 0 0 0.5rem;
+  font: 600 1.375rem/1.2 var(--f-display);
+}
+.c-law .fn-h span {
+  font: italic 400 0.875rem var(--f-body);
+  color: var(--muted);
+}
+.c-law .fee-costs p {
+  font-size: 0.9688rem;
+}
+.c-law .sum {
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.c-law .sum div {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px dotted var(--rule);
+  font-size: 0.9375rem;
+}
+.c-law .sum dd {
+  margin: 0;
+}
+.c-law .sum .sum-total {
+  margin-top: 0.2rem;
+  border-top: 2px solid var(--ink);
+  border-bottom: 0;
+  font-weight: 700;
+  font-size: 1.0625rem;
+}
+@media (max-width: 759px) {
+  .c-law .fees,
+  .c-law .fees tbody,
+  .c-law .fees tr,
+  .c-law .fees th,
+  .c-law .fees td {
+    display: block;
+    width: 100%;
+  }
+  .c-law .fees thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .c-law .fees tr {
+    padding: 1rem;
+    border-bottom: 1px solid var(--ink);
+  }
+  .c-law .fees tbody tr:last-child {
+    border-bottom: 0;
+  }
+  .c-law .fees .is-main {
+    background: var(--pad-tint);
+    box-shadow: inset 3px 0 0 var(--redline);
+  }
+  .c-law .fees .is-main > *,
+  .c-law .fees .is-main th {
+    background: none;
+    box-shadow: none;
+  }
+  .c-law .fees th,
+  .c-law .fees td,
+  .c-law .fees tbody th {
+    width: auto;
+    padding: 0.35rem 0;
+    border: 0;
+  }
+  .c-law .fees td::before {
+    content: attr(data-label);
+    display: block;
+    font: 700 0.6875rem/1.4 var(--f-body);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .c-law .fee-notes {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+}
+
+/* ---------- § 3 Docket ---------- */
+.c-law .txt:has(.docket) {
+  --dk: 3rem 7.5rem minmax(0, 1fr);
+  --dk-x: calc(10.5rem - 1.1rem);
+}
+.c-law .docket-head {
+  display: grid;
+  grid-template-columns: var(--dk);
+  margin-top: 2.25rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--ink);
+  font: 700 0.6875rem/1.4 var(--f-body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.c-law .docket {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.c-law .docket::before,
+.c-law .docket::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--dk-x);
+  width: 1px;
+  background: var(--rule);
+}
+.c-law .docket::after {
+  width: 2px;
+  margin-left: -0.5px;
+  background: var(--redline);
+  transform-origin: top;
+}
+.c-law .entry {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--dk);
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.c-law .entry::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: calc(var(--dk-x) - 4.5px);
+  top: 1.95rem;
+  width: 10px;
+  height: 10px;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+}
+.c-law .e-no {
+  font: italic 600 1.375rem/1.2 var(--f-display);
+  color: var(--redline-ink);
+  font-variant-numeric: tabular-nums;
+}
+.c-law .e-when {
+  padding-top: 0.3rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.c-law .e-title {
+  margin: 0 0 0.75rem;
+  font: 600 1.4rem/1.2 var(--f-display);
+  font-optical-sizing: auto;
+}
+.c-law .e-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin: 0 0 0.65rem;
+}
+.c-law .e-split dt {
+  font: 700 0.6875rem/1.4 var(--f-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.c-law .e-split dd {
+  margin: 0.15rem 0 0;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+.c-law .e-time {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.c-law .e-time span {
+  margin-right: 0.35rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+@media (max-width: 559px) {
+  .c-law .txt:has(.docket) {
+    --dk: 2.5rem minmax(0, 1fr);
+    --dk-x: 1.1rem;
+  }
+  .c-law .docket-head {
+    display: none;
+  }
+  .c-law .docket {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--ink);
+  }
+  .c-law .e-no {
+    grid-row: 1 / span 2;
+    padding-top: 1.1rem;
+    font-size: 1.125rem;
+    visibility: hidden;
+  }
+  .c-law .e-when {
+    grid-column: 2;
+    padding-top: 0;
+    margin-bottom: 0.2rem;
+    color: var(--redline-ink);
+  }
+  .c-law .e-body {
+    grid-column: 2;
+  }
+  .c-law .entry::before {
+    top: 1.85rem;
+  }
+  .c-law .e-split {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.6rem;
+  }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .c-law .docket::after {
+      animation: law-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 15% cover 60%;
+    }
+  }
+}
+@keyframes law-draw {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+/* ---------- § 4 People ---------- */
+.c-law .sigs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 2.5rem;
+  margin-top: 1.25rem;
+}
+.c-law .sig {
+  display: grid;
+  grid-template-columns: 4.75rem minmax(0, 1fr);
+  column-gap: 1.25rem;
+  align-content: start;
+  padding: 1.75rem 0;
+  border-top: 1px solid var(--ink);
+}
+.c-law .sig > :not(.seal) {
+  grid-column: 2;
+}
+.c-law .seal {
+  grid-column: 1;
+  grid-row: 1 / span 7;
+  width: 4.75rem;
+  height: 4.75rem;
+  display: grid;
+  place-items: center;
+  border: 4px double var(--ink);
+  background: var(--sheet);
+  font: 600 1.625rem/1 var(--f-display);
+  letter-spacing: 0.04em;
+}
+.c-law .sig-line {
+  margin: 0 0 0.6rem;
+  padding-bottom: 0.15rem;
+  border-bottom: 1px solid var(--ink);
+  font: italic 400 1.5rem/1.2 var(--f-display);
+  color: var(--carbon);
+}
+.c-law .sig-name {
+  margin: 0;
+  font: 700 1.0625rem/1.3 var(--f-body);
+}
+.c-law .sig-role {
+  margin: 0 0 0.75rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+.c-law .sig-focus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+}
+.c-law .sig-focus li {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--rule);
+  background: var(--sheet);
+  font-size: 0.8125rem;
+}
+.c-law .sig-why {
+  margin: 0 0 1rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--redline);
+}
+.c-law .sig-why p {
+  margin: 0;
+  font: italic 400 1.375rem/1.35 var(--f-display);
+  font-optical-sizing: auto;
+}
+.c-law .sig-tel {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.c-law .sig-tel a {
+  margin-left: 0.3rem;
+  color: var(--ink);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.c-law .sig-intake {
+  grid-column: 1 / -1;
+  grid-template-columns: 4.75rem minmax(0, 1.15fr) minmax(0, 1fr);
+  column-gap: 1.25rem;
+  border-top-style: dashed;
+}
+.c-law .sig-intake > .intake-body {
+  grid-column: 2;
+}
+.c-law .sig-intake > .sig-why {
+  grid-column: 3;
+  align-self: center;
+  margin-left: 1.25rem;
+}
+.c-law .intake-intro {
+  margin: 0;
+  font-size: 0.9688rem;
+}
+@media (max-width: 899px) {
+  .c-law .sigs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .c-law .sig-intake {
+    grid-template-columns: 4.75rem minmax(0, 1fr);
+  }
+  .c-law .sig-intake > .sig-why {
+    grid-column: 2;
+    margin: 1rem 0 0;
+  }
+}
+@media (max-width: 459px) {
+  .c-law .sig,
+  .c-law .sig-intake {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .c-law .sig > :not(.seal),
+  .c-law .sig-intake > .intake-body,
+  .c-law .sig-intake > .sig-why {
+    grid-column: 1;
+  }
+  .c-law .seal {
+    grid-row: auto;
+    margin-bottom: 1rem;
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.375rem;
+  }
+}
+
+/* ---------- § 5 Case notes ---------- */
+.c-law .caveat {
+  margin-bottom: 1.5rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--redline);
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+.c-law .memos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.c-law .memo {
+  display: grid;
+  grid-template-columns: 8.5rem minmax(0, 1fr);
+  column-gap: 1.75rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--rule);
+}
+.c-law .memo:first-child {
+  border-top-color: var(--ink);
+}
+.c-law .memo-head {
+  grid-row: 1 / span 2;
+  margin: 0;
+}
+.c-law .memo-head div {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+.c-law .memo-head dt {
+  min-width: 2.25rem;
+  font: 700 0.6875rem/1.6 var(--f-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.c-law .memo-head dd {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.c-law .memo-facts {
+  grid-column: 2;
+  margin-bottom: 0.6rem;
+  font: 400 1.375rem/1.35 var(--f-display);
+  font-optical-sizing: auto;
+}
+.c-law .memo-out {
+  grid-column: 2;
+  margin: 0;
+  font-size: 0.9688rem;
+}
+.c-law .memo-out span {
+  margin-right: 0.4rem;
+  font: 700 0.6875rem/1.4 var(--f-body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--redline-ink);
+}
+@media (max-width: 559px) {
+  .c-law .memo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .c-law .memo-head {
+    grid-row: auto;
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  .c-law .memo-head div {
+    gap: 0.35rem;
+  }
+  .c-law .memo-head dt {
+    min-width: 0;
+  }
+  .c-law .memo-facts,
+  .c-law .memo-out {
+    grid-column: 1;
+  }
+}
+
+/* ---------- § 6 Questions ---------- */
+.c-law .faq details {
+  border-top: 1px solid var(--rule);
+}
+.c-law .faq details:first-child {
+  border-top-color: var(--ink);
+}
+.c-law .faq details:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.c-law .faq summary {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  padding: 1.1rem 0;
+  list-style: none;
+  cursor: pointer;
+  font: 600 1.125rem/1.4 var(--f-body);
+}
+.c-law .faq summary::-webkit-details-marker {
+  display: none;
+}
+.c-law .faq summary::after {
+  content: "+";
+  margin-left: auto;
+  padding-left: 1rem;
+  font: 300 1.5rem/1 var(--f-body);
+  color: var(--carbon);
+}
+.c-law .faq details[open] summary::after {
+  content: "−";
+}
+.c-law .faq summary:hover span:last-of-type {
+  text-decoration: underline;
+  text-decoration-color: var(--redline);
+  text-underline-offset: 0.2em;
+}
+.c-law .q-mark {
+  flex: none;
+  min-width: 2rem;
+  font: italic 600 1.375rem/1 var(--f-display);
+  color: var(--redline-ink);
+}
+.c-law .faq details p {
+  max-width: 60ch;
+  margin: 0;
+  padding: 0 2rem 1.35rem 2.75rem;
+}
+
+/* ---------- § 7 Case review form ---------- */
+.c-law .review {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 15.5rem;
+  gap: 2.5rem;
+}
+.c-law .review-pad {
+  padding: 2rem 2rem 2.25rem 3.4rem;
+  border: 1px solid var(--ink);
+}
+.c-law .form-intro {
+  max-width: 34ch;
+  margin-bottom: 1.5rem;
+  font: 400 1.375rem/1.35 var(--f-display);
+  font-optical-sizing: auto;
+}
+.c-law .field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.c-law .field label,
+.c-law .field legend {
+  font: 600 0.9375rem/1.4 var(--f-body);
+}
+.c-law .field legend {
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+.c-law .hint {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.c-law .opt {
+  margin-left: 0.35rem;
+  font-weight: 400;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.c-law input:not([type="radio"]),
+.c-law select,
+.c-law textarea {
+  width: 100%;
+  min-height: 2.875rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--ink);
+  border-radius: 0;
+  background: var(--sheet);
+  color: var(--ink);
+  font: 400 1rem/1.4 var(--f-body);
+  transition: box-shadow 0.15s;
+}
+.c-law textarea {
+  min-height: 7.5rem;
+  resize: vertical;
+  field-sizing: content;
+}
+.c-law input:not([type="radio"]):focus-visible,
+.c-law select:focus-visible,
+.c-law textarea:focus-visible {
+  outline: 2px solid var(--carbon);
+  outline-offset: 2px;
+}
+.c-law input:user-invalid,
+.c-law select:user-invalid,
+.c-law textarea:user-invalid {
+  border-color: var(--redline-ink);
+  box-shadow: inset 4px 0 0 var(--redline-ink);
+}
+.c-law .field:has(:user-invalid) > label::after {
+  content: " · needed";
+  color: var(--redline-ink);
+  font-weight: 600;
+}
+.c-law .cb-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.c-law .cb-opt {
+  position: relative;
+}
+.c-law .cb-opt input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+}
+.c-law .cb-opt span {
+  display: block;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--ink);
+  background: var(--sheet);
+  font-size: 0.8125rem;
+  line-height: 1.35;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+.c-law .cb-opt b {
+  display: block;
+  font-size: 0.9375rem;
+}
+.c-law .cb-opt input:checked + span {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+.c-law .cb-opt input:focus-visible + span {
+  outline: 2px solid var(--carbon);
+  outline-offset: 2px;
+}
+.c-law .btn-submit {
+  margin-top: 0.5rem;
+  min-width: 15rem;
+}
+.c-law .done:focus {
+  outline: none;
+}
+.c-law .done-h {
+  margin: 0 0 1.25rem;
+  font: 600 1.75rem/1.2 var(--f-display);
+}
+.c-law .done-steps {
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+.c-law .done-steps li {
+  position: relative;
+  padding: 0.7rem 0 0.7rem 2.75rem;
+  border-bottom: 1px solid var(--ink);
+  counter-increment: step;
+}
+.c-law .done-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0.45rem;
+  font: italic 600 1.375rem/1.2 var(--f-display);
+  color: var(--redline-ink);
+}
+.c-law .done-demo {
+  font-style: italic;
+  color: var(--muted);
+}
+.c-law .link-btn {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--carbon);
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+  cursor: pointer;
+}
+.c-law .plain-note {
+  margin-bottom: 2rem;
+  padding-top: 0.9rem;
+  border-top: 2px solid var(--ink);
+}
+.c-law .office {
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--rule);
+}
+.c-law .pn-h {
+  margin: 0 0 0.5rem;
+  font: 600 1.375rem/1.2 var(--f-display);
+}
+.c-law .plain-note p,
+.c-law .office address {
+  font-size: 0.9375rem;
+  font-style: normal;
+  line-height: 1.65;
+}
+.c-law .office address {
+  margin-bottom: 0.75rem;
+}
+.c-law .office-tel {
+  font-weight: 700;
+  font-size: 1.125rem;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.c-law .office-tel:hover {
+  color: var(--carbon);
+  text-decoration: underline;
+}
+@media (max-width: 1099px) {
+  .c-law .review {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+  }
+  .c-law .review-aside {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+  .c-law .plain-note {
+    margin: 0;
+  }
+  .c-law .office {
+    border-top: 2px solid var(--ink);
+  }
+}
+@media (max-width: 559px) {
+  .c-law .review-pad {
+    padding: 1.5rem 1.1rem 1.75rem 3rem;
+  }
+  .c-law .review-aside {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .c-law .btn-submit {
+    width: 100%;
+    min-width: 0;
+  }
+  .c-law .cb-opt {
+    flex: 1 1 100%;
+  }
+}
+
+/* ---------- Footer ---------- */
+.c-law .ftr {
+  border-top: 1px solid var(--ink);
+}
+.c-law .ftr-in {
+  width: min(100% - 2rem, var(--page));
+  margin-inline: auto;
+  padding: 2.25rem 0 4.75rem;
+}
+.c-law .ftr-end {
+  margin: 0 0 2.25rem;
+  text-align: center;
+  font: italic 400 1.375rem/1.2 var(--f-display);
+  color: var(--muted);
+}
+.c-law .ftr-grid {
+  display: grid;
+  grid-template-columns: calc(var(--gutter) + var(--rgap)) minmax(0, 1fr);
+  gap: 1.5rem;
+}
+.c-law .ftr-name {
+  margin: 0 0 0.25rem;
+  font: 600 1.625rem/1 var(--f-display);
+}
+.c-law .ftr-grid > div:first-child p:last-child {
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+.c-law .ftr-notes {
+  max-width: 62ch;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+.c-law .ftr-notes strong {
+  color: var(--ink);
+}
+.c-law .ftr-notes a {
+  color: var(--carbon);
+  font-weight: 600;
+}
+@media (max-width: 1099px) {
+  .c-law .ftr-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* very narrow phones: keep the header on one line */
+.c-law .top-cta {
+  white-space: nowrap;
+}
+@media (max-width: 359px) {
+  .c-law .wm-name {
+    font-size: 1.2rem;
+  }
+  .c-law .top-phone,
+  .c-law .top-cta {
+    padding-inline: 0.6rem;
+    font-size: 0.875rem;
+  }
+}
