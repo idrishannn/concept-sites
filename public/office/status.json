@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-28T11:59:02.396Z",
+  "updatedAt": "2026-11-28T16:46:32.410Z",
   "current": "law-firm",
   "agents": {
     "research": {
@@ -17,14 +17,21 @@
       "finishedAt": "2026-11-28T11:59:02.396Z"
     },
     "qa": {
-      "state": "done",
-      "concept": "real-estate",
-      "message": "Tillwick QA'd: 2 layout fixes, qa clean, portfolio text written",
-      "startedAt": "2026-11-27T16:46:15.619Z",
-      "finishedAt": "2026-11-27T16:52:01.169Z"
+      "state": "working",
+      "concept": "law-firm",
+      "message": "Reviewing Plainstand",
+      "startedAt": "2026-11-28T16:46:32.410Z",
+      "finishedAt": null
     }
   },
   "log": [
+    {
+      "at": "2026-11-28T16:46:32.410Z",
+      "agent": "qa",
+      "state": "working",
+      "concept": "law-firm",
+      "message": "Reviewing Plainstand"
+    },
     {
       "at": "2026-11-28T11:59:02.396Z",
       "agent": "build",
