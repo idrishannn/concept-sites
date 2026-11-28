@@ -1704,3 +1704,10 @@ html:has(.c-law) {
     font-size: 0.875rem;
   }
 }
+
+/* QA: narrow phones — let the closed select show more of the chosen sentence */
+@media (max-width: 400px) {
+  .c-law select {
+    padding-inline: 0.6rem 0.4rem;
+  }
+}

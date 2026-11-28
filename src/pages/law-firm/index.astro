@@ -56,7 +56,7 @@ const parens = Array.from({ length: 12 });
       <!-- Hero: a case caption on pleading paper -->
       <section class="ms hero" aria-labelledby="hero-title">
         <ol class="lnums" aria-hidden="true">{lines.map((n) => <li>{n}</li>)}</ol>
-        <p class="court">Employment law, in plain words <span class="court-dot">·</span> {brand.city}</p>
+        <p class="court">Employment law, in plain words <span class="nowrap"><span class="court-dot">·</span> {brand.city}</span></p>
         <div class="caption">
           <h1 class="cap" id="hero-title">
             <span class="cap-party cap-l1"><span class="cap-big">You,</span> <em>the employee,</em></span>
@@ -71,7 +71,7 @@ const parens = Array.from({ length: 12 });
             <p class="cap-offer">Free 20-minute case review</p>
             <ul class="cap-facts">
               <li>We call back within one business day.</li>
-              <li>Evening calls Tue &amp; Thu until 8 pm.</li>
+              <li>Evening calls Tue &amp; Thu until 8&nbsp;pm.</li>
             </ul>
             <div class="cap-ctas">
               <a class="btn btn-ink" href="#case-review">Free case review</a>
@@ -289,7 +289,7 @@ const parens = Array.from({ length: 12 });
             {notes.map((m) => (
               <li class="memo">
                 <dl class="memo-head">
-                  <div><dt>File</dt><dd>{m.file}</dd></div>
+                  <div><dt>File</dt><dd class="nowrap">{m.file}</dd></div>
                   <div><dt>Re</dt><dd>{m.re}</dd></div>
                 </dl>
                 <p class="memo-facts">{m.facts}</p>

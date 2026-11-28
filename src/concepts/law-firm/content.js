@@ -9,7 +9,7 @@ export const brand = {
   phoneShort: "(555) 010-0177",
   tel: "+15550100177",
   hours: "Mon–Fri 8:30 am – 6 pm",
-  evenings: "Evening callbacks Tue & Thu until 8 pm",
+  evenings: "Evening callbacks Tue & Thu until 8\u00a0pm",
 };
 
 export const nav = [

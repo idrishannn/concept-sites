@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-28T16:46:32.410Z",
+  "updatedAt": "2026-11-28T16:50:17.722Z",
   "current": "law-firm",
   "agents": {
     "research": {
@@ -17,14 +17,21 @@
       "finishedAt": "2026-11-28T11:59:02.396Z"
     },
     "qa": {
-      "state": "working",
+      "state": "done",
       "concept": "law-firm",
-      "message": "Reviewing Plainstand",
+      "message": "Plainstand QA'd: 0 problems, 0 axe; 4 small wrap fixes; OG image regenerated",
       "startedAt": "2026-11-28T16:46:32.410Z",
-      "finishedAt": null
+      "finishedAt": "2026-11-28T16:50:17.722Z"
     }
   },
   "log": [
+    {
+      "at": "2026-11-28T16:50:17.722Z",
+      "agent": "qa",
+      "state": "done",
+      "concept": "law-firm",
+      "message": "Plainstand QA'd: 0 problems, 0 axe; 4 small wrap fixes; OG image regenerated"
+    },
     {
       "at": "2026-11-28T16:46:32.410Z",
       "agent": "qa",
