@@ -12,7 +12,7 @@ Idrishan can edit this list at any time: move lines, add sectors, or delete them
 - [x] Dental clinic → `dental-clinic` (2026-11-25, manual test run)
 - [x] Restaurant / café → `restaurant` (2026-11-26)
 - [x] Real estate agent → `real-estate` (2026-11-27)
-- [ ] Law firm (practice areas, attorneys, consultation request)
+- [x] Law firm → `law-firm` (2026-11-28)
 - [ ] Personal trainer / fitness studio (programs, pricing, booking)
 - [ ] Hair & beauty salon / barbershop (services, prices, booking)
 - [ ] Home services: cleaning or renovation (quote request, service areas)

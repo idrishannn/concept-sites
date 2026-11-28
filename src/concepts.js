@@ -7,6 +7,14 @@
 
 export const concepts = [
   {
+    slug: "law-firm",
+    brand: "Plainstand",
+    sector: "Law firm",
+    summary: "Employment lawyers for employees: case-caption hero, situation finder in plain words, transparent fees and a docket-style case timeline.",
+    status: "draft",
+    date: "2026-11-28",
+  },
+  {
     slug: "real-estate",
     brand: "Tillwick",
     sector: "Real estate agent",

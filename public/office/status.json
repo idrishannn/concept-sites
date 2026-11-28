@@ -1,13 +1,13 @@
 {
-  "updatedAt": "2026-11-28T06:46:29.549Z",
+  "updatedAt": "2026-11-28T06:50:18.047Z",
   "current": "law-firm",
   "agents": {
     "research": {
-      "state": "working",
+      "state": "done",
       "concept": "law-firm",
-      "message": "Researching Law firm",
+      "message": "Brief: Plainstand, worker-side employment law; case-caption hero, situation finder, mode C",
       "startedAt": "2026-11-28T06:46:29.549Z",
-      "finishedAt": null
+      "finishedAt": "2026-11-28T06:50:18.047Z"
     },
     "build": {
       "state": "done",
@@ -25,6 +25,13 @@
     }
   },
   "log": [
+    {
+      "at": "2026-11-28T06:50:18.047Z",
+      "agent": "research",
+      "state": "done",
+      "concept": "law-firm",
+      "message": "Brief: Plainstand, worker-side employment law; case-caption hero, situation finder, mode C"
+    },
     {
       "at": "2026-11-28T06:46:29.549Z",
       "agent": "research",
