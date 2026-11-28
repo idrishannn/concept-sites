@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-28T06:50:18.047Z",
+  "updatedAt": "2026-11-28T11:46:08.181Z",
   "current": "law-firm",
   "agents": {
     "research": {
@@ -10,11 +10,11 @@
       "finishedAt": "2026-11-28T06:50:18.047Z"
     },
     "build": {
-      "state": "done",
-      "concept": "real-estate",
-      "message": "Tillwick built: sentence search, value estimator, street notes, sold ledger; qa clean",
-      "startedAt": "2026-11-27T11:46:23.154Z",
-      "finishedAt": "2026-11-27T11:58:56.126Z"
+      "state": "working",
+      "concept": "law-firm",
+      "message": "Building Plainstand",
+      "startedAt": "2026-11-28T11:46:08.181Z",
+      "finishedAt": null
     },
     "qa": {
       "state": "done",
@@ -25,6 +25,13 @@
     }
   },
   "log": [
+    {
+      "at": "2026-11-28T11:46:08.181Z",
+      "agent": "build",
+      "state": "working",
+      "concept": "law-firm",
+      "message": "Building Plainstand"
+    },
     {
       "at": "2026-11-28T06:50:18.047Z",
       "agent": "research",
