@@ -1,13 +1,13 @@
 {
-  "updatedAt": "2026-11-27T16:52:01.169Z",
-  "current": "real-estate",
+  "updatedAt": "2026-11-28T06:46:29.549Z",
+  "current": "law-firm",
   "agents": {
     "research": {
-      "state": "done",
-      "concept": "real-estate",
-      "message": "Brief ready: Tillwick, neighbourhood estate agents (sentence search, value range estimator)",
-      "startedAt": "2026-11-27T06:46:42.156Z",
-      "finishedAt": "2026-11-27T06:49:56.735Z"
+      "state": "working",
+      "concept": "law-firm",
+      "message": "Researching Law firm",
+      "startedAt": "2026-11-28T06:46:29.549Z",
+      "finishedAt": null
     },
     "build": {
       "state": "done",
@@ -25,6 +25,13 @@
     }
   },
   "log": [
+    {
+      "at": "2026-11-28T06:46:29.549Z",
+      "agent": "research",
+      "state": "working",
+      "concept": "law-firm",
+      "message": "Researching Law firm"
+    },
     {
       "at": "2026-11-27T16:52:01.169Z",
       "agent": "qa",
