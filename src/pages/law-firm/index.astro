@@ -27,8 +27,6 @@ const description =
 const money = (n: number) => "$" + n.toLocaleString("en-US");
 const exFee = Math.round(example.recovery / 3);
 const exYou = example.recovery - exFee - example.costs;
-const lines = Array.from({ length: 28 }, (_, i) => i + 1);
-const parens = Array.from({ length: 12 });
 ---
 
 <Base {title} {description} ogImage="/og/law-firm.png" themeColor="#141B2D">
@@ -53,19 +51,15 @@ const parens = Array.from({ length: 12 });
     </header>
 
     <main id="main" class="paper">
-      <!-- Hero: a case caption on pleading paper -->
-      <section class="ms hero" aria-labelledby="hero-title">
-        <ol class="lnums" aria-hidden="true">{lines.map((n) => <li>{n}</li>)}</ol>
+      <!-- Hero: "You v. the company", set big on a dark ink block -->
+      <section class="ms hero sec-dark" aria-labelledby="hero-title">
         <p class="court">Employment law, in plain words <span class="nowrap"><span class="court-dot">·</span> {brand.city}</span></p>
         <div class="caption">
           <h1 class="cap" id="hero-title">
             <span class="cap-party cap-l1"><span class="cap-big">You,</span> <em>the employee,</em></span>
-            <span class="cap-role cap-l2" aria-hidden="true">Employee.</span>
             <span class="cap-v cap-l3"><em>v.</em></span>
             <span class="cap-party cap-l4"><span class="cap-big">The company</span> <em>that wronged you.</em></span>
-            <span class="cap-role cap-l5" aria-hidden="true">Employer.</span>
           </h1>
-          <div class="cap-paren" aria-hidden="true">{parens.map(() => <span>)</span>)}</div>
           <div class="cap-box">
             <p class="cap-no">Case review <span>No.&nbsp;yours</span></p>
             <p class="cap-offer">Free 20-minute case review</p>
@@ -281,7 +275,7 @@ const parens = Array.from({ length: 12 });
       </section>
 
       <!-- § 5 Case notes -->
-      <section class="ms sec" id="case-notes" aria-labelledby="h-notes">
+      <section class="ms sec sec-dark" id="case-notes" aria-labelledby="h-notes">
         <h2 class="mh" id="h-notes"><span class="mh-n">§ 5</span> Case notes</h2>
         <div class="txt">
           <p class="caveat">Every case is different. These don't predict yours. Details are changed to protect clients.</p>

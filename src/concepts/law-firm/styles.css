@@ -26,8 +26,8 @@
   --radius: 0;
 
   /* manuscript grid: gutter | rule gap | text | note gap | notes */
-  --gutter: 11.5rem;
-  --rgap: 3rem;
+  --gutter: 0rem;
+  --rgap: 0rem;
   --ngap: 2.25rem;
   --notes: 14rem;
   --page: 72rem;
@@ -41,16 +41,12 @@
 
 @media (max-width: 1099px) {
   .c-law {
-    --gutter: 9.5rem;
-    --rgap: 2.5rem;
     --ngap: 0rem;
     --notes: 0rem;
   }
 }
 @media (max-width: 759px) {
   .c-law {
-    --gutter: 0rem;
-    --rgap: 1.25rem;
     --top-h: 3.5rem;
     font-size: 1rem;
   }
@@ -279,22 +275,6 @@ html:has(.c-law) {
   width: min(100% - 2rem, var(--page));
   margin-inline: auto;
 }
-/* double red pleading rule, the full length of the document */
-.c-law .paper::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: calc(var(--gutter) + var(--rgap) / 2 - 3px);
-  width: 5px;
-  border-inline: 1px solid var(--redline);
-  pointer-events: none;
-}
-@media (max-width: 759px) {
-  .c-law .paper::before {
-    left: 0;
-  }
-}
 .c-law .ms {
   display: grid;
   grid-template-columns:
@@ -313,56 +293,31 @@ html:has(.c-law) {
   padding-block: clamp(3.5rem, 7vw, 6rem);
   border-top: 1px solid var(--rule);
 }
-/* hanging marginal heading: red § number + short title in the gutter */
+/* section heading: red § number + title, set large above the section */
 .c-law .mh {
-  grid-column: gutter;
-  grid-row: 1 / span 6;
-  align-self: start;
-  position: sticky;
-  top: calc(var(--top-h) + 1.5rem);
-  margin: 0;
-  padding-right: 0.25rem;
-  text-align: right;
-  font: 500 1.75rem/1.1 var(--f-display);
+  grid-column: text-start / notes-end;
+  margin: 0 0 1.5rem;
+  font: 600 clamp(2.25rem, 1.5rem + 2.6vw, 3.5rem) / 1.02 var(--f-display);
   font-optical-sizing: auto;
+  letter-spacing: -0.01em;
 }
 .c-law .mh-n {
-  display: block;
-  margin-bottom: 0.4rem;
+  display: inline-block;
+  margin-right: 0.45rem;
   color: var(--redline-ink);
   font-style: italic;
-  font-weight: 600;
-  font-size: 1.375rem;
-}
-@media (max-width: 1099px) {
-  .c-law .mh {
-    font-size: 1.5rem;
-  }
-}
-@media (max-width: 759px) {
-  .c-law .mh {
-    grid-column: text-start / notes-end;
-    grid-row: auto;
-    position: static;
-    text-align: left;
-    font-size: 2rem;
-    margin-bottom: 1.25rem;
-  }
-  .c-law .mh-n {
-    display: inline;
-    margin-right: 0.35rem;
-    font-size: 1.5rem;
-  }
+  font-size: 0.62em;
+  vertical-align: 0.28em;
 }
 .c-law .lead {
-  font: 400 1.5rem/1.32 var(--f-display);
-  font-optical-sizing: auto;
-  max-width: 34ch;
+  font: 500 1.375rem/1.4 var(--f-body);
+  letter-spacing: -0.01em;
+  max-width: 40ch;
   margin-bottom: 1.25rem;
 }
 @media (max-width: 759px) {
   .c-law .lead {
-    font-size: 1.375rem;
+    font-size: 1.1875rem;
   }
 }
 
@@ -489,20 +444,15 @@ html:has(.c-law) {
   grid-column: text-start / notes-end;
   container-type: inline-size;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 2.5rem minmax(15rem, 18.5rem);
-  column-gap: 1.25rem;
-  /* faint ruled lines behind the caption only */
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0 calc(var(--lh) - 1px),
-    var(--rule-faint) calc(var(--lh) - 1px) var(--lh)
-  );
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 19rem);
+  column-gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
 }
 .c-law .cap {
   margin: 0;
   display: flex;
   flex-direction: column;
-  font: 500 clamp(2.4rem, 1.2rem + 4.6vw, 5.25rem) / 0.98 var(--f-display);
+  font: 500 clamp(2.75rem, 1.2rem + 5.6vw, 6.25rem) / 0.95 var(--f-display);
   font-optical-sizing: auto;
   letter-spacing: -0.005em;
 }
@@ -542,7 +492,7 @@ html:has(.c-law) {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font: 400 1.75rem/var(--lh) var(--f-display);
+  font: 600 1.435rem/var(--lh) var(--f-body);
   color: var(--ink);
 }
 .c-law .cap-box {
@@ -568,7 +518,7 @@ html:has(.c-law) {
 }
 .c-law .cap-offer {
   margin-bottom: 0.6rem;
-  font: 600 1.625rem/1.1 var(--f-display);
+  font: 600 1.333rem/1.3 var(--f-body);
   font-optical-sizing: auto;
 }
 .c-law .cap-facts {
@@ -597,7 +547,7 @@ html:has(.c-law) {
   margin: 1.5rem 0 0;
   padding-top: 1rem;
   border-top: 3px double var(--redline);
-  font: italic 400 1.5rem/1.3 var(--f-display);
+  font: 600 1.23rem/1.3 var(--f-body);
 }
 .c-law .hero-only strong {
   font-style: normal;
@@ -606,7 +556,7 @@ html:has(.c-law) {
 
 @media (max-width: 1099px) {
   .c-law .caption {
-    grid-template-columns: minmax(0, 1fr) 2.5rem;
+    grid-template-columns: minmax(0, 1fr);
   }
   .c-law .cap-box {
     grid-column: 1 / -1;
@@ -898,7 +848,7 @@ html:has(.c-law) {
 }
 .c-law .f-what {
   display: block;
-  font: 600 1.375rem/1.2 var(--f-display);
+  font: 600 1.127rem/1.3 var(--f-body);
   font-optical-sizing: auto;
 }
 .c-law .f-detail {
@@ -921,7 +871,7 @@ html:has(.c-law) {
 }
 .c-law .fn-h {
   margin: 0 0 0.5rem;
-  font: 600 1.375rem/1.2 var(--f-display);
+  font: 600 1.127rem/1.3 var(--f-body);
 }
 .c-law .fn-h span {
   font: italic 400 0.875rem var(--f-body);
@@ -1062,7 +1012,7 @@ html:has(.c-law) {
   border: 1.5px solid var(--ink);
 }
 .c-law .e-no {
-  font: italic 600 1.375rem/1.2 var(--f-display);
+  font: 600 1.127rem/1.3 var(--f-body);
   color: var(--redline-ink);
   font-variant-numeric: tabular-nums;
 }
@@ -1074,7 +1024,7 @@ html:has(.c-law) {
 }
 .c-law .e-title {
   margin: 0 0 0.75rem;
-  font: 600 1.4rem/1.2 var(--f-display);
+  font: 600 1.148rem/1.3 var(--f-body);
   font-optical-sizing: auto;
 }
 .c-law .e-split {
@@ -1180,14 +1130,14 @@ html:has(.c-law) {
   place-items: center;
   border: 4px double var(--ink);
   background: var(--sheet);
-  font: 600 1.625rem/1 var(--f-display);
+  font: 600 1.333rem/1.3 var(--f-body);
   letter-spacing: 0.04em;
 }
 .c-law .sig-line {
   margin: 0 0 0.6rem;
   padding-bottom: 0.15rem;
   border-bottom: 1px solid var(--ink);
-  font: italic 400 1.5rem/1.2 var(--f-display);
+  font: 600 1.23rem/1.3 var(--f-body);
   color: var(--carbon);
 }
 .c-law .sig-name {
@@ -1220,7 +1170,7 @@ html:has(.c-law) {
 }
 .c-law .sig-why p {
   margin: 0;
-  font: italic 400 1.375rem/1.35 var(--f-display);
+  font: 600 1.127rem/1.35 var(--f-body);
   font-optical-sizing: auto;
 }
 .c-law .sig-tel {
@@ -1331,7 +1281,7 @@ html:has(.c-law) {
 .c-law .memo-facts {
   grid-column: 2;
   margin-bottom: 0.6rem;
-  font: 400 1.375rem/1.35 var(--f-display);
+  font: 500 1.1875rem/1.45 var(--f-body);
   font-optical-sizing: auto;
 }
 .c-law .memo-out {
@@ -1408,7 +1358,7 @@ html:has(.c-law) {
 .c-law .q-mark {
   flex: none;
   min-width: 2rem;
-  font: italic 600 1.375rem/1 var(--f-display);
+  font: 600 1.127rem/1.3 var(--f-body);
   color: var(--redline-ink);
 }
 .c-law .faq details p {
@@ -1430,7 +1380,7 @@ html:has(.c-law) {
 .c-law .form-intro {
   max-width: 34ch;
   margin-bottom: 1.5rem;
-  font: 400 1.375rem/1.35 var(--f-display);
+  font: 600 1.127rem/1.35 var(--f-body);
   font-optical-sizing: auto;
 }
 .c-law .field {
@@ -1541,7 +1491,7 @@ html:has(.c-law) {
 }
 .c-law .done-h {
   margin: 0 0 1.25rem;
-  font: 600 1.75rem/1.2 var(--f-display);
+  font: 600 1.435rem/1.3 var(--f-body);
 }
 .c-law .done-steps {
   margin: 0 0 1.5rem;
@@ -1560,7 +1510,7 @@ html:has(.c-law) {
   position: absolute;
   left: 0;
   top: 0.45rem;
-  font: italic 600 1.375rem/1.2 var(--f-display);
+  font: 600 1.127rem/1.3 var(--f-body);
   color: var(--redline-ink);
 }
 .c-law .done-demo {
@@ -1589,7 +1539,7 @@ html:has(.c-law) {
 }
 .c-law .pn-h {
   margin: 0 0 0.5rem;
-  font: 600 1.375rem/1.2 var(--f-display);
+  font: 600 1.127rem/1.3 var(--f-body);
 }
 .c-law .plain-note p,
 .c-law .office address {
@@ -1656,12 +1606,12 @@ html:has(.c-law) {
 .c-law .ftr-end {
   margin: 0 0 2.25rem;
   text-align: center;
-  font: italic 400 1.375rem/1.2 var(--f-display);
+  font: 600 1.127rem/1.3 var(--f-body);
   color: var(--muted);
 }
 .c-law .ftr-grid {
   display: grid;
-  grid-template-columns: calc(var(--gutter) + var(--rgap)) minmax(0, 1fr);
+  grid-template-columns: 16rem minmax(0, 1fr);
   gap: 1.5rem;
 }
 .c-law .ftr-name {
@@ -1710,4 +1660,54 @@ html:has(.c-law) {
   .c-law select {
     padding-inline: 0.6rem 0.4rem;
   }
+}
+
+/* ---------- Dark ink blocks (hero, case notes) ----------
+   Same components, tokens flipped; the block bleeds to the full window width. */
+.c-law {
+  overflow-x: clip;
+}
+.c-law .sec-dark {
+  --ink: #f6f7f4;
+  --ink-2: #ffffff;
+  --on-ink: #141b2d;
+  --muted: #b8bfcc;
+  --rule: #3a4458;
+  --rule-faint: #2a3247;
+  --paper-2: #222b40;
+  --sheet: #1c2438;
+  --redline: #f0806a;
+  --redline-ink: #f29a87;
+  --carbon: #a9baf2;
+  position: relative;
+  isolation: isolate;
+  color: var(--ink);
+  border-top: 0;
+}
+.c-law .sec-dark::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  margin-left: -50vw;
+  background: #141b2d;
+}
+.c-law .sec-dark + .sec {
+  border-top: 0;
+}
+.c-law .hero.sec-dark {
+  padding-block: clamp(3rem, 7vw, 6rem) clamp(3.5rem, 7vw, 6rem);
+}
+.c-law .hero .cap-box {
+  background: #ffffff;
+  --ink: #141b2d;
+  --on-ink: #f6f7f4;
+  --muted: #4a5263;
+  --rule: #cdd2d8;
+  --redline-ink: #a82c17;
+  --paper-2: #eceee9;
+  color: var(--ink);
 }

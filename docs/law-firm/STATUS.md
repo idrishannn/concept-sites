@@ -17,3 +17,10 @@ Live demo: https://concept-sites-drab.vercel.app/law-firm/
 - Build: header § links show from 1240px up; below that the header is wordmark + phone + "Free case review" (single page, so no menu). QA may want to judge whether a compact § menu is worth adding on tablets.
 - Build: legal-pad ruled lines don't align with text baselines (decorative); kept faint on purpose.
 - ABA GPSolo "Ethics: advertising through your website" refused automated reading; the r/web_design search returned no threads. Research used the other sources listed in the brief.
+
+### 2026-11-28 · revision after Idrishan's review (still draft, not approved)
+- Hero: removed pleading-paper line numbers, the ")" column and the EMPLOYEE/EMPLOYER labels; "You v. the company" now set large on a dark ink block with the case review card beside it.
+- Bodoni only for large type (hero, section titles, wordmark); all small display text moved to Public Sans for readability.
+- Removed the left gutter column and the double red margin rule (also fixes the red lines on phones); section titles now sit large above each section.
+- Case notes section is a second dark ink block for rhythm.
+- Waiting: Idrishan wants to talk before deciding on the gallery.
